@@ -140,7 +140,7 @@ function StepItUpLanding() {
           right: 0,
           zIndex: 100,
           padding: '0 2rem',
-          height: '320px',
+          height: '128px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -231,7 +231,7 @@ function StepItUpLanding() {
         <div
           style={{
             position: 'fixed',
-            top: '320px',
+            top: '128px',
             left: 0,
             right: 0,
             background: '#fff',
@@ -278,7 +278,7 @@ function StepItUpLanding() {
           alignItems: 'center',
           position: 'relative',
           overflow: 'hidden',
-          paddingTop: '320px',
+          paddingTop: '128px',
         }}
       >
         <div
