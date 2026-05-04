@@ -140,7 +140,7 @@ function StepItUpLanding() {
           right: 0,
           zIndex: 100,
           padding: '0 2rem',
-          height: '320px',
+          height: '128px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -231,7 +231,7 @@ function StepItUpLanding() {
         <div
           style={{
             position: 'fixed',
-            top: '320px',
+            top: '128px',
             left: 0,
             right: 0,
             background: '#fff',
@@ -278,7 +278,7 @@ function StepItUpLanding() {
           alignItems: 'center',
           position: 'relative',
           overflow: 'hidden',
-          paddingTop: '320px',
+          paddingTop: '128px',
         }}
       >
         <div
@@ -568,43 +568,41 @@ function StepItUpLanding() {
               number: '01',
               title: 'Restaurant Consulting',
               body: 'From concept to grand opening and beyond — operational systems, menu engineering, staff structure, and profitability modeling tailored to your concept and market.',
-              span: false,
             },
             {
               number: '02',
               title: 'Retail Strategy',
               body: 'Merchandise planning, floor layout optimization, vendor relationships, shrinkage control, and customer experience design for retail environments.',
-              span: false,
             },
             {
               number: '03',
               title: 'Entertainment Venues',
               body: 'Multi-revenue-stream operations including bar programs, event logistics, staffing frameworks, and the financial controls that keep entertainment businesses healthy.',
-              span: false,
             },
             {
               number: '04',
               title: 'Menu Creation & Food Cost Analysis',
               body: 'Recipe development, costing, and menu engineering for profit maximization. We analyze every line item so your kitchen runs with precision — and profitability.',
-              span: false,
             },
             {
               number: '05',
               title: 'Beverage Programs & Bar Layout Design',
               body: 'Certified sommeliers and spirit experts design your wine list, cocktail program, and spirits selection from scratch. We also consult on bar layout for optimal speed-of-service and revenue per square foot.',
-              span: true,
             },
             {
               number: '06',
               title: 'Kitchen Layout & Design Consulting',
               body: 'Flow-optimized kitchen designs that reduce labor costs and improve ticket times. We work with your architects and equipment vendors to get it right before the first nail is driven.',
-              span: false,
             },
             {
               number: '07',
               title: 'Permitting & Licensing',
               body: 'Liquor licenses, health permits, occupancy certificates, entertainment licenses — we acquire and maintain all permits required for opening new businesses and sustaining operational readiness.',
-              span: false,
+            },
+            {
+              number: '08',
+              title: 'Website Design',
+              body: 'Brand-aligned websites that convert — from concept and copywriting to responsive design, performance optimization, and ongoing content updates that keep your digital presence as polished as your operation.',
             },
           ].map((service) => (
             <div
@@ -613,7 +611,6 @@ function StepItUpLanding() {
               style={{
                 background: '#fff',
                 padding: '2.25rem',
-                gridColumn: service.span ? 'span 2' : 'span 1',
                 border: '1.5px solid var(--color-line)',
                 borderRadius: '18px',
                 cursor: 'default',
@@ -1166,7 +1163,7 @@ function StepItUpLanding() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <a
-                href="mailto:info@stepitupstrategies.com"
+                href="mailto:brian@stepitupstrategies.com"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -1185,7 +1182,7 @@ function StepItUpLanding() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                info@stepitupstrategies.com
+                brian@stepitupstrategies.com
               </a>
             </div>
           </div>
