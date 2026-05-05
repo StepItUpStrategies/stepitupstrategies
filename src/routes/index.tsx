@@ -225,6 +225,25 @@ function StepItUpLanding() {
         id="top"
         className="hero-bg pt-36 min-h-screen flex items-center relative overflow-hidden"
       >
+        {/* Brand-icon watermark — arrow tip sits 1mm below the top banner */}
+        <img
+          src="/brand-icon.png"
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 'calc(9rem + 1mm - 1in / 3)',
+            left: 'calc(75% - 1in)',
+            transform: 'translateX(-50%)',
+            width: 'min(90vw, 1440px)',
+            height: 'auto',
+            opacity: 0.09,
+            pointerEvents: 'none',
+            userSelect: 'none',
+            zIndex: 0,
+          }}
+        />
+
         <div
           style={{
             maxWidth: '1280px',
@@ -232,6 +251,8 @@ function StepItUpLanding() {
             padding: '5rem 2rem 6rem',
             width: '100%',
             alignItems: 'center',
+            position: 'relative',
+            zIndex: 1,
           }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"
         >
@@ -300,19 +321,22 @@ function StepItUpLanding() {
           </div>
 
           {/* Right: Stats panel */}
-          <div
-            className="animate-fade delay-200"
-            style={{
-              background: '#fff',
-              border: '1.5px solid var(--color-line)',
-              borderRadius: '20px',
-              padding: '2.5rem',
-              boxShadow: '0 24px 60px -32px rgba(20, 24, 90, 0.25)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.5rem',
-            }}
-          >
+          <div style={{ position: 'relative' }}>
+            <div
+              className="animate-fade delay-200"
+              style={{
+                position: 'relative',
+                zIndex: 1,
+                background: '#fff',
+                border: '1.5px solid var(--color-line)',
+                borderRadius: '20px',
+                padding: '2.5rem',
+                boxShadow: '0 24px 60px -32px rgba(20, 24, 90, 0.25)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem',
+              }}
+            >
             <div
               style={{
                 display: 'flex',
@@ -374,6 +398,7 @@ function StepItUpLanding() {
                 </span>
               </div>
             ))}
+            </div>
           </div>
         </div>
       </section>
