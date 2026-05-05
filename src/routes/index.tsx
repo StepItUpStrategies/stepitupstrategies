@@ -125,10 +125,10 @@ function StepItUpLanding() {
     e.preventDefault()
     setFormStatus('submitting')
     try {
-      await fetch('/', {
+      await fetch('/contact-form.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', ...formFields }),
+        body: encode({ 'form-name': 'contact', 'bot-field': '', ...formFields }),
       })
       setFormStatus('success')
       setFormFields({ name: '', email: '', company: '', message: '' })
@@ -164,11 +164,7 @@ function StepItUpLanding() {
 
       {/* ── NAVIGATION ─────────────────────────────────────────────────────── */}
       <nav
-<<<<<<< HEAD
-        className="fixed inset-0 z-[100] px-8 flex items-center justify-between h-28 md:h-36"
-=======
-        className="fixed inset-0 z-[100] px-8 flex items-center justify-between h-36"
->>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
+        className="fixed top-0 left-0 right-0 z-[100] px-8 flex items-center justify-between h-28 md:h-36"
         style={{
           background: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.6)',
           backdropFilter: 'blur(12px)',
@@ -184,11 +180,7 @@ function StepItUpLanding() {
           className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
-<<<<<<< HEAD
           <BrandLogo />
-=======
-          <BrandLogo height={264} />
->>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
         </a>
 
         {/* Desktop Nav */}
@@ -238,11 +230,7 @@ function StepItUpLanding() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
-<<<<<<< HEAD
           className="fixed top-28 md:top-36 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
-=======
-          className="fixed top-36 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
->>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
           style={{
             borderBottom: '1px solid var(--color-line)',
             boxShadow: '0 18px 40px -24px rgba(20, 24, 90, 0.25)',
@@ -266,11 +254,7 @@ function StepItUpLanding() {
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <section
         id="top"
-<<<<<<< HEAD
         className="hero-bg pt-28 md:pt-36 min-h-screen flex items-center relative overflow-hidden"
-=======
-        className="hero-bg pt-36 min-h-screen flex items-center relative overflow-hidden"
->>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
       >
         {/* Brand-icon watermark — arrow tip sits 1mm below the top banner */}
         <img
@@ -1204,6 +1188,7 @@ function StepItUpLanding() {
               <input type="email" name="email" />
               <input type="text" name="company" />
               <textarea name="message"></textarea>
+              <input type="text" name="bot-field" hidden />
             </form>
             <form
               onSubmit={handleFormSubmit}
