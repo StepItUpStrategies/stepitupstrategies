@@ -133,7 +133,7 @@ function StepItUpLanding() {
 
       {/* ── NAVIGATION ─────────────────────────────────────────────────────── */}
       <nav
-        className="fixed inset-0 z-[100] px-8 flex items-center justify-between h-16 md:h-32"
+        className="fixed inset-0 z-[100] px-8 flex items-center justify-between h-36"
         style={{
           background: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.6)',
           backdropFilter: 'blur(12px)',
@@ -149,7 +149,7 @@ function StepItUpLanding() {
           className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
-          <BrandLogo height={132} />
+          <BrandLogo height={264} />
         </a>
 
         {/* Desktop Nav */}
@@ -199,7 +199,7 @@ function StepItUpLanding() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
-          className="fixed top-16 md:top-32 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
+          className="fixed top-36 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
           style={{
             borderBottom: '1px solid var(--color-line)',
             boxShadow: '0 18px 40px -24px rgba(20, 24, 90, 0.25)',
@@ -223,7 +223,7 @@ function StepItUpLanding() {
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <section
         id="top"
-        className="hero-bg pt-16 md:pt-32 min-h-screen flex items-center relative overflow-hidden"
+        className="hero-bg pt-36 min-h-screen flex items-center relative overflow-hidden"
       >
         <div
           style={{
