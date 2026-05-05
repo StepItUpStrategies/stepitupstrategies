@@ -114,7 +114,7 @@ function StepItUpLanding() {
   ]
 
   return (
-    <div style={{ background: 'var(--color-paper)', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--color-paper)', minHeight: '100vh', overflowX: 'hidden' }}>
       {/* Inline reveal styles */}
       <style>{`
         .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
@@ -167,7 +167,7 @@ function StepItUpLanding() {
 
         {/* Desktop Nav */}
         <div
-          className="nav-links"
+          className="nav-links hidden md:flex"
           style={{ display: 'flex', gap: '2.25rem', alignItems: 'center' }}
         >
           {navLinks.map(([label, href]) => (
@@ -197,7 +197,6 @@ function StepItUpLanding() {
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{
-            display: 'none',
             background: 'none',
             border: 'none',
             color: 'var(--color-blue)',
@@ -205,8 +204,10 @@ function StepItUpLanding() {
             padding: '8px',
             alignItems: 'center',
             justifyContent: 'center',
+            width: '44px',
+            height: '44px',
           }}
-          className="mobile-menu-btn"
+          className="mobile-menu-btn flex md:hidden"
           aria-label="Toggle menu"
         >
           <svg
@@ -257,7 +258,7 @@ function StepItUpLanding() {
                   fontFamily: 'var(--font-display)',
                   fontWeight: 600,
                   letterSpacing: '0.06em',
-                  padding: '0.85rem 0',
+                  padding: '1rem 0',
                   borderBottom: '1px solid var(--color-line)',
                 }}
               >
@@ -287,11 +288,9 @@ function StepItUpLanding() {
             margin: '0 auto',
             padding: '5rem 2rem 6rem',
             width: '100%',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '4rem',
             alignItems: 'center',
           }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"
         >
           {/* Left: Main copy */}
           <div>
@@ -515,11 +514,10 @@ function StepItUpLanding() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1.5fr',
-            gap: '4rem',
             alignItems: 'end',
             marginBottom: '4rem',
           }}
+          className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-8 md:gap-24"
         >
           <div className="reveal">
             <span className="section-label">What We Do</span>
@@ -559,9 +557,8 @@ function StepItUpLanding() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '1.25rem',
           }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"
         >
           {[
             {
@@ -609,11 +606,10 @@ function StepItUpLanding() {
           ].map((service) => (
             <div
               key={service.number}
-              className="service-card reveal"
+              className={`service-card reveal ${service.span ? 'md:col-span-2' : ''}`}
               style={{
                 background: '#fff',
                 padding: '2.25rem',
-                gridColumn: service.span ? 'span 2' : 'span 1',
                 border: '1.5px solid var(--color-line)',
                 borderRadius: '18px',
                 cursor: 'default',
@@ -694,10 +690,9 @@ function StepItUpLanding() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '380px 1fr',
-              gap: '6rem',
               alignItems: 'start',
             }}
+            className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-12 md:gap-24"
           >
             <div className="reveal">
               <span className="section-label">Who We Are</span>
@@ -731,9 +726,8 @@ function StepItUpLanding() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '1.5rem',
               }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-9"
             >
               {[
                 {
@@ -813,10 +807,9 @@ function StepItUpLanding() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '5rem',
             alignItems: 'start',
           }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20"
         >
           {/* Left: Description */}
           <div>
@@ -988,9 +981,8 @@ function StepItUpLanding() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '1.5rem',
             }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-9"
           >
             {[
               {
@@ -1128,10 +1120,9 @@ function StepItUpLanding() {
             maxWidth: '1280px',
             margin: '0 auto',
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '5rem',
             alignItems: 'center',
           }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20"
         >
           {/* Left: CTA copy */}
           <div className="reveal">
@@ -1295,12 +1286,11 @@ function StepItUpLanding() {
           style={{
             maxWidth: '1280px',
             margin: '0 auto',
-            display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
             gap: '2rem',
           }}
+          className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0"
         >
           <div
             style={{
@@ -1350,14 +1340,10 @@ function StepItUpLanding() {
             margin: '2.5rem auto 0',
             paddingTop: '1.75rem',
             borderTop: '1px solid rgba(255,255,255,0.12)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '1rem',
             fontSize: '0.78rem',
             color: 'rgba(255,255,255,0.6)',
           }}
+          className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0"
         >
           <div>
             &copy; {new Date().getFullYear()} Step It Up Strategies. All rights reserved.
@@ -1369,28 +1355,6 @@ function StepItUpLanding() {
           </span>
         </div>
       </footer>
-
-      {/* Mobile responsive styles */}
-      <style>{`
-        @media (max-width: 768px) {
-          section > div[style*="grid-template-columns: 1fr 1fr"],
-          section > div > div[style*="grid-template-columns: 1fr 1fr"],
-          section > div[style*="grid-template-columns: 380px"],
-          section > div[style*="grid-template-columns: 1fr 1.5fr"] {
-            grid-template-columns: 1fr !important;
-            gap: 2.5rem !important;
-          }
-          div[style*="grid-template-columns: repeat(3, 1fr)"] {
-            grid-template-columns: 1fr !important;
-          }
-          div[style*="gridColumn: span 2"] {
-            grid-column: span 1 !important;
-          }
-          div[style*="grid-template-columns: 1fr 1fr"][style*="gap: 1.5rem"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }

@@ -374,8 +374,3 @@ body {
   box-shadow: 0 0 0 4px var(--color-orange-soft);
 }
 
-/* Responsive nav */
-@media (max-width: 900px) {
-  .nav-links { display: none !important; }
-  .mobile-menu-btn { display: inline-flex !important; }
-}
