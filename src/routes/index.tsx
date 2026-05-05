@@ -125,7 +125,7 @@ function StepItUpLanding() {
     e.preventDefault()
     setFormStatus('submitting')
     try {
-      await fetch('/contact-form.html', {
+      await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({ 'form-name': 'contact', ...formFields }),
@@ -1198,6 +1198,13 @@ function StepItUpLanding() {
 
           {/* Right: Contact form */}
           <div className="reveal reveal-delay-2">
+            {/* Hidden form for Netlify detection */}
+            <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+              <input type="text" name="name" />
+              <input type="email" name="email" />
+              <input type="text" name="company" />
+              <textarea name="message"></textarea>
+            </form>
             <form
               onSubmit={handleFormSubmit}
               style={{
