@@ -140,7 +140,7 @@ function StepItUpLanding() {
           right: 0,
           zIndex: 100,
           padding: '0 2rem',
-          height: '320px',
+          height: '128px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -231,7 +231,7 @@ function StepItUpLanding() {
         <div
           style={{
             position: 'fixed',
-            top: '320px',
+            top: '128px',
             left: 0,
             right: 0,
             background: '#fff',
@@ -278,7 +278,7 @@ function StepItUpLanding() {
           alignItems: 'center',
           position: 'relative',
           overflow: 'hidden',
-          paddingTop: '320px',
+          paddingTop: '128px',
         }}
       >
         <div
@@ -1166,7 +1166,7 @@ function StepItUpLanding() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <a
-                href="mailto:info@stepitupstrategies.com"
+                href="mailto:brian@stepitupstrategies.com"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -1185,7 +1185,7 @@ function StepItUpLanding() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                info@stepitupstrategies.com
+                brian@stepitupstrategies.com
               </a>
             </div>
           </div>
