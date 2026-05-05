@@ -136,7 +136,11 @@ function StepItUpLanding() {
 
       {/* ── NAVIGATION ─────────────────────────────────────────────────────── */}
       <nav
+<<<<<<< HEAD
         className="fixed inset-0 z-[100] px-8 flex items-center justify-between h-28 md:h-36"
+=======
+        className="fixed inset-0 z-[100] px-8 flex items-center justify-between h-36"
+>>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
         style={{
           background: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.6)',
           backdropFilter: 'blur(12px)',
@@ -152,7 +156,11 @@ function StepItUpLanding() {
           className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
+<<<<<<< HEAD
           <BrandLogo />
+=======
+          <BrandLogo height={264} />
+>>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
         </a>
 
         {/* Desktop Nav */}
@@ -202,7 +210,11 @@ function StepItUpLanding() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
+<<<<<<< HEAD
           className="fixed top-28 md:top-36 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
+=======
+          className="fixed top-36 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
+>>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
           style={{
             borderBottom: '1px solid var(--color-line)',
             boxShadow: '0 18px 40px -24px rgba(20, 24, 90, 0.25)',
@@ -226,8 +238,31 @@ function StepItUpLanding() {
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <section
         id="top"
+<<<<<<< HEAD
         className="hero-bg pt-28 md:pt-36 min-h-screen flex items-center relative overflow-hidden"
+=======
+        className="hero-bg pt-36 min-h-screen flex items-center relative overflow-hidden"
+>>>>>>> c1ce5a58e92b9573a88d363a4e18dcbbdf0c64e6
       >
+        {/* Brand-icon watermark — arrow tip sits 1mm below the top banner */}
+        <img
+          src="/brand-icon.png"
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 'calc(9rem + 1mm - 1in / 3)',
+            left: 'calc(75% - 1in)',
+            transform: 'translateX(-50%)',
+            width: 'min(90vw, 1440px)',
+            height: 'auto',
+            opacity: 0.09,
+            pointerEvents: 'none',
+            userSelect: 'none',
+            zIndex: 0,
+          }}
+        />
+
         <div
           style={{
             maxWidth: '1280px',
@@ -235,6 +270,8 @@ function StepItUpLanding() {
             padding: '5rem 2rem 6rem',
             width: '100%',
             alignItems: 'center',
+            position: 'relative',
+            zIndex: 1,
           }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"
         >
@@ -303,19 +340,22 @@ function StepItUpLanding() {
           </div>
 
           {/* Right: Stats panel */}
-          <div
-            className="animate-fade delay-200"
-            style={{
-              background: '#fff',
-              border: '1.5px solid var(--color-line)',
-              borderRadius: '20px',
-              padding: '2.5rem',
-              boxShadow: '0 24px 60px -32px rgba(20, 24, 90, 0.25)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.5rem',
-            }}
-          >
+          <div style={{ position: 'relative' }}>
+            <div
+              className="animate-fade delay-200"
+              style={{
+                position: 'relative',
+                zIndex: 1,
+                background: '#fff',
+                border: '1.5px solid var(--color-line)',
+                borderRadius: '20px',
+                padding: '2.5rem',
+                boxShadow: '0 24px 60px -32px rgba(20, 24, 90, 0.25)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem',
+              }}
+            >
             <div
               style={{
                 display: 'flex',
@@ -377,6 +417,7 @@ function StepItUpLanding() {
                 </span>
               </div>
             ))}
+            </div>
           </div>
         </div>
       </section>
@@ -511,48 +552,46 @@ function StepItUpLanding() {
               number: '01',
               title: 'Restaurant Consulting',
               body: 'From concept to grand opening and beyond — operational systems, menu engineering, staff structure, and profitability modeling tailored to your concept and market.',
-              span: false,
             },
             {
               number: '02',
               title: 'Retail Strategy',
               body: 'Merchandise planning, floor layout optimization, vendor relationships, shrinkage control, and customer experience design for retail environments.',
-              span: false,
             },
             {
               number: '03',
               title: 'Entertainment Venues',
               body: 'Multi-revenue-stream operations including bar programs, event logistics, staffing frameworks, and the financial controls that keep entertainment businesses healthy.',
-              span: false,
             },
             {
               number: '04',
               title: 'Menu Creation & Food Cost Analysis',
               body: 'Recipe development, costing, and menu engineering for profit maximization. We analyze every line item so your kitchen runs with precision — and profitability.',
-              span: false,
             },
             {
               number: '05',
               title: 'Beverage Programs & Bar Layout Design',
               body: 'Certified sommeliers and spirit experts design your wine list, cocktail program, and spirits selection from scratch. We also consult on bar layout for optimal speed-of-service and revenue per square foot.',
-              span: true,
             },
             {
               number: '06',
               title: 'Kitchen Layout & Design Consulting',
               body: 'Flow-optimized kitchen designs that reduce labor costs and improve ticket times. We work with your architects and equipment vendors to get it right before the first nail is driven.',
-              span: false,
             },
             {
               number: '07',
               title: 'Permitting & Licensing',
               body: 'Liquor licenses, health permits, occupancy certificates, entertainment licenses — we acquire and maintain all permits required for opening new businesses and sustaining operational readiness.',
-              span: false,
+            },
+            {
+              number: '08',
+              title: 'Website Design',
+              body: 'Modern, conversion-focused websites built to showcase your concept and drive bookings, orders, and inquiries. From brand-aligned visual design to mobile-first builds and ongoing content updates.',
             },
           ].map((service) => (
             <div
               key={service.number}
-              className={`service-card reveal ${service.span ? 'md:col-span-2' : ''}`}
+              className="service-card reveal"
               style={{
                 background: '#fff',
                 padding: '2.25rem',
@@ -561,6 +600,8 @@ function StepItUpLanding() {
                 cursor: 'default',
                 position: 'relative',
                 overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               {/* Top accent bar */}
