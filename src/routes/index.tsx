@@ -102,12 +102,40 @@ function StepItUpLanding() {
   useScrollReveal()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [formFields, setFormFields] = useState({ name: '', email: '', company: '', message: '' })
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const encode = (data: Record<string, string>) => {
+    return Object.entries(data)
+      .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+      .join('&')
+  }
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormFields({ ...formFields, [e.target.name]: e.target.value })
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setFormStatus('submitting')
+    try {
+      await fetch('/contact-form.html', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({ 'form-name': 'contact', ...formFields }),
+      })
+      setFormStatus('success')
+      setFormFields({ name: '', email: '', company: '', message: '' })
+    } catch (error) {
+      setFormStatus('error')
+    }
+  }
 
   const navLinks: Array<[string, string]> = [
     ['Services', '#services'],
@@ -1171,15 +1199,7 @@ function StepItUpLanding() {
           {/* Right: Contact form */}
           <div className="reveal reveal-delay-2">
             <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                const form = e.target as HTMLFormElement
-                const data = new FormData(form)
-                alert(
-                  `Thank you, ${data.get('name')}! We'll be in touch shortly.`
-                )
-                form.reset()
-              }}
+              onSubmit={handleFormSubmit}
               style={{
                 background: '#fff',
                 border: '1.5px solid var(--color-line)',
@@ -1188,6 +1208,7 @@ function StepItUpLanding() {
                 boxShadow: '0 24px 60px -32px rgba(20, 24, 90, 0.18)',
               }}
             >
+              <input type="hidden" name="form-name" value="contact" />
               <h3
                 style={{
                   fontFamily: 'var(--font-display)',
@@ -1199,6 +1220,16 @@ function StepItUpLanding() {
               >
                 Start a Conversation
               </h3>
+              {formStatus === 'success' && (
+                <p style={{ color: 'var(--color-orange)', marginBottom: '1rem' }}>
+                  Thank you! We'll be in touch shortly.
+                </p>
+              )}
+              {formStatus === 'error' && (
+                <p style={{ color: 'red', marginBottom: '1rem' }}>
+                  Something went wrong. Please try again.
+                </p>
+              )}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {[
                   { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Your name' },
@@ -1224,6 +1255,8 @@ function StepItUpLanding() {
                       name={field.name}
                       type={field.type}
                       placeholder={field.placeholder}
+                      value={formFields[field.name as keyof typeof formFields]}
+                      onChange={handleFormChange}
                       required={field.name !== 'company'}
                       className="form-input"
                     />
@@ -1248,12 +1281,19 @@ function StepItUpLanding() {
                     name="message"
                     rows={4}
                     placeholder="Describe your project, challenge, or goals..."
+                    value={formFields.message}
+                    onChange={handleFormChange}
                     className="form-input"
                     style={{ resize: 'vertical' }}
                   />
                 </div>
-                <button type="submit" className="btn-primary" style={{ width: '100%', textAlign: 'center' }}>
-                  Send Message
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  style={{ width: '100%', textAlign: 'center' }}
+                  disabled={formStatus === 'submitting'}
+                >
+                  {formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
                 </button>
               </div>
             </form>
