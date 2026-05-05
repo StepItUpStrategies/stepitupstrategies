@@ -149,7 +149,7 @@ function StepItUpLanding() {
           className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
-          <BrandLogo height={44} />
+          <BrandLogo height={132} />
         </a>
 
         {/* Desktop Nav */}
