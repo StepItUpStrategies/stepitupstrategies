@@ -508,48 +508,46 @@ function StepItUpLanding() {
               number: '01',
               title: 'Restaurant Consulting',
               body: 'From concept to grand opening and beyond — operational systems, menu engineering, staff structure, and profitability modeling tailored to your concept and market.',
-              span: false,
             },
             {
               number: '02',
               title: 'Retail Strategy',
               body: 'Merchandise planning, floor layout optimization, vendor relationships, shrinkage control, and customer experience design for retail environments.',
-              span: false,
             },
             {
               number: '03',
               title: 'Entertainment Venues',
               body: 'Multi-revenue-stream operations including bar programs, event logistics, staffing frameworks, and the financial controls that keep entertainment businesses healthy.',
-              span: false,
             },
             {
               number: '04',
               title: 'Menu Creation & Food Cost Analysis',
               body: 'Recipe development, costing, and menu engineering for profit maximization. We analyze every line item so your kitchen runs with precision — and profitability.',
-              span: false,
             },
             {
               number: '05',
               title: 'Beverage Programs & Bar Layout Design',
               body: 'Certified sommeliers and spirit experts design your wine list, cocktail program, and spirits selection from scratch. We also consult on bar layout for optimal speed-of-service and revenue per square foot.',
-              span: true,
             },
             {
               number: '06',
               title: 'Kitchen Layout & Design Consulting',
               body: 'Flow-optimized kitchen designs that reduce labor costs and improve ticket times. We work with your architects and equipment vendors to get it right before the first nail is driven.',
-              span: false,
             },
             {
               number: '07',
               title: 'Permitting & Licensing',
               body: 'Liquor licenses, health permits, occupancy certificates, entertainment licenses — we acquire and maintain all permits required for opening new businesses and sustaining operational readiness.',
-              span: false,
+            },
+            {
+              number: '08',
+              title: 'Website Design',
+              body: 'Modern, conversion-focused websites built to showcase your concept and drive bookings, orders, and inquiries. From brand-aligned visual design to mobile-first builds and ongoing content updates.',
             },
           ].map((service) => (
             <div
               key={service.number}
-              className={`service-card reveal ${service.span ? 'md:col-span-2' : ''}`}
+              className="service-card reveal"
               style={{
                 background: '#fff',
                 padding: '2.25rem',
@@ -558,6 +556,8 @@ function StepItUpLanding() {
                 cursor: 'default',
                 position: 'relative',
                 overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               {/* Top accent bar */}
