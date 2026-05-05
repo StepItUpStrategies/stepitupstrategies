@@ -133,17 +133,8 @@ function StepItUpLanding() {
 
       {/* ── NAVIGATION ─────────────────────────────────────────────────────── */}
       <nav
+        className="fixed inset-0 z-[100] px-8 flex items-center justify-between h-16 md:h-32"
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          padding: '0 2rem',
-          height: '128px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
           background: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.6)',
           backdropFilter: 'blur(12px)',
           borderBottom: scrolled
@@ -155,35 +146,21 @@ function StepItUpLanding() {
         {/* Logo */}
         <a
           href="#top"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            textDecoration: 'none',
-          }}
+          className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
-          <BrandLogo height={276} />
+          <BrandLogo height={44} />
         </a>
 
         {/* Desktop Nav */}
         <div
-          className="nav-links hidden md:flex"
-          style={{ display: 'flex', gap: '2.25rem', alignItems: 'center' }}
+          className="nav-links hidden md:flex gap-9 items-center"
         >
           {navLinks.map(([label, href]) => (
             <a
               key={label}
               href={href}
-              className="nav-link"
-              style={{
-                color: 'var(--color-blue)',
-                textDecoration: 'none',
-                fontSize: '0.78rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                fontWeight: 600,
-                fontFamily: 'var(--font-display)',
-              }}
+              className="nav-link text-blue no-underline text-xs font-semibold uppercase tracking-wider"
             >
               {label}
             </a>
@@ -196,18 +173,10 @@ function StepItUpLanding() {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="flex md:hidden w-11 h-11 items-center justify-center bg-transparent border-none cursor-pointer p-2"
           style={{
-            background: 'none',
-            border: 'none',
             color: 'var(--color-blue)',
-            cursor: 'pointer',
-            padding: '8px',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '44px',
-            height: '44px',
           }}
-          className="mobile-menu-btn flex md:hidden"
           aria-label="Toggle menu"
         >
           <svg
@@ -230,18 +199,9 @@ function StepItUpLanding() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
+          className="fixed top-16 md:top-32 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
           style={{
-            position: 'fixed',
-            top: '128px',
-            left: 0,
-            right: 0,
-            background: '#fff',
             borderBottom: '1px solid var(--color-line)',
-            zIndex: 99,
-            padding: '1.5rem 2rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.25rem',
             boxShadow: '0 18px 40px -24px rgba(20, 24, 90, 0.25)',
           }}
         >
@@ -251,16 +211,7 @@ function StepItUpLanding() {
                 key={label}
                 href={href}
                 onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  color: 'var(--color-blue)',
-                  textDecoration: 'none',
-                  fontSize: '1.05rem',
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 600,
-                  letterSpacing: '0.06em',
-                  padding: '1rem 0',
-                  borderBottom: '1px solid var(--color-line)',
-                }}
+                className="text-blue no-underline text-lg font-semibold leading-6 tracking-wide py-4 border-b border-line"
               >
                 {label}
               </a>
@@ -272,15 +223,7 @@ function StepItUpLanding() {
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <section
         id="top"
-        className="hero-bg"
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          paddingTop: '128px',
-        }}
+        className="hero-bg pt-16 md:pt-32 min-h-screen flex items-center relative overflow-hidden"
       >
         <div
           style={{
