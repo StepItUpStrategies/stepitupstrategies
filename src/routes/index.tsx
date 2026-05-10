@@ -673,6 +673,18 @@ function StepItUpLanding() {
             </div>
           ))}
         </div>
+
+        {/* Call-to-Action Button */}
+        <div className="text-center mt-8">
+          <a
+            href="https://form.jotform.com/261257161071046"
+            className="btn-primary inline-block"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Begin your FREE Business Assessment Today!
+          </a>
+        </div>
       </section>
 
       {/* ── EXPERTISE / CREDENTIALS ────────────────────────────────────────── */}
