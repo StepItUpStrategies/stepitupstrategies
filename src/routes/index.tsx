@@ -1339,7 +1339,9 @@ function StepItUpLanding() {
               alignItems: 'center',
             }}
           >
-            <BrandLogoCompact height={240} />
+            <a href="#" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <BrandLogoCompact height={240} />
+            </a>
           </div>
 
           <nav style={{ display: 'flex', gap: '1.75rem', flexWrap: 'wrap' }}>
