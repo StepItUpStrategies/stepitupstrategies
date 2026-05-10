@@ -803,6 +803,13 @@ function StepItUpLanding() {
               ))}
             </div>
           </div>
+
+          {/* Our Services Button */}
+          <div className="text-center mt-8">
+            <a href="#services" className="btn-primary inline-block">
+              Our Services
+            </a>
+          </div>
         </div>
       </section>
 
