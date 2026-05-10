@@ -1,0 +1,41 @@
+# llms.txt
+
+This is the Step It Up Strategies website.
+
+## Website Purpose
+
+Step It Up Strategies is a business management and consulting company specializing in restaurant, retail, and entertainment sectors. The company provides comprehensive business consulting services including operational strategy, financial management, menu engineering, and staff training.
+
+## Site Structure
+
+This is a single-page marketing/landing site built with TanStack Start, React, and Tailwind CSS. The site includes the following sections:
+
+- **Hero**: Main value proposition and key statistics
+- **Services**: 7 core service offerings (Restaurant Consulting, Retail Strategy, Entertainment Venues, Menu Creation, Beverage Programs, Kitchen Layout, Permitting & Licensing)
+- **Expertise**: Team credentials and qualifications (Certified Sommeliers, Spirit Experts, Food & Beverage Directors, General Managers, Owner Operators)
+- **Financial Services**: Accounting and controller capabilities
+- **About/Philosophy**: Company philosophy and sectors served
+- **Contact**: Contact form for inquiries
+
+## Contact Information
+
+Email: brian@stepitupstrategies.com
+
+## Technologies
+
+- Framework: TanStack Start with React 19
+- Styling: Tailwind CSS 4
+- Hosting: Netlify
+- Language: TypeScript
+
+## Sitemap
+
+See `/sitemap.xml` for the complete site structure and page hierarchy.
+
+## Form Submission
+
+The site includes a contact form that submits to Netlify Forms. Form submissions are processed and forwarded to the business contact email.
+
+## Accessibility
+
+The site is built with semantic HTML, proper ARIA labels, and responsive design for all device sizes.
