@@ -111,6 +111,46 @@ function StepItUpLanding() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Handle navigation link clicks with offset for desktop
+  useEffect(() => {
+    const handleNavClick = (e: Event) => {
+      const target = e.target as HTMLAnchorElement
+      if (target && target.getAttribute('href')?.startsWith('#')) {
+        // Only apply offset on desktop (screen width > 768px)
+        if (window.innerWidth > 768) {
+          e.preventDefault()
+          const href = target.getAttribute('href')
+          if (href) {
+            const element = document.querySelector(href)
+            if (element) {
+              const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+              // Offset by 16px (approximately 1/2 inch) to account for fixed nav
+              const offsetPosition = elementPosition - 16
+
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              })
+            }
+          }
+        }
+        // On mobile, let the default behavior work (no offset needed)
+      }
+    }
+
+    // Add event listeners to all navigation links
+    const navLinks = document.querySelectorAll('a[href^="#"]')
+    navLinks.forEach(link => {
+      link.addEventListener('click', handleNavClick)
+    })
+
+    return () => {
+      navLinks.forEach(link => {
+        link.removeEventListener('click', handleNavClick)
+      })
+    }
+  }, [])
+
   const encode = (data: Record<string, string>) => {
     return Object.entries(data)
       .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
