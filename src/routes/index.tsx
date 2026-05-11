@@ -124,8 +124,8 @@ function StepItUpLanding() {
             const element = document.querySelector(href)
             if (element) {
               const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
-              // Offset by 27px (approximately 5/6 inch total: 1/2 + 1/3) to account for fixed nav
-              const offsetPosition = elementPosition - 27
+              // Offset by 51px (approximately 1/2 + 1/3 + 1/4 inch total) to account for fixed nav
+              const offsetPosition = elementPosition - 51
 
               window.scrollTo({
                 top: offsetPosition,
