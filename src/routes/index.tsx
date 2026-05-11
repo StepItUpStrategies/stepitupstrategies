@@ -509,6 +509,111 @@ function StepItUpLanding() {
           padding: '7rem 2rem',
         }}
       >
+        {/* Structured Data for Services */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Restaurant Consulting",
+                "description": "From concept to grand opening and beyond — operational systems, menu engineering, staff structure, and profitability modeling tailored to your concept and market.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Business Consulting",
+                "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Retail Strategy Consulting",
+                "description": "Merchandise planning, floor layout optimization, vendor relationships, shrinkage control, and customer experience design for retail environments.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Business Consulting",
+                "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Entertainment Venue Consulting",
+                "description": "Multi-revenue-stream operations including bar programs, event logistics, staffing frameworks, and the financial controls that keep entertainment businesses healthy.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Business Consulting",
+                "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Menu Creation & Food Cost Analysis",
+                "description": "Recipe development, costing, and menu engineering for profit maximization. We analyze every line item so your kitchen runs with precision — and profitability.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Food Service Consulting",
+                "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Beverage Programs & Bar Layout Design",
+                "description": "Certified sommeliers and spirit experts design your wine list, cocktail program, and spirits selection from scratch. We also consult on bar layout for optimal speed-of-service and revenue per square foot.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Beverage Consulting",
+                "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Kitchen Layout & Design Consulting",
+                "description": "Flow-optimized kitchen designs that reduce labor costs and improve ticket times. We work with your architects and equipment vendors to get it right before the first nail is driven.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Design Consulting",
+                "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Permitting & Licensing Services",
+                "description": "Liquor licenses, health permits, occupancy certificates, entertainment licenses — we acquire and maintain all permits required for opening new businesses and sustaining operational readiness.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Regulatory Compliance",
+                "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Website Design & Development",
+                "description": "Professional website design and development services to establish your online presence and drive business growth.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Digital Services",
+                "areaServed": "United States"
+              }
+            ])
+          }}
+        />
+
         {/* Section header */}
         <div
           style={{
