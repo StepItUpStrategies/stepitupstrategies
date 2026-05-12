@@ -1,5 +1,5 @@
-# Redirect www to non-www for SEO
-https://www.stepitupstrategies.com/* https://stepitupstrategies.com/:splat 301!
+# Redirect non-www to www for SEO
+https://stepitupstrategies.com/* https://www.stepitupstrategies.com/:splat 301!
 
 # SPA fallback for client-side routes like /insights and /insights/:slug
 /* /index.html 200

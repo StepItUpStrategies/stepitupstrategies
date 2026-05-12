@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://stepitupstrategies.com/sitemap.xml
+Sitemap: https://www.stepitupstrategies.com/sitemap.xml

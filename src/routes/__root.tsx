@@ -16,7 +16,7 @@ export const Route = createRootRoute({
       { property: 'og:title', content: 'Step It Up Strategies — Business Management & Consulting' },
       { property: 'og:description', content: 'Expert business management and consulting for restaurant, retail, and entertainment industries. Comprehensive services from menu creation to financial planning.' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://stepitupstrategies.com' },
+      { property: 'og:url', content: 'https://www.stepitupstrategies.com' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: 'Step It Up Strategies — Business Management & Consulting' },
       { name: 'twitter:description', content: 'Expert business management and consulting for restaurant, retail, and entertainment industries.' },
@@ -42,7 +42,7 @@ export const Route = createRootRoute({
         as: 'image',
         href: '/.netlify/images?url=/logo.png&w=440&q=80',
       },
-      { rel: 'canonical', href: 'https://stepitupstrategies.com' },
+      { rel: 'canonical', href: 'https://www.stepitupstrategies.com/' },
     ],
     scripts: [
       {
@@ -51,8 +51,8 @@ export const Route = createRootRoute({
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "Step It Up Strategies",
-          "url": "https://stepitupstrategies.com",
-          "logo": "https://stepitupstrategies.com/logo.png",
+          "url": "https://www.stepitupstrategies.com",
+          "logo": "https://www.stepitupstrategies.com/logo.png",
           "description": "Expert business management and consulting for restaurant, retail, and entertainment industries. Specializing in menu creation, beverage programs, food cost analysis, layout design, permitting, and financial services.",
           "foundingDate": "2024",
           "contactPoint": {
@@ -99,7 +99,7 @@ export const Route = createRootRoute({
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "Step It Up Strategies",
-          "url": "https://stepitupstrategies.com",
+          "url": "https://www.stepitupstrategies.com",
           "description": "Business management and consulting services for restaurant, retail, and entertainment industries",
           "publisher": {
             "@type": "Organization",
@@ -107,7 +107,7 @@ export const Route = createRootRoute({
           },
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://stepitupstrategies.com/?s={search_term_string}",
+            "target": "https://www.stepitupstrategies.com/?s={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         })
