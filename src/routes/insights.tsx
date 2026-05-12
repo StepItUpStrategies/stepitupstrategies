@@ -40,7 +40,21 @@ export const Route = createFileRoute('/insights')({
   component: Insights,
 })
 
+import { useEffect } from "react";
+
 export default function Insights() {
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://app.trysoro.com/api/embed/3cc0116b-c696-4d4d-8f15-cdd7c40c1db6";
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+``
   return (
     <div className="bg-[#F7F3EC] min-h-screen text-blue-950">
       <section className="bg-[#F7F3EC] px-6 py-16 md:py-24">
