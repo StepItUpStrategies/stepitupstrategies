@@ -1493,6 +1493,7 @@ function StepItUpLanding() {
           <nav style={{ display: 'flex', gap: '1.75rem', flexWrap: 'wrap' }}>
             {[
               ['Services', '#services'],
+              ['Insights', '/insights'],
               ['Expertise', '#expertise'],
               ['Financial', '#financial'],
               ['About', '#about'],
@@ -1532,8 +1533,27 @@ function StepItUpLanding() {
           className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0"
         >
           <div>
-            &copy; {new Date().getFullYear()} Step It Up Strategies. All rights reserved.
+            &copy; {new Date().getFullYear()} Step It Up Strategies. All rights reserved.&emsp;&emsp;&emsp;&emsp;&emsp;Certified &amp; Insured.
           </div>
+          <a
+            href="/privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: 'rgba(255,255,255,0.6)',
+              textDecoration: 'none',
+              fontSize: '0.72rem',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              fontFamily: 'var(--font-display)',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange-light)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+          >
+            Privacy Policy
+          </a>
           <span className="brand-tagline" style={{ color: 'var(--color-orange-light)' }}>
             Clarify <span className="dot" style={{ background: 'var(--color-orange-light)' }} />{' '}
             Prioritize <span className="dot" style={{ background: 'var(--color-orange-light)' }} />{' '}
