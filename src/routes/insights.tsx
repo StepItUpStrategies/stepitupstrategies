@@ -95,13 +95,10 @@ export default function Insights() {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <Link key={post.slug} to={`/insights/${post.slug}`} className="group">
-              <InsightCard post={post} />
-            </Link>
-          ))}
-        </div>
+  <div className="mt-12">
+  <div id="soro-blog"></div>
+</div>
+
       </section>
 
       <section className="bg-white py-20">
