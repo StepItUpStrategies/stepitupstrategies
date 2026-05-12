@@ -1493,6 +1493,7 @@ function StepItUpLanding() {
           <nav style={{ display: 'flex', gap: '1.75rem', flexWrap: 'wrap' }}>
             {[
               ['Services', '#services'],
+              ['Insights', '/insights'],
               ['Expertise', '#expertise'],
               ['Financial', '#financial'],
               ['About', '#about'],
@@ -1523,6 +1524,21 @@ function StepItUpLanding() {
         <div
           style={{
             maxWidth: '1280px',
+            margin: '1.5rem auto 0',
+            textAlign: 'center',
+            fontSize: '0.82rem',
+            color: 'rgba(255,255,255,0.7)',
+            fontFamily: 'var(--font-display)',
+            letterSpacing: '0.08em',
+            fontWeight: 600,
+          }}
+        >
+          Certified &amp; Insured
+        </div>
+
+        <div
+          style={{
+            maxWidth: '1280px',
             margin: '2.5rem auto 0',
             paddingTop: '1.75rem',
             borderTop: '1px solid rgba(255,255,255,0.12)',
@@ -1534,6 +1550,19 @@ function StepItUpLanding() {
           <div>
             &copy; {new Date().getFullYear()} Step It Up Strategies. All rights reserved.
           </div>
+          <a
+            href="/privacy-policy"
+            style={{
+              color: 'rgba(255,255,255,0.6)',
+              textDecoration: 'none',
+              fontSize: '0.78rem',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange-light)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+          >
+            Privacy Policy
+          </a>
           <span className="brand-tagline" style={{ color: 'var(--color-orange-light)' }}>
             Clarify <span className="dot" style={{ background: 'var(--color-orange-light)' }} />{' '}
             Prioritize <span className="dot" style={{ background: 'var(--color-orange-light)' }} />{' '}
