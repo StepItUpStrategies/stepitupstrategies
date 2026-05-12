@@ -821,10 +821,15 @@ function StepItUpLanding() {
           <a
             href="https://form.jotform.com/261257161071046"
             className="btn-primary inline-block"
+            style={{ fontSize: '1.03rem' }}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Begin your FREE Business Assessment Today!
+            Begin your{' '}
+            <span style={{ fontWeight: 'bold', textDecoration: 'underline' }}>
+              FREE Business Assessment
+            </span>{' '}
+            Today!
           </a>
         </div>
       </section>
