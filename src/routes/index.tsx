@@ -1531,9 +1531,28 @@ function StepItUpLanding() {
           }}
           className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0"
         >
-          <div>
+          <div style={{ whiteSpace: 'nowrap' }}>
             &copy; {new Date().getFullYear()} Step It Up Strategies. All rights reserved.
           </div>
+          <div style={{ whiteSpace: 'nowrap', fontWeight: 600, letterSpacing: '0.06em' }}>
+            Certified &amp; Insured
+          </div>
+          <a
+            href="/privacy-policy"
+            style={{
+              color: 'rgba(255,255,255,0.6)',
+              textDecoration: 'none',
+              fontSize: '0.78rem',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange-light)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+          >
+            Privacy Policy
+          </a>
           <span className="brand-tagline" style={{ color: 'var(--color-orange-light)' }}>
             Clarify <span className="dot" style={{ background: 'var(--color-orange-light)' }} />{' '}
             Prioritize <span className="dot" style={{ background: 'var(--color-orange-light)' }} />{' '}

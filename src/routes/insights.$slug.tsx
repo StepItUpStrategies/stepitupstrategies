@@ -2,24 +2,27 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 
 const posts = [
   {
-    slug: 'reduce-food-cost-8-percent',
-    title: 'How to Reduce Food Cost by 8% Without Sacrificing Quality',
-    category: 'Operations',
-    summary: 'Proven methods to increase profitability while maintaining guest experience and menu standards.',
+    slug: 'how-to-reduce-food-cost-without-cutting-quality',
+    title: 'How to Reduce Food Cost Without Cutting Quality',
+    summary: 'Learn how to reduce food cost with practical restaurant strategies for purchasing, prep, pricing, portion control, and waste reduction.',
     content: [
-      'Restaurants can improve margins by focusing on accurate portion control, supplier negotiation, and real-time inventory insights. This article shows practical steps to lower cost without reducing quality.',
-      'Start with a simple audit of your top-selling items, track inventory shrinkage, and align purchasing with daily covers. The most reliable savings come when teams follow consistent operating procedures.',
-      'Use menu mix analysis to identify high-cost items and redesign plates around core ingredients. Small menu changes can drive meaningful savings while preserving guest satisfaction.',
+      'Learn how to reduce food cost with practical restaurant strategies for purchasing, prep, pricing, portion control, and waste reduction.',
     ],
   },
   {
-    slug: 'staffing-playbook-to-lower-labor-costs',
-    title: 'Staffing Playbook to Lower Labor Costs',
-    category: 'People',
-    summary: 'A staffing strategy that balances service standards with controlled scheduling and labor forecasting.',
+    slug: 'bar-menu-consulting-services-that-sell',
+    title: 'Bar Menu Consulting Services That Sell',
+    summary: 'Bar menu consulting services help operators build profitable, efficient beverage programs that fit the concept, staff, and guest demand.',
     content: [
-      'Labor is one of the largest controllable expenses in hospitality. The right staffing playbook includes role definitions, budgeted labor targets, and data-driven scheduling.',
-      'Build staffing plans around shifts, demand patterns, and experience levels. Train leaders to track labor performance daily and reassign resources before wage overruns occur.',
+      'Bar menu consulting services help operators build profitable, efficient beverage programs that fit the concept, staff, and guest demand.',
+    ],
+  },
+  {
+    slug: 'restaurant-concept-development-consultant',
+    title: 'Restaurant Concept Development Consultant',
+    summary: 'A restaurant concept development consultant helps turn ideas into profitable operations with sharper positioning, smarter systems, and cleaner execution.',
+    content: [
+      'A restaurant concept development consultant helps turn ideas into profitable operations with sharper positioning, smarter systems, and cleaner execution.',
     ],
   },
 ]
@@ -39,28 +42,98 @@ export default function InsightPost() {
   const post = Route.useLoaderData()
 
   return (
-    <div className="bg-[#F7F3EC] min-h-screen text-blue-950 px-6 py-16">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div style={{ background: 'var(--color-cream)', minHeight: '100vh' }}>
+      {/* Navigation */}
+      <nav
+        className="px-8 flex items-center justify-between h-28 md:h-36"
+        style={{
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(12px)',
+          borderBottom: '1px solid var(--color-line)',
+        }}
+      >
+        <a href="/" className="flex items-center no-underline" aria-label="Step It Up Strategies — home">
+          <img
+            src="/logo.png"
+            alt="Step It Up Strategies"
+            className="h-[99px] md:h-[132px]"
+            style={{ width: 'auto', display: 'block' }}
+          />
+        </a>
         <Link
           to="/insights"
-          className="inline-flex items-center gap-2 text-sm text-blue-950 font-semibold hover:text-orange-500"
+          className="nav-link text-xs font-semibold uppercase tracking-wider"
+          style={{ color: 'var(--color-blue)', textDecoration: 'none' }}
         >
-          ← Back to Insights
+          &larr; Back to Insights
         </Link>
+      </nav>
 
-        <div className="rounded-[2rem] bg-white p-10 shadow-xl border border-blue-100">
-          <span className="inline-block uppercase text-orange-500 text-xs tracking-[0.3em] mb-4">
-            {post.category}
-          </span>
-          <h1 className="text-4xl font-serif text-blue-950 mb-4">{post.title}</h1>
-          <p className="text-lg text-blue-800 mb-10">{post.summary}</p>
-          <div className="space-y-6 text-blue-800 leading-8">
-            {post.content.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
+      <div style={{ maxWidth: '860px', margin: '0 auto', padding: '3rem 2rem 5rem' }}>
+        <h1
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2rem, 4vw, 3rem)',
+            fontWeight: 700,
+            lineHeight: 1.12,
+            color: 'var(--color-blue)',
+            margin: '0 0 1rem',
+            letterSpacing: '-0.01em',
+          }}
+        >
+          {post.title}
+        </h1>
+        <p
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '1.15rem',
+            color: 'var(--color-ink-soft)',
+            lineHeight: 1.65,
+            marginBottom: '2.5rem',
+          }}
+        >
+          {post.summary}
+        </p>
+
+        <div
+          style={{
+            background: '#fff',
+            borderRadius: '16px',
+            padding: '2.5rem 2rem',
+            border: '1px solid var(--color-line)',
+            boxShadow: '0 4px 24px -8px rgba(31, 42, 140, 0.08)',
+          }}
+        >
+          {post.content.map((paragraph: string, index: number) => (
+            <p
+              key={index}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '1.05rem',
+                lineHeight: 1.75,
+                color: 'var(--color-ink-soft)',
+                margin: index === post.content.length - 1 ? 0 : '0 0 1.5rem',
+              }}
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
       </div>
+
+      <footer
+        style={{
+          background: 'var(--color-blue-deep)',
+          color: 'rgba(255,255,255,0.78)',
+          padding: '2.25rem 2rem',
+          textAlign: 'center',
+          fontSize: '0.78rem',
+        }}
+      >
+        <p style={{ color: 'rgba(255,255,255,0.6)' }}>
+          &copy; {new Date().getFullYear()} Step It Up Strategies. All rights reserved.
+        </p>
+      </footer>
     </div>
   )
 }
