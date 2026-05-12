@@ -45,14 +45,22 @@ import { useEffect } from "react";
 export default function Insights() {
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://app.trysoro.com/api/embed/3cc0116b-c696-4d4d-8f15-cdd7c40c1db6";
-    script.defer = true;
-    document.body.appendChild(script);
+    const loadSoro = () => {
+      const existingScript = document.querySelector(
+        'script[src="https://app.trysoro.com/api/embed/3cc0116b-c696-4d4d-8f15-cdd7c40c1db6"]'
+      );
 
-    return () => {
-      document.body.removeChild(script);
+      if (!existingScript) {
+        const script = document.createElement("script");
+        script.src = "https://app.trysoro.com/api/embed/3cc0116b-c696-4d4d-8f15-cdd7c40c1db6";
+        script.defer = true;
+        document.body.appendChild(script);
+      }
     };
+
+    // Delay ensures React finishes rendering first
+    setTimeout(loadSoro, 500);
+
   }, []);
 ``
   return (
