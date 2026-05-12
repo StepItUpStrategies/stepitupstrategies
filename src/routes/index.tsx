@@ -179,6 +179,7 @@ function StepItUpLanding() {
 
   const navLinks: Array<[string, string]> = [
     ['Services', '#services'],
+    ['Insights', '/insights'],
     ['Expertise', '#expertise'],
     ['Financial', '#financial'],
     ['About', '#about'],
