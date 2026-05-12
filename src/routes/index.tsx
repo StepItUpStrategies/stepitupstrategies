@@ -12,24 +12,32 @@ function BrandLogo({
   height,
   alt = 'Step It Up Strategies',
   className = '',
+  loading = 'eager' as 'eager' | 'lazy',
+  fetchPriority = 'auto' as 'high' | 'low' | 'auto',
 }: {
   height?: number
   alt?: string
   className?: string
+  loading?: 'eager' | 'lazy'
+  fetchPriority?: 'high' | 'low' | 'auto'
 }) {
   return (
     <img
-      src="/logo.png"
+      src="/.netlify/images?url=/logo.png&w=440&q=80"
       alt={alt}
+      width={440}
+      height={264}
       className={`h-[99px] md:h-[132px] ${className}`}
       style={{ width: 'auto', display: 'block' }}
+      loading={loading}
+      fetchPriority={fetchPriority}
     />
   )
 }
 
 // Compact mark used where the full wordmark would be too wide (footer column, mobile nav)
 function BrandLogoCompact({ height = 36 }: { height?: number }) {
-  return <BrandLogo height={height} />
+  return <BrandLogo height={height} loading="lazy" />
 }
 
 // ─── Accordion Item ───────────────────────────────────────────────────────────
@@ -187,21 +195,6 @@ function StepItUpLanding() {
 
   return (
     <div style={{ background: 'var(--color-paper)', minHeight: '100vh', overflowX: 'hidden' }}>
-      {/* Inline reveal styles */}
-      <style>{`
-        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
-        .reveal.in-view { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-28px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
-        .reveal-left.in-view { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(28px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
-        .reveal-right.in-view { opacity: 1; transform: translateX(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-        .reveal-delay-5 { transition-delay: 0.5s; }
-        .reveal-delay-6 { transition-delay: 0.6s; }
-      `}</style>
 
       {/* ── NAVIGATION ─────────────────────────────────────────────────────── */}
       <nav
@@ -221,7 +214,7 @@ function StepItUpLanding() {
           className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
-          <BrandLogo />
+          <BrandLogo fetchPriority="high" />
         </a>
 
         {/* Desktop Nav */}
@@ -299,9 +292,12 @@ function StepItUpLanding() {
       >
         {/* Brand-icon watermark — arrow tip sits 1mm below the top banner */}
         <img
-          src="/brand-icon.png"
+          src="/.netlify/images?url=/brand-icon.png&w=800&q=60"
           alt=""
           aria-hidden="true"
+          width={800}
+          height={578}
+          loading="eager"
           style={{
             position: 'absolute',
             top: 'calc(9rem + 1mm - 1in / 3)',
