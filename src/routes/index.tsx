@@ -1491,7 +1491,7 @@ function StepItUpLanding() {
             </a>
           </div>
 
-          <nav style={{ display: 'flex', gap: '1.75rem', flexWrap: 'wrap' }}>
+          <nav style={{ display: 'flex', gap: '1.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             {[
               ['Services', '#services'],
               ['Insights', '/insights'],
