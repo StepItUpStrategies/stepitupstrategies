@@ -27,7 +27,7 @@ function BrandLogo({
       alt={alt}
       width={440}
       height={264}
-      className={`h-[99px] md:h-[132px] ${className}`}
+      className={`h-[99px] lg:h-[132px] ${className}`}
       style={{ width: 'auto', display: 'block' }}
       loading={loading}
       fetchPriority={fetchPriority}
@@ -125,7 +125,7 @@ function StepItUpLanding() {
       const target = e.target as HTMLAnchorElement
       if (target && target.getAttribute('href')?.startsWith('#')) {
         // Only apply offset on desktop (screen width > 768px)
-        if (window.innerWidth > 768) {
+        if (window.innerWidth >= 1024) {
           e.preventDefault()
           const href = target.getAttribute('href')
           if (href) {
@@ -198,7 +198,7 @@ function StepItUpLanding() {
 
       {/* ── NAVIGATION ─────────────────────────────────────────────────────── */}
       <nav
-        className="fixed top-0 left-0 right-0 z-[100] px-8 flex items-center justify-between h-28 md:h-36"
+        className="fixed top-0 left-0 right-0 z-[100] px-8 flex items-center justify-between h-28 lg:h-36"
         style={{
           background: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.6)',
           backdropFilter: 'blur(12px)',
@@ -219,7 +219,7 @@ function StepItUpLanding() {
 
         {/* Desktop Nav */}
         <div
-          className="nav-links hidden md:flex gap-9 items-center"
+          className="nav-links hidden lg:flex gap-9 items-center"
         >
           {navLinks.map(([label, href]) => (
             <a
@@ -238,7 +238,7 @@ function StepItUpLanding() {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex md:hidden w-11 h-11 items-center justify-center bg-transparent border-none cursor-pointer p-2"
+          className="flex lg:hidden w-11 h-11 items-center justify-center bg-transparent border-none cursor-pointer p-2"
           style={{
             color: 'var(--color-blue)',
           }}
@@ -264,7 +264,7 @@ function StepItUpLanding() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
-          className="fixed top-28 md:top-36 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
+          className="fixed top-28 lg:top-36 inset-x-0 bg-white z-[99] px-8 py-6 flex flex-col gap-1 shadow-lg"
           style={{
             borderBottom: '1px solid var(--color-line)',
             boxShadow: '0 18px 40px -24px rgba(20, 24, 90, 0.25)',
@@ -288,7 +288,7 @@ function StepItUpLanding() {
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <section
         id="top"
-        className="hero-bg pt-28 md:pt-36 min-h-screen flex items-center relative overflow-hidden"
+        className="hero-bg pt-28 lg:pt-36 min-h-screen flex items-center relative overflow-hidden"
       >
         {/* Brand-icon watermark — arrow tip sits 1mm below the top banner */}
         <img
@@ -322,7 +322,7 @@ function StepItUpLanding() {
             position: 'relative',
             zIndex: 1,
           }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16"
         >
           {/* Left: Main copy */}
           <div>
@@ -658,7 +658,7 @@ function StepItUpLanding() {
             alignItems: 'end',
             marginBottom: '4rem',
           }}
-          className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-8 md:gap-24"
+          className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-8 lg:gap-24"
         >
           <div className="reveal">
             <span className="section-label">What We Do</span>
@@ -699,7 +699,7 @@ function StepItUpLanding() {
           style={{
             display: 'grid',
           }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
         >
           {[
             {
@@ -850,7 +850,7 @@ function StepItUpLanding() {
               display: 'grid',
               alignItems: 'start',
             }}
-            className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-12 md:gap-24"
+            className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-12 lg:gap-24"
           >
             <div className="reveal">
               <span className="section-label">Who We Are</span>
@@ -974,7 +974,7 @@ function StepItUpLanding() {
             display: 'grid',
             alignItems: 'start',
           }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20"
         >
           {/* Left: Description */}
           <div>
@@ -1147,7 +1147,7 @@ function StepItUpLanding() {
             style={{
               display: 'grid',
             }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-9"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-9"
           >
             {[
               {
@@ -1287,7 +1287,7 @@ function StepItUpLanding() {
             display: 'grid',
             alignItems: 'center',
           }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20"
         >
           {/* Left: CTA copy */}
           <div className="reveal">
