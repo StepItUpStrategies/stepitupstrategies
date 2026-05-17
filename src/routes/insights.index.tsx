@@ -151,16 +151,6 @@ export default function Insights() {
             zIndex: 1,
           }}
         >
-          <span
-            className="section-label"
-            style={{
-              color: 'var(--color-orange)',
-              marginBottom: '1.25rem',
-              display: 'inline-flex',
-            }}
-          >
-            Knowledge Center
-          </span>
           <h2
             style={{
               fontFamily: 'var(--font-display)',
