@@ -60,7 +60,7 @@ function useTextToSpeech(text: string) {
 
     window.speechSynthesis.cancel()
     const utterance = new SpeechSynthesisUtterance(text)
-    utterance.rate = 1.15
+    utterance.rate = 1.02
     utterance.pitch = 1
     if (femaleVoice) {
       utterance.voice = femaleVoice
