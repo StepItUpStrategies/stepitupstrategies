@@ -12,7 +12,7 @@ export default function InsightPost() {
   const post = Route.useLoaderData()
 
   return (
-    <div className="bg-[#F7F3EC] min-h-screen text-blue-950 px-6 py-16">
+    <div className="min-h-screen text-blue-950 px-6 py-16" style={{ background: 'var(--color-cream)' }}>
       <div className="max-w-4xl mx-auto space-y-8">
         <Link
           to="/insights"
@@ -33,9 +33,6 @@ export default function InsightPost() {
             }}
           />
           <div className="p-10">
-            <span className="inline-block uppercase text-orange-500 text-xs tracking-[0.3em] mb-4">
-              {post.category}
-            </span>
             <h1 className="text-4xl font-serif text-blue-950 mb-4">{post.title}</h1>
             <p className="text-lg text-blue-800 mb-10 italic">{post.summary}</p>
             <div
