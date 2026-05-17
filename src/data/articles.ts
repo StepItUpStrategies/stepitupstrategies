@@ -5,6 +5,7 @@ export interface Article {
   summary: string
   image: string
   content: string
+  publishedAt?: string
 }
 
 export const articles: Article[] = [
@@ -15,6 +16,7 @@ export const articles: Article[] = [
     summary:
       'Restaurant kitchen layout design drives speed, labor efficiency, food quality, and safety. A layout built around flow, menu, and staffing reality outperforms one designed around equipment alone.',
     image: '/articles/restaurant-kitchen-layout-design-that-works.webp',
+    publishedAt: '2025-05-14T10:00:00Z',
     content: `<p>A kitchen can look sharp on paper and still fail on a Friday night. Tickets stack, cooks cross paths, plating gets jammed, dish backs up, and suddenly your labor model and guest experience both take a hit. That is why restaurant kitchen layout design is not an aesthetic exercise. It is an operational decision that affects throughput, food quality, staffing, safety, and margin every shift.</p>
 <p>Operators usually feel layout problems before they can name them. Prep takes too long. The expo line gets buried at peak. One station has no cold storage while another has too much. Servers cut through production paths to reach service areas. None of that shows up as one dramatic failure. It shows up as drag on the business.</p>
 <p>Good design fixes drag. It creates motion with less friction, fewer steps, cleaner handoffs, and more predictable output. If you are opening a new concept, remodeling an existing kitchen, or trying to increase volume without adding square footage, layout deserves the same scrutiny as your lease, menu pricing, and labor plan.</p>
@@ -62,6 +64,7 @@ export const articles: Article[] = [
     summary:
       'Bar menu consulting services help operators build profitable, efficient beverage programs that fit the concept, staff, and guest demand.',
     image: '/articles/bar-menu-consulting-services-that-sell.webp',
+    publishedAt: '2025-05-12T10:00:00Z',
     content: `<p>A bar menu can look sharp on paper and still fail where it counts - ticket times, pour cost, staff execution, and repeat orders. That is why bar menu consulting services matter. The real job is not writing clever cocktail names or chasing trends. It is building a beverage program that fits the concept, performs under pressure, and produces margin without slowing the room down.</p>
 <p>For operators, that distinction is expensive. A menu with too many low-velocity ingredients ties up cash and creates waste. A cocktail list that requires advanced technique on a lean labor model breaks down on a Friday night. A wine or spirits selection that does not match the guest profile turns inventory into dead stock. Good consulting fixes those problems before they hit the P&L.</p>
 <h2>What bar menu consulting services should actually deliver</h2>
@@ -102,6 +105,7 @@ export const articles: Article[] = [
     summary:
       'A restaurant concept development consultant helps turn ideas into profitable operations with sharper positioning, smarter systems, and cleaner execution.',
     image: '/articles/restaurant-concept-development-consultant.webp',
+    publishedAt: '2025-05-10T10:00:00Z',
     content: `<p>A good idea is not a restaurant concept. It is a starting point.</p>
 <p>That distinction matters because most openings do not struggle from lack of creativity. They struggle because the concept sounds strong in a pitch meeting but breaks down under rent, labor, food cost, permitting delays, guest expectations, and day-two operations. A restaurant concept development consultant closes that gap. The job is not to make a concept sound exciting. It is to make sure it can survive contact with the real business.</p>
 <p>For founders, ownership groups, and operators, concept development is where strategy either earns its keep or creates expensive problems later. If the concept is vague, the menu bloats, the labor model drifts, the build-out gets inefficient, and marketing starts making promises operations cannot keep. Fixing those mistakes after opening is always slower and more expensive than getting the concept right upfront.</p>
@@ -146,6 +150,7 @@ export const articles: Article[] = [
     summary:
       'Learn how to reduce food cost with practical restaurant strategies for purchasing, prep, pricing, portion control, and waste reduction.',
     image: '/articles/how-to-reduce-food-cost-without-cutting-quality.webp',
+    publishedAt: '2025-05-08T10:00:00Z',
     content: `<p>If your prime cost is drifting up while sales look flat, you do not have a food problem. You have a control problem. That is usually where operators get stuck when they ask how to reduce food cost. They look for one fix - cheaper vendors, smaller portions, fewer ingredients - when the real answer is tighter systems across purchasing, prep, pricing, and accountability.</p>
 <p>Food cost does not move for one reason. It moves because a dozen small decisions are happening every day without enough discipline behind them. The operators who improve margins consistently are not guessing. They know what each plate should cost, what each case should yield, where waste is showing up, and who owns the result.</p>
 <h2>How to reduce food cost starts with the right number</h2>
