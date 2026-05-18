@@ -1343,6 +1343,32 @@ function StepItUpLanding() {
                 </svg>
                 brian@stepitupstrategies.com
               </a>
+              <a
+                href="https://www.instagram.com/stepitupstrategies/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  color: 'var(--color-blue)',
+                  textDecoration: 'none',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '0.02em',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue)')}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+                Follow Us on Instagram
+              </a>
             </div>
           </div>
 
