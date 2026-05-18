@@ -74,50 +74,46 @@ function dbRowToArticle(row: {
   }
 }
 
+async function getAllMergedArticles(): Promise<Article[]> {
+  let dbArticles: Article[] = []
+  try {
+    const { db } = await import('../../db/index')
+    const { articles: articlesTable } = await import('../../db/schema')
+    const { desc } = await import('drizzle-orm')
+    const rows = await db
+      .select()
+      .from(articlesTable)
+      .orderBy(desc(articlesTable.publishedAt))
+    dbArticles = rows.map(dbRowToArticle)
+  } catch {
+    // DB not available
+  }
+
+  const soroArticles = await fetchSoroArticleList()
+  const soroMapped = soroArticles.map(soroToArticle)
+
+  const dbSlugs = new Set(dbArticles.map((a) => a.slug))
+  const newFromSoro = soroMapped.filter((a) => !dbSlugs.has(a.slug))
+
+  const all = [...dbArticles, ...newFromSoro]
+  all.sort(
+    (a, b) =>
+      new Date(b.publishedAt ?? 0).getTime() -
+      new Date(a.publishedAt ?? 0).getTime()
+  )
+  return all
+}
+
 export const getCurrentArticles = createServerFn({ method: 'GET' }).handler(
   async () => {
-    try {
-      const { db } = await import('../../db/index')
-      const { articles: articlesTable } = await import('../../db/schema')
-      const { desc } = await import('drizzle-orm')
-      const rows = await db
-        .select()
-        .from(articlesTable)
-        .orderBy(desc(articlesTable.publishedAt))
-        .limit(3)
-
-      if (rows.length > 0) {
-        return rows.map(dbRowToArticle)
-      }
-    } catch {
-      // DB not available
-    }
-
-    const soroArticles = await fetchSoroArticleList()
-    return soroArticles.slice(0, 3).map(soroToArticle)
+    const articles = await getAllMergedArticles()
+    return articles.slice(0, 3)
   }
 )
 
 export const getArchiveArticles = createServerFn({ method: 'GET' }).handler(
   async () => {
-    try {
-      const { db } = await import('../../db/index')
-      const { articles: articlesTable } = await import('../../db/schema')
-      const { desc } = await import('drizzle-orm')
-      const rows = await db
-        .select()
-        .from(articlesTable)
-        .orderBy(desc(articlesTable.publishedAt))
-
-      if (rows.length > 0) {
-        return rows.map(dbRowToArticle)
-      }
-    } catch {
-      // DB not available
-    }
-
-    const soroArticles = await fetchSoroArticleList()
-    return soroArticles.map(soroToArticle)
+    return getAllMergedArticles()
   }
 )
 
