@@ -30,7 +30,7 @@ function getFemaleVoice(): SpeechSynthesisVoice | undefined {
   return undefined
 }
 
-function splitIntoChunks(text: string, maxLen = 150): string[] {
+function splitIntoChunks(text: string, maxLen = 200): string[] {
   const raw = text.match(/[^.!?]+[.!?]+[\s]*/g)
   const sentences = raw ? [...raw] : []
   const matched = sentences.join('')
@@ -56,8 +56,9 @@ function useTextToSpeech(text: string) {
   const [state, setState] = useState<TtsState>('idle')
   const chunksRef = useRef<string[]>([])
   const chunkIndexRef = useRef(0)
-  const keepAliveRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const cancelledRef = useRef(false)
+  const advancedRef = useRef(false)
+  const watchdogRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [femaleVoice, setFemaleVoice] = useState<SpeechSynthesisVoice | undefined>()
 
   useEffect(() => {
@@ -67,51 +68,68 @@ function useTextToSpeech(text: string) {
     return () => {
       window.speechSynthesis.removeEventListener('voiceschanged', pickVoice)
       window.speechSynthesis.cancel()
-      if (keepAliveRef.current) clearInterval(keepAliveRef.current)
+      if (watchdogRef.current) clearInterval(watchdogRef.current)
     }
   }, [])
 
-  const clearKeepAlive = useCallback(() => {
-    if (keepAliveRef.current) {
-      clearInterval(keepAliveRef.current)
-      keepAliveRef.current = null
+  const clearWatchdog = useCallback(() => {
+    if (watchdogRef.current) {
+      clearInterval(watchdogRef.current)
+      watchdogRef.current = null
     }
   }, [])
-
-  const startKeepAlive = useCallback(() => {
-    clearKeepAlive()
-    keepAliveRef.current = setInterval(() => {
-      if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
-        window.speechSynthesis.pause()
-        window.speechSynthesis.resume()
-      }
-    }, 10000)
-  }, [clearKeepAlive])
 
   const speakFrom = useCallback(
     (index: number) => {
+      if (cancelledRef.current) return
       if (index >= chunksRef.current.length) {
-        clearKeepAlive()
+        clearWatchdog()
         setState('idle')
         return
       }
-      const utterance = new SpeechSynthesisUtterance(chunksRef.current[index])
+
+      advancedRef.current = false
+      const chunk = chunksRef.current[index]
+      const utterance = new SpeechSynthesisUtterance(chunk)
       utterance.rate = 0.96
       utterance.pitch = 1
       if (femaleVoice) utterance.voice = femaleVoice
-      utterance.onend = () => {
-        if (cancelledRef.current) return
+
+      const advance = () => {
+        if (advancedRef.current || cancelledRef.current) return
+        advancedRef.current = true
+        clearWatchdog()
         chunkIndexRef.current = index + 1
-        speakFrom(index + 1)
+        setTimeout(() => {
+          if (!cancelledRef.current) speakFrom(index + 1)
+        }, 50)
       }
-      utterance.onerror = () => {
+
+      utterance.onend = advance
+
+      utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
         if (cancelledRef.current) return
-        clearKeepAlive()
+        if (e.error === 'interrupted' || e.error === 'canceled') return
+        advancedRef.current = true
+        clearWatchdog()
         setState('idle')
       }
+
       window.speechSynthesis.speak(utterance)
+
+      clearWatchdog()
+      watchdogRef.current = setInterval(() => {
+        if (advancedRef.current || cancelledRef.current) {
+          clearWatchdog()
+          return
+        }
+        if (!window.speechSynthesis.speaking && !window.speechSynthesis.pending) {
+          clearWatchdog()
+          advance()
+        }
+      }, 500)
     },
-    [femaleVoice, clearKeepAlive],
+    [femaleVoice, clearWatchdog],
   )
 
   const stop = useCallback(() => {
@@ -119,17 +137,16 @@ function useTextToSpeech(text: string) {
     window.speechSynthesis.cancel()
     chunksRef.current = []
     chunkIndexRef.current = 0
-    clearKeepAlive()
+    clearWatchdog()
     setState('idle')
     setTimeout(() => {
       cancelledRef.current = false
     }, 0)
-  }, [clearKeepAlive])
+  }, [clearWatchdog])
 
   const play = useCallback(() => {
     cancelledRef.current = false
     if (state === 'paused') {
-      startKeepAlive()
       speakFrom(chunkIndexRef.current)
       setState('playing')
       return
@@ -137,20 +154,19 @@ function useTextToSpeech(text: string) {
     window.speechSynthesis.cancel()
     chunksRef.current = splitIntoChunks(text)
     chunkIndexRef.current = 0
-    startKeepAlive()
     speakFrom(0)
     setState('playing')
-  }, [text, state, speakFrom, startKeepAlive])
+  }, [text, state, speakFrom])
 
   const pause = useCallback(() => {
     cancelledRef.current = true
     window.speechSynthesis.cancel()
-    clearKeepAlive()
+    clearWatchdog()
     setState('paused')
     setTimeout(() => {
       cancelledRef.current = false
     }, 0)
-  }, [clearKeepAlive])
+  }, [clearWatchdog])
 
   return { state, play, pause, stop }
 }
