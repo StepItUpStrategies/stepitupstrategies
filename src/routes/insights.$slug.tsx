@@ -30,9 +30,34 @@ function getFemaleVoice(): SpeechSynthesisVoice | undefined {
   return undefined
 }
 
+function splitIntoChunks(text: string, maxLen = 150): string[] {
+  const raw = text.match(/[^.!?]+[.!?]+[\s]*/g)
+  const sentences = raw ? [...raw] : []
+  const matched = sentences.join('')
+  if (matched.length < text.length) {
+    const remainder = text.slice(matched.length).trim()
+    if (remainder) sentences.push(remainder)
+  }
+  const chunks: string[] = []
+  let current = ''
+  for (const s of sentences) {
+    if (current.length + s.length > maxLen && current) {
+      chunks.push(current.trim())
+      current = s
+    } else {
+      current += s
+    }
+  }
+  if (current.trim()) chunks.push(current.trim())
+  return chunks.length > 0 ? chunks : [text]
+}
+
 function useTextToSpeech(text: string) {
   const [state, setState] = useState<TtsState>('idle')
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
+  const chunksRef = useRef<string[]>([])
+  const chunkIndexRef = useRef(0)
+  const keepAliveRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const cancelledRef = useRef(false)
   const [femaleVoice, setFemaleVoice] = useState<SpeechSynthesisVoice | undefined>()
 
   useEffect(() => {
@@ -42,46 +67,90 @@ function useTextToSpeech(text: string) {
     return () => {
       window.speechSynthesis.removeEventListener('voiceschanged', pickVoice)
       window.speechSynthesis.cancel()
+      if (keepAliveRef.current) clearInterval(keepAliveRef.current)
     }
   }, [])
 
-  const stop = useCallback(() => {
-    window.speechSynthesis.cancel()
-    utteranceRef.current = null
-    setState('idle')
+  const clearKeepAlive = useCallback(() => {
+    if (keepAliveRef.current) {
+      clearInterval(keepAliveRef.current)
+      keepAliveRef.current = null
+    }
   }, [])
 
+  const startKeepAlive = useCallback(() => {
+    clearKeepAlive()
+    keepAliveRef.current = setInterval(() => {
+      if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+        window.speechSynthesis.pause()
+        window.speechSynthesis.resume()
+      }
+    }, 10000)
+  }, [clearKeepAlive])
+
+  const speakFrom = useCallback(
+    (index: number) => {
+      if (index >= chunksRef.current.length) {
+        clearKeepAlive()
+        setState('idle')
+        return
+      }
+      const utterance = new SpeechSynthesisUtterance(chunksRef.current[index])
+      utterance.rate = 0.96
+      utterance.pitch = 1
+      if (femaleVoice) utterance.voice = femaleVoice
+      utterance.onend = () => {
+        if (cancelledRef.current) return
+        chunkIndexRef.current = index + 1
+        speakFrom(index + 1)
+      }
+      utterance.onerror = () => {
+        if (cancelledRef.current) return
+        clearKeepAlive()
+        setState('idle')
+      }
+      window.speechSynthesis.speak(utterance)
+    },
+    [femaleVoice, clearKeepAlive],
+  )
+
+  const stop = useCallback(() => {
+    cancelledRef.current = true
+    window.speechSynthesis.cancel()
+    chunksRef.current = []
+    chunkIndexRef.current = 0
+    clearKeepAlive()
+    setState('idle')
+    setTimeout(() => {
+      cancelledRef.current = false
+    }, 0)
+  }, [clearKeepAlive])
+
   const play = useCallback(() => {
+    cancelledRef.current = false
     if (state === 'paused') {
-      window.speechSynthesis.resume()
+      startKeepAlive()
+      speakFrom(chunkIndexRef.current)
       setState('playing')
       return
     }
-
     window.speechSynthesis.cancel()
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.rate = 0.99
-    utterance.pitch = 1
-    if (femaleVoice) {
-      utterance.voice = femaleVoice
-    }
-    utterance.onend = () => {
-      utteranceRef.current = null
-      setState('idle')
-    }
-    utterance.onerror = () => {
-      utteranceRef.current = null
-      setState('idle')
-    }
-    utteranceRef.current = utterance
-    window.speechSynthesis.speak(utterance)
+    chunksRef.current = splitIntoChunks(text)
+    chunkIndexRef.current = 0
+    startKeepAlive()
+    speakFrom(0)
     setState('playing')
-  }, [text, state, femaleVoice])
+  }, [text, state, speakFrom, startKeepAlive])
 
   const pause = useCallback(() => {
-    window.speechSynthesis.pause()
+    cancelledRef.current = true
+    window.speechSynthesis.cancel()
+    clearKeepAlive()
     setState('paused')
-  }, [])
+    setTimeout(() => {
+      cancelledRef.current = false
+    }, 0)
+  }, [clearKeepAlive])
 
   return { state, play, pause, stop }
 }
