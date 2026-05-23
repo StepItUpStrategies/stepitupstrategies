@@ -431,10 +431,11 @@ export default function Insights() {
           >
             {archiveArticles.length > 0 ? (
               <div
+                className="archive-cards-grid"
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-                  gap: '2rem',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                  gap: '1rem',
                 }}
               >
                 {archiveArticles.map((article) => (
@@ -445,10 +446,10 @@ export default function Insights() {
                     style={{ textDecoration: 'none', display: 'block' }}
                   >
                     <div
-                      className="current-article-card"
+                      className="archive-card"
                       style={{
                         background: '#fff',
-                        borderRadius: '1.25rem',
+                        borderRadius: '0.75rem',
                         overflow: 'hidden',
                         border: '1px solid rgba(255,255,255,0.15)',
                         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
@@ -460,7 +461,7 @@ export default function Insights() {
                       <div
                         style={{
                           width: '100%',
-                          height: '220px',
+                          height: '120px',
                           overflow: 'hidden',
                           position: 'relative',
                         }}
@@ -477,15 +478,15 @@ export default function Insights() {
                           }}
                         />
                       </div>
-                      <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ padding: '0.875rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
                         <h3
                           style={{
                             fontFamily: 'var(--font-display)',
-                            fontSize: '1.3rem',
+                            fontSize: '1rem',
                             fontWeight: 700,
                             lineHeight: 1.25,
                             color: 'var(--color-blue)',
-                            margin: '0 0 0.75rem',
+                            margin: '0 0 0.4rem',
                             letterSpacing: '-0.01em',
                           }}
                         >
@@ -494,13 +495,13 @@ export default function Insights() {
                         <p
                           style={{
                             fontFamily: 'var(--font-body)',
-                            fontSize: '0.92rem',
-                            lineHeight: 1.6,
+                            fontSize: '0.8rem',
+                            lineHeight: 1.5,
                             color: 'var(--color-ink-soft)',
-                            margin: '0 0 1.25rem',
+                            margin: '0 0 0.6rem',
                             flex: 1,
                             display: '-webkit-box',
-                            WebkitLineClamp: 3,
+                            WebkitLineClamp: 2,
                             WebkitBoxOrient: 'vertical',
                             overflow: 'hidden',
                           }}
@@ -510,20 +511,20 @@ export default function Insights() {
                         <span
                           style={{
                             fontFamily: 'var(--font-display)',
-                            fontSize: '0.78rem',
+                            fontSize: '0.7rem',
                             fontWeight: 600,
                             letterSpacing: '0.06em',
                             textTransform: 'uppercase',
                             color: 'var(--color-orange)',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '0.4rem',
+                            gap: '0.3rem',
                           }}
                         >
                           Read Article
                           <svg
-                            width="14"
-                            height="14"
+                            width="12"
+                            height="12"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
