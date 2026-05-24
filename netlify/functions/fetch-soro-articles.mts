@@ -64,6 +64,7 @@ export default async (_req: Request, _context: Context) => {
     console.log(`Found ${soroArticles.length} articles from Soro`)
 
     let inserted = 0
+    let updated = 0
 
     for (const article of soroArticles) {
       const existing = await db
@@ -71,9 +72,9 @@ export default async (_req: Request, _context: Context) => {
         .from(articlesTable)
         .where(eq(articlesTable.slug, article.slug))
 
-      if (existing.length === 0) {
-        const content = await fetchArticleContent(article.id)
+      const content = await fetchArticleContent(article.id)
 
+      if (existing.length === 0) {
         await db.insert(articlesTable).values({
           slug: article.slug,
           title: article.title,
@@ -86,10 +87,22 @@ export default async (_req: Request, _context: Context) => {
         })
         console.log(`Inserted: ${article.title}`)
         inserted++
+      } else {
+        await db
+          .update(articlesTable)
+          .set({
+            title: article.title,
+            summary: article.excerpt,
+            imageUrl: article.image || '/placeholder.png',
+            content: content || article.excerpt,
+            publishedAt: new Date(article.isoDate),
+          })
+          .where(eq(articlesTable.slug, article.slug))
+        updated++
       }
     }
 
-    const msg = `Done — ${inserted} new article(s) added`
+    const msg = `Done — ${inserted} new, ${updated} updated`
     console.log(msg)
     return new Response(msg, { status: 200 })
   } catch (err) {
