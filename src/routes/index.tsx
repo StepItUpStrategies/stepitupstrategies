@@ -1244,9 +1244,8 @@ function StepItUpLanding() {
               border: '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '18px',
               display: 'flex',
-              flexWrap: 'wrap',
-              gap: '0.75rem',
-              alignItems: 'center',
+              gap: '1rem',
+              alignItems: 'flex-start',
             }}
           >
             <span
@@ -1262,34 +1261,44 @@ function StepItUpLanding() {
             >
               Sectors Served
             </span>
-            {[
-              'Full-Service Restaurants',
-              'Quick Service & Fast Casual',
-              'Hotels & Resorts',
-              'Bars & Nightclubs',
-              'Entertainment Complexes',
-              'Retail Boutiques',
-              'Specialty Food & Beverage Retail',
-              'Event Venues',
-              'Pop-ups & Concepts',
-              'And Beyond',
-            ].map((sector) => (
-              <span
-                key={sector}
-                style={{
-                  padding: '0.55rem 1rem',
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
-                  borderRadius: '999px',
-                  fontSize: '0.82rem',
-                  color: 'rgba(255, 255, 255, 0.92)',
-                  letterSpacing: '0.02em',
-                  fontWeight: 500,
-                  fontFamily: 'var(--font-body)',
-                }}
-              >
-                {sector}
-              </span>
-            ))}
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                gap: '0.75rem',
+              }}
+            >
+              {[
+                'Full-Service Restaurants',
+                'Quick Service & Fast Casual',
+                'Hotels & Resorts',
+                'Bars & Nightclubs',
+                'Retail Boutiques',
+                'Entertainment Complexes',
+                'Specialty Food & Beverage Retail',
+                'Event Venues',
+                'Pop-ups & Concepts',
+                'And Beyond',
+              ].map((sector) => (
+                <span
+                  key={sector}
+                  style={{
+                    padding: '0.55rem 1rem',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    borderRadius: '999px',
+                    fontSize: '0.82rem',
+                    color: 'rgba(255, 255, 255, 0.92)',
+                    letterSpacing: '0.02em',
+                    fontWeight: 500,
+                    fontFamily: 'var(--font-body)',
+                  }}
+                >
+                  {sector}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
