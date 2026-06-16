@@ -646,6 +646,18 @@ function StepItUpLanding() {
                 },
                 "serviceType": "Digital Services",
                 "areaServed": "United States"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "name": "Full Scale Business Accounting",
+                "description": "End-to-end accounting built for hospitality and retail — bookkeeping, payroll, accounts payable and receivable, financial reporting, and controller-level oversight. We keep your books clean, your cash flow clear, and your business audit-ready.",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Step It Up Strategies"
+                },
+                "serviceType": "Accounting Services",
+                "areaServed": "United States"
               }
             ])
           }}
@@ -741,6 +753,11 @@ function StepItUpLanding() {
               number: '08',
               title: 'Website Design',
               body: 'Modern, conversion-focused websites built to showcase your concept and drive bookings, orders, and inquiries. From brand-aligned visual design to mobile-first builds and ongoing content updates.',
+            },
+            {
+              number: '09',
+              title: 'Full Scale Business Accounting',
+              body: 'End-to-end accounting built for hospitality and retail — bookkeeping, payroll, accounts payable and receivable, financial reporting, and controller-level oversight. We keep your books clean, your cash flow clear, and your business audit-ready.',
             },
           ].map((service) => (
             <div
@@ -909,9 +926,14 @@ function StepItUpLanding() {
                   delay: 'reveal-delay-4',
                 },
                 {
+                  role: 'Certified Bookkeepers & Accountants',
+                  desc: 'Certified bookkeeping and accounting expertise — from day-to-day ledgers and payroll to financial reporting and controller-level oversight, keeping the numbers accurate and the business audit-ready.',
+                  delay: 'reveal-delay-5',
+                },
+                {
                   role: 'Owner Operators',
                   desc: 'First-hand ownership and operating experience — we have built, opened, and run our own concepts, carrying the same risk, capital, and accountability our clients face every day.',
-                  delay: 'reveal-delay-5',
+                  delay: 'reveal-delay-6',
                 },
               ].map(({ role, desc, delay }) => (
                 <div
@@ -1368,6 +1390,28 @@ function StepItUpLanding() {
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
                 Follow Us on Instagram
+              </a>
+              <a
+                href="tel:+13215130479"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  color: 'var(--color-blue)',
+                  textDecoration: 'none',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '0.02em',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue)')}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                </svg>
+                Have Questions? Call us at (321) 513-0479
               </a>
             </div>
           </div>
