@@ -1578,7 +1578,16 @@ function StepItUpLanding() {
               }}
               className="text-center md:text-left"
             >
-              504 W Plant St. Winter Garden, FL 34787
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=504+W+Plant+St,+Winter+Garden,+FL+34787"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.95)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'inherit')}
+              >
+                504 W Plant St. Winter Garden, FL 34787
+              </a>
             </address>
           </div>
 
