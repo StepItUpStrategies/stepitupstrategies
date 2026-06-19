@@ -1244,8 +1244,9 @@ function StepItUpLanding() {
               border: '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '18px',
               display: 'flex',
-              gap: '1rem',
-              alignItems: 'flex-start',
+              flexDirection: 'column',
+              gap: '1.25rem',
+              alignItems: 'stretch',
             }}
           >
             <span
@@ -1256,19 +1257,12 @@ function StepItUpLanding() {
                 textTransform: 'uppercase',
                 color: 'var(--color-orange-light)',
                 fontWeight: 700,
-                marginRight: '1rem',
               }}
             >
               Sectors Served
             </span>
             <div
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',
-                gap: '0.75rem',
-              }}
+              className="sector-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"
             >
               {[
                 'Full-Service Restaurants',
@@ -1285,7 +1279,8 @@ function StepItUpLanding() {
                 <span
                   key={sector}
                   style={{
-                    padding: '0.55rem 1rem',
+                    height: '3.25rem',
+                    padding: '0 1rem',
                     border: '1px solid rgba(255, 255, 255, 0.18)',
                     borderRadius: '999px',
                     fontSize: '0.82rem',
@@ -1293,6 +1288,11 @@ function StepItUpLanding() {
                     letterSpacing: '0.02em',
                     fontWeight: 500,
                     fontFamily: 'var(--font-body)',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
                   }}
                 >
                   {sector}
