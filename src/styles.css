@@ -355,6 +355,14 @@ body {
   background: var(--color-orange-soft);
 }
 
+/* Sectors Served grid — on phones held upright, stack one bubble per line.
+   In landscape (and on larger screens) the multi-column layout is kept. */
+@media (max-width: 767px) and (orientation: portrait) {
+  .sector-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Form inputs */
 .form-input {
   background: #fff;
