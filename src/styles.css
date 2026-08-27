@@ -486,3 +486,26 @@ body {
   opacity: 0.9;
 }
 
+
+/* Logo lockup — the logo image stacked over the orange descriptor line. Named
+   distinctly from .brand-tagline above, which is the "CLARIFY • PRIORITIZE •
+   GROW" line used in the hero and footer bars. */
+.logo-lockup {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Scales with the viewport so the single line never outgrows the narrow nav
+   gap between the logo and the mobile menu button on small phones. */
+.logo-tagline {
+  font-family: var(--font-body);
+  font-size: clamp(0.42rem, 2.1vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--color-orange);
+  white-space: nowrap;
+}

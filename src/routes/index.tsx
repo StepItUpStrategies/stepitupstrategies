@@ -16,26 +16,33 @@ function BrandLogo({
   height,
   alt = 'Step It Up Strategies',
   className = '',
+  heightClass = 'h-[99px] lg:h-[132px]',
   loading = 'eager' as 'eager' | 'lazy',
   fetchPriority = 'auto' as 'high' | 'low' | 'auto',
 }: {
   height?: number
   alt?: string
   className?: string
+  heightClass?: string
   loading?: 'eager' | 'lazy'
   fetchPriority?: 'high' | 'low' | 'auto'
 }) {
   return (
-    <img
-      src="/.netlify/images?url=/logo.png&w=440&q=80"
-      alt={alt}
-      width={440}
-      height={264}
-      className={`h-[99px] lg:h-[132px] ${className}`}
-      style={{ width: 'auto', display: 'block' }}
-      loading={loading}
-      fetchPriority={fetchPriority}
-    />
+    <span className="logo-lockup">
+      <img
+        src="/.netlify/images?url=/logo.png&w=440&q=80"
+        alt={alt}
+        width={440}
+        height={264}
+        className={`${heightClass} ${className}`}
+        style={{ width: 'auto', display: 'block' }}
+        loading={loading}
+        fetchPriority={fetchPriority}
+      />
+      <span className="logo-tagline">
+        BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
+      </span>
+    </span>
   )
 }
 
@@ -218,7 +225,10 @@ function StepItUpLanding() {
           className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
-          <BrandLogo fetchPriority="high" />
+          <BrandLogo
+            fetchPriority="high"
+            heightClass="h-[70px] lg:h-[96px]"
+          />
         </a>
 
         {/* Desktop Nav */}
