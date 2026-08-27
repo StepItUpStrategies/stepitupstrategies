@@ -1,9 +1,13 @@
 'use client'
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
+import { SERVICES } from '../data/services'
 
 export const Route = createFileRoute('/')({
   component: StepItUpLanding,
+  head: () => ({
+    links: [{ rel: 'canonical', href: 'https://www.stepitupstrategies.com/' }],
+  }),
 })
 
 // ─── Brand Logo ──────────────────────────────────────────────────────────────
@@ -713,66 +717,24 @@ function StepItUpLanding() {
           }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
         >
-          {[
-            {
-              number: '01',
-              title: 'Restaurant Consulting',
-              body: 'From concept to grand opening and beyond — operational systems, menu engineering, staff structure, and profitability modeling tailored to your concept and market.',
-            },
-            {
-              number: '02',
-              title: 'Retail Strategy',
-              body: 'Merchandise planning, floor layout optimization, vendor relationships, shrinkage control, and customer experience design for retail environments.',
-            },
-            {
-              number: '03',
-              title: 'Entertainment Venues',
-              body: 'Multi-revenue-stream operations including bar programs, event logistics, staffing frameworks, and the financial controls that keep entertainment businesses healthy.',
-            },
-            {
-              number: '04',
-              title: 'Menu Creation & Food Cost Analysis',
-              body: 'Recipe development, costing, and menu engineering for profit maximization. We analyze every line item so your kitchen runs with precision — and profitability.',
-            },
-            {
-              number: '05',
-              title: 'Beverage Programs & Bar Layout Design',
-              body: 'Certified sommeliers and spirit experts design your wine list, cocktail program, and spirits selection from scratch. We also consult on bar layout for optimal speed-of-service and revenue per square foot.',
-            },
-            {
-              number: '06',
-              title: 'Kitchen Layout & Design Consulting',
-              body: 'Flow-optimized kitchen designs that reduce labor costs and improve ticket times. We work with your architects and equipment vendors to get it right before the first nail is driven.',
-            },
-            {
-              number: '07',
-              title: 'Permitting & Licensing',
-              body: 'Liquor licenses, health permits, occupancy certificates, entertainment licenses — we acquire and maintain all permits required for opening new businesses and sustaining operational readiness.',
-            },
-            {
-              number: '08',
-              title: 'Website Design',
-              body: 'Modern, conversion-focused websites built to showcase your concept and drive bookings, orders, and inquiries. From brand-aligned visual design to mobile-first builds and ongoing content updates.',
-            },
-            {
-              number: '09',
-              title: 'Full Scale Business Accounting',
-              body: 'End-to-end accounting built for hospitality and retail — bookkeeping, payroll, accounts payable and receivable, financial reporting, and controller-level oversight. We keep your books clean, your cash flow clear, and your business audit-ready.',
-            },
-          ].map((service) => (
-            <div
-              key={service.number}
+          {SERVICES.map((service) => (
+            <Link
+              key={service.slug}
+              to="/services/$slug"
+              params={{ slug: service.slug }}
               className="service-card reveal"
+              aria-label={`${service.title} — view full capabilities`}
               style={{
                 background: '#fff',
                 padding: '2.25rem',
                 border: '1.5px solid var(--color-line)',
                 borderRadius: '18px',
-                cursor: 'default',
+                cursor: 'pointer',
                 position: 'relative',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
+                textDecoration: 'none',
               }}
             >
               {/* Top accent bar */}
@@ -824,12 +786,28 @@ function StepItUpLanding() {
                   color: 'var(--color-ink-soft)',
                   fontSize: '0.95rem',
                   lineHeight: 1.7,
-                  margin: 0,
+                  margin: '0 0 1.5rem',
                 }}
               >
-                {service.body}
+                {service.cardBody}
               </p>
-            </div>
+              <span
+                style={{
+                  marginTop: 'auto',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-orange)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                }}
+              >
+                Explore capabilities →
+              </span>
+            </Link>
           ))}
         </div>
 

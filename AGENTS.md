@@ -23,10 +23,16 @@ A single-page marketing/landing site for **Step It Up Strategies**, a business m
 ```
 src/
 ├── routes/
-│   ├── __root.tsx      # Root shell: Google Fonts links, SEO meta, HTML structure
-│   └── index.tsx       # Entire landing page — all sections in one component
-├── styles.css          # Tailwind CSS 4 import + @theme tokens + animations
-└── router.tsx          # TanStack Router config (scroll restoration)
+│   ├── __root.tsx        # Root shell: Google Fonts links, SEO meta, HTML structure
+│   ├── index.tsx         # Landing page — all sections in one component
+│   ├── services.index.tsx  # /services — overview grid of the nine categories
+│   └── services.$slug.tsx  # /services/:slug — service detail page (one per category)
+├── components/
+│   └── PageChrome.tsx    # Shared nav + footer for interior pages
+├── data/
+│   └── services.ts       # Content for the nine service categories (single source of truth)
+├── styles.css            # Tailwind CSS 4 import + @theme tokens + animations
+└── router.tsx            # TanStack Router config (scroll restoration)
 public/
 ├── favicon.ico
 └── placeholder.png
@@ -38,6 +44,22 @@ public/
 
 ### Single-file Landing Page
 The entire site lives in `src/routes/index.tsx`. This is intentional — the site is a single marketing page. Breaking it into many component files would add indirection without benefit at this scale.
+
+### Service Detail Pages
+The nine "What We Do" cards on the landing page are rendered from `src/data/services.ts` and each
+links to `/services/<slug>`. That page is a single dynamic route (`services.$slug.tsx`) rather than
+nine files — the layout is identical, only the content differs. `/services` renders the same nine
+cards as a standalone overview.
+
+To edit or add a category, edit `src/data/services.ts` only. The homepage grid, the overview page,
+the footer service list, the sitemap-worthy URL, and the page's schema.org markup all derive from it.
+Slugs are public URLs — do not rename one without adding a redirect. Note that the `Service`
+JSON-LD block inside the `#services` section of `index.tsx` is still hand-maintained and is not
+generated from this data.
+
+Each detail page sets its own `<title>`, meta description, Open Graph tags, and canonical URL via the
+route's `head()`. Canonical URLs are per-route (the homepage sets its own in `index.tsx`) — the root
+route deliberately does not set one, or every page would canonicalize to the homepage.
 
 ### Design System via CSS Custom Properties
 All design tokens are defined in `src/styles.css` using `@theme` (Tailwind CSS 4 syntax) and standard CSS `--custom-property` variables:
@@ -66,7 +88,7 @@ Only React `useState` is used:
 1. **Nav** — Fixed, transparent → solid on scroll. Logo + desktop nav links + mobile hamburger
 2. **Hero** — Full-viewport, two-column: headline copy left, animated stat counters right
 3. **Credentials Ticker** — CSS marquee of expertise keywords (pauses on hover)
-4. **Services** (`#services`) — 7 service cards in a CSS grid (last card spans 2 columns)
+4. **Services** (`#services`) — 9 service cards in a CSS grid, each linking to `/services/<slug>`
 5. **Expertise** (`#expertise`) — 4 credential cards in a 2×2 grid
 6. **Financial Services** (`#financial`) — Accordion covering 7 accounting/controller functions
 7. **About / Philosophy** (`#about`) — Three philosophy cards + sector tag cloud
