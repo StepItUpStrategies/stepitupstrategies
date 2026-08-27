@@ -128,6 +128,8 @@ export function SiteFooter() {
                 href="https://www.google.com/maps/dir/?api=1&destination=504+W+Plant+St,+Winter+Garden,+FL+34787"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="pulse-address"
+                title="Get driving directions to our office"
                 style={{ color: 'inherit', textDecoration: 'none' }}
               >
                 504 W Plant St. Winter Garden, FL 34787
