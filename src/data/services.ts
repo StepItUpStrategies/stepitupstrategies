@@ -32,6 +32,8 @@ export type ServiceDetail = {
   faqs: ServiceFaq[]
   /** Slugs of two related services */
   related: string[]
+  /** Slugs of the four most closely related Insights articles */
+  relatedArticles: string[]
 }
 
 export const SERVICES: ServiceDetail[] = [
@@ -139,6 +141,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['menu-creation-food-cost-analysis', 'business-accounting'],
+    relatedArticles: [
+      'what-does-a-restaurant-consultant-do',
+      'restaurant-concept-development-consultant',
+      'restaurant-turnaround-consulting-that-works',
+      'what-restaurant-advisory-services-actually-fix',
+    ],
   },
 
   // ── 02 ─────────────────────────────────────────────────────────────────────
@@ -237,6 +245,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['business-accounting', 'website-design'],
+    relatedArticles: [
+      'retail-visual-merchandising-strategy',
+      'retail-floor-plan-optimization-that-sells',
+      'how-to-improve-retail-store-margins',
+      'how-to-scale-retail-operations',
+    ],
   },
 
   // ── 03 ─────────────────────────────────────────────────────────────────────
@@ -335,6 +349,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['beverage-programs-bar-design', 'permitting-licensing'],
+    relatedArticles: [
+      'what-nightclub-operations-consulting-fixes',
+      'event-venue-operations-plan',
+      'how-to-fix-venue-bottlenecks',
+      'what-licenses-does-a-nightclub-need',
+    ],
   },
 
   // ── 04 ─────────────────────────────────────────────────────────────────────
@@ -437,6 +457,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['beverage-programs-bar-design', 'kitchen-layout-design'],
+    relatedArticles: [
+      'menu-engineering-vs-menu-design',
+      'how-to-design-a-profitable-menu',
+      'how-to-price-menu-items-for-profit',
+      'how-to-reduce-food-cost-without-cutting-quality',
+    ],
   },
 
   // ── 05 ─────────────────────────────────────────────────────────────────────
@@ -539,6 +565,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['entertainment-venues', 'permitting-licensing'],
+    relatedArticles: [
+      'how-to-build-beverage-program',
+      'bar-menu-consulting-services-that-sell',
+      'what-a-bar-layout-design-consultant-fixes',
+      'best-bar-beverage-menu-ideas-for-bar-profit',
+    ],
   },
 
   // ── 06 ─────────────────────────────────────────────────────────────────────
@@ -637,6 +669,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['menu-creation-food-cost-analysis', 'permitting-licensing'],
+    relatedArticles: [
+      'restaurant-kitchen-layout-design-that-works',
+      'how-to-optimize-bar-layout',
+      'how-to-fix-venue-bottlenecks',
+      'how-to-improve-table-turnover-without-chaos',
+    ],
   },
 
   // ── 07 ─────────────────────────────────────────────────────────────────────
@@ -735,6 +773,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['restaurant-consulting', 'kitchen-layout-design'],
+    relatedArticles: [
+      'what-permits-does-a-restaurant-need',
+      'restaurant-permitting-checklist',
+      'liquor-license-consulting-help',
+      'how-to-open-a-bar-legally',
+    ],
   },
 
   // ── 08 ─────────────────────────────────────────────────────────────────────
@@ -833,6 +877,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['retail-strategy', 'restaurant-consulting'],
+    relatedArticles: [
+      'website-design-for-restaurants',
+      'restaurant-website-design-guide-for-operators',
+      'restaurant-concept-development-consultant',
+      'retail-visual-merchandising-strategy',
+    ],
   },
 
   // ── 09 ─────────────────────────────────────────────────────────────────────
@@ -935,6 +985,12 @@ export const SERVICES: ServiceDetail[] = [
       },
     ],
     related: ['restaurant-consulting', 'retail-strategy'],
+    relatedArticles: [
+      'hospitality-financial-controller-services',
+      'what-does-an-outsourced-controller-do',
+      'restaurant-profit-and-loss-help',
+      'how-to-fix-cash-flow-without-guesswork',
+    ],
   },
 ]
 

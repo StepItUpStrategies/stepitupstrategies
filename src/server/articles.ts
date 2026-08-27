@@ -177,3 +177,36 @@ export const getArticleBySlug = createServerFn({ method: 'GET' })
 
     throw new Error('Article not found')
   })
+
+/**
+ * Resolve a fixed list of article slugs to their archive metadata, preserving the
+ * order the slugs were requested in. Used by the service detail pages to render
+ * their "Related Articles" block. Content bodies are stripped so the payload
+ * stays small — these are teaser cards that link through to /insights/$slug.
+ *
+ * Slugs that no longer exist in the archive are silently dropped rather than
+ * rendered as dead links.
+ */
+export const getArticlesBySlugs = createServerFn({ method: 'GET' })
+  .inputValidator((slugs: string[]) => slugs)
+  .handler(async ({ data: slugs }) => {
+    const { articles: staticArticles } = await import('../data/articles')
+
+    const merged = await getAllMergedArticles()
+    const bySlug = new Map<string, Article>()
+    for (const article of [...staticArticles.map(withAuthorByline), ...merged]) {
+      bySlug.set(article.slug, article)
+    }
+
+    return slugs
+      .map((slug) => bySlug.get(slug))
+      .filter((a): a is Article => Boolean(a))
+      .map(({ slug, title, category, summary, image, publishedAt }) => ({
+        slug,
+        title,
+        category,
+        summary,
+        image,
+        publishedAt,
+      }))
+  })
