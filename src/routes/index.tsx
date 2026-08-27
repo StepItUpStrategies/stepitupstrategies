@@ -2,6 +2,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { SERVICES } from '../data/services'
+import { NotaryBadge } from '../components/NotaryBadge'
 
 export const Route = createFileRoute('/')({
   component: StepItUpLanding,
@@ -589,6 +590,79 @@ function StepItUpLanding() {
               />
             </span>
           ))}
+        </div>
+      </div>
+
+      {/* ── NOTARY PUBLIC STRIP ────────────────────────────────────────────
+          Additive band only — sits between the credentials ticker and the
+          services grid so the notary offering is visible without altering the
+          composition of any existing section. The notaries.com badge links to
+          its own bonding verification; the CTA is the link to /notary. */}
+      <div className="notary-strip">
+        <div className="notary-strip-inner">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.25rem',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            <NotaryBadge width={104} />
+            <div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-orange)',
+                  marginBottom: '0.35rem',
+                }}
+              >
+                New Service
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1.05rem, 2vw, 1.35rem)',
+                  fontWeight: 700,
+                  color: 'var(--color-blue)',
+                  lineHeight: 1.25,
+                }}
+              >
+                Notary Public Duties &mdash; Bonded, Licensed &amp; Commissioned
+              </div>
+              <div
+                style={{
+                  color: 'var(--color-ink-soft)',
+                  fontSize: '0.9rem',
+                  lineHeight: 1.6,
+                  marginTop: '0.3rem',
+                }}
+              >
+                In our Winter Garden office, mobile throughout Central Florida, and
+                online nationwide. By appointment only.
+              </div>
+            </div>
+          </div>
+
+          <Link to="/notary" className="notary-strip-cta">
+            Notary Public Services
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Link>
         </div>
       </div>
 
@@ -1635,6 +1709,7 @@ function StepItUpLanding() {
             {[
               ['Services', '#services'],
               ['Insights', '/insights'],
+              ['Notary', '/notary'],
               ['Expertise', '#expertise'],
               ['Financial', '#financial'],
               ['About', '#about'],
