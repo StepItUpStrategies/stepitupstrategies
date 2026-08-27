@@ -2,11 +2,19 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { SERVICES, getServiceBySlug } from '../data/services'
 import { SiteHeader, SiteFooter } from '../components/PageChrome'
+import { getArticlesBySlugs } from '../server/articles'
 
 const SITE = 'https://www.stepitupstrategies.com'
 
 export const Route = createFileRoute('/services/$slug')({
   component: ServiceDetailPage,
+  loader: async ({ params }) => {
+    const service = getServiceBySlug(params.slug)
+    if (!service) return { relatedArticles: [] }
+    return {
+      relatedArticles: await getArticlesBySlugs({ data: service.relatedArticles }),
+    }
+  },
   head: ({ params }) => {
     const service = getServiceBySlug(params.slug)
     if (!service) {
@@ -119,6 +127,7 @@ function NotFoundPanel() {
 
 function ServiceDetailPage() {
   const { slug } = Route.useParams()
+  const { relatedArticles } = Route.useLoaderData()
   const service = getServiceBySlug(slug)
 
   if (!service) return <NotFoundPanel />
@@ -596,6 +605,153 @@ function ServiceDetailPage() {
           </div>
         </div>
       </section>
+
+      {/* ── RELATED ARTICLES ─────────────────────────────────────────────── */}
+      {relatedArticles.length > 0 && (
+        <section
+          style={{
+            background: '#fff',
+            borderTop: '1px solid var(--color-line)',
+            borderBottom: '1px solid var(--color-line)',
+            padding: '5rem 2rem',
+          }}
+        >
+          <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+            <div
+              className="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+              style={{ marginBottom: '3rem' }}
+            >
+              <div>
+                <span className="section-label">Knowledge Center</span>
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.6rem, 2.4vw, 2.1rem)',
+                    fontWeight: 700,
+                    lineHeight: 1.14,
+                    color: 'var(--color-blue)',
+                    margin: '1.25rem 0 0.75rem',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  Related Articles
+                </h2>
+                <p
+                  style={{
+                    color: 'var(--color-ink-soft)',
+                    fontSize: '1rem',
+                    lineHeight: 1.75,
+                    maxWidth: '540px',
+                    margin: 0,
+                  }}
+                >
+                  Further reading from our insights archive on {service.title.toLowerCase()}.
+                </p>
+              </div>
+              <Link
+                to="/insights"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-orange)',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                View All Insights →
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+              {relatedArticles.map((article) => (
+                <Link
+                  key={article.slug}
+                  to="/insights/$slug"
+                  params={{ slug: article.slug }}
+                  className="service-card"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    background: 'var(--color-cream)',
+                    border: '1.5px solid var(--color-line)',
+                    borderRadius: '18px',
+                    overflow: 'hidden',
+                    textDecoration: 'none',
+                    height: '100%',
+                  }}
+                >
+                  <div style={{ width: '100%', height: '150px', overflow: 'hidden' }}>
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      padding: '1.5rem',
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '1.08rem',
+                        fontWeight: 700,
+                        lineHeight: 1.3,
+                        color: 'var(--color-blue)',
+                        margin: '0 0 0.6rem',
+                        letterSpacing: '-0.005em',
+                      }}
+                    >
+                      {article.title}
+                    </h3>
+                    <p
+                      style={{
+                        color: 'var(--color-ink-soft)',
+                        fontSize: '0.88rem',
+                        lineHeight: 1.6,
+                        margin: '0 0 1.25rem',
+                        flex: 1,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {article.summary}
+                    </p>
+                    <span
+                      style={{
+                        marginTop: 'auto',
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '0.7rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.14em',
+                        textTransform: 'uppercase',
+                        color: 'var(--color-orange)',
+                      }}
+                    >
+                      Read Article →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── RELATED + CTA ────────────────────────────────────────────────── */}
       <section
