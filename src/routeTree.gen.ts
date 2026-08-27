@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as ByTheNumbersRouteImport } from './routes/by-the-numbers'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
@@ -20,6 +21,11 @@ import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ByTheNumbersRoute = ByTheNumbersRouteImport.update({
+  id: '/by-the-numbers',
+  path: '/by-the-numbers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +61,7 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/by-the-numbers': typeof ByTheNumbersRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/products/$productId': typeof ProductsProductIdRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/by-the-numbers': typeof ByTheNumbersRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/products/$productId': typeof ProductsProductIdRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/by-the-numbers': typeof ByTheNumbersRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/products/$productId': typeof ProductsProductIdRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/by-the-numbers'
     | '/privacy-policy'
     | '/insights/$slug'
     | '/products/$productId'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/by-the-numbers'
     | '/privacy-policy'
     | '/insights/$slug'
     | '/products/$productId'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/by-the-numbers'
     | '/privacy-policy'
     | '/insights/$slug'
     | '/products/$productId'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ByTheNumbersRoute: typeof ByTheNumbersRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   InsightsSlugRoute: typeof InsightsSlugRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/by-the-numbers': {
+      id: '/by-the-numbers'
+      path: '/by-the-numbers'
+      fullPath: '/by-the-numbers'
+      preLoaderRoute: typeof ByTheNumbersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ByTheNumbersRoute: ByTheNumbersRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   InsightsSlugRoute: InsightsSlugRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,

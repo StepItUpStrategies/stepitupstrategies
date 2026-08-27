@@ -419,10 +419,13 @@ function StepItUpLanding() {
             </div>
           </div>
 
-          {/* Right: Stats panel */}
+          {/* Right: Stats panel — links to /by-the-numbers, the research page
+              behind these figures. Uses .service-card for the shared hover lift. */}
           <div style={{ position: 'relative' }}>
-            <div
-              className="animate-fade delay-200"
+            <Link
+              to="/by-the-numbers"
+              aria-label="By the Numbers — see the research behind the partnership"
+              className="animate-fade delay-200 service-card"
               style={{
                 position: 'relative',
                 zIndex: 1,
@@ -434,6 +437,8 @@ function StepItUpLanding() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.5rem',
+                textDecoration: 'none',
+                cursor: 'pointer',
               }}
             >
             <div
@@ -447,6 +452,8 @@ function StepItUpLanding() {
             >
               <span className="section-label">By the Numbers</span>
               <span
+                aria-hidden="true"
+                className="pulse-arrow"
                 style={{
                   fontFamily: 'var(--font-display)',
                   fontWeight: 700,
@@ -497,7 +504,24 @@ function StepItUpLanding() {
                 </span>
               </div>
             ))}
-            </div>
+
+            {/* Read-more cue so the panel reads as a link, not just a stat card */}
+            <span
+              style={{
+                marginTop: '0.25rem',
+                paddingTop: '1.25rem',
+                borderTop: '1px solid var(--color-line)',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.74rem',
+                fontWeight: 700,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'var(--color-orange)',
+              }}
+            >
+              See the research behind the partnership →
+            </span>
+            </Link>
           </div>
         </div>
       </section>
@@ -1596,6 +1620,8 @@ function StepItUpLanding() {
                 href="https://www.google.com/maps/dir/?api=1&destination=504+W+Plant+St,+Winter+Garden,+FL+34787"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="pulse-address"
+                title="Get driving directions to our office"
                 style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.95)')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = 'inherit')}
