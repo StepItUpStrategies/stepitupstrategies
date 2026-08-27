@@ -40,7 +40,7 @@ export const Route = createRootRoute({
       {
         rel: 'preload',
         as: 'image',
-        href: '/.netlify/images?url=/logo.png&w=440&q=80',
+        href: '/.netlify/images?url=/logo.png&w=880&h=222&fit=cover&q=80',
       },
     ],
     scripts: [

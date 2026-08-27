@@ -27,13 +27,16 @@ export function SiteHeader() {
         aria-label="Step It Up Strategies — home"
       >
         <span className="logo-lockup">
+          {/* Served pre-cropped to the artwork bounds (the source PNG has large transparent
+              bands) and letterboxed inside a fixed box, so the mark fills the banner height
+              without changing the lockup's footprint. Mirrors BrandLogo on the homepage. */}
           <img
-            src="/.netlify/images?url=/logo.png&w=440&q=80"
+            src="/.netlify/images?url=/logo.png&w=880&h=222&fit=cover&q=80"
             alt="Step It Up Strategies"
-            width={440}
-            height={264}
-            className="h-[62px] md:h-[96px]"
-            style={{ width: 'auto', display: 'block' }}
+            width={880}
+            height={222}
+            className="h-[88px] w-[192px] md:h-[120px] md:w-[304px]"
+            style={{ objectFit: 'contain', display: 'block' }}
           />
           <span className="logo-tagline">
             BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
