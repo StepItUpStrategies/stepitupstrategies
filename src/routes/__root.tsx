@@ -42,7 +42,6 @@ export const Route = createRootRoute({
         as: 'image',
         href: '/.netlify/images?url=/logo.png&w=440&q=80',
       },
-      { rel: 'canonical', href: 'https://www.stepitupstrategies.com/' },
     ],
     scripts: [
       {

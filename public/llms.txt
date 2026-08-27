@@ -8,14 +8,29 @@ Step It Up Strategies is a business management and consulting company specializi
 
 ## Site Structure
 
-This is a single-page marketing/landing site built with TanStack Start, React, and Tailwind CSS. The site includes the following sections:
+The site is built with TanStack Start, React, and Tailwind CSS. The landing page includes the following sections:
 
 - **Hero**: Main value proposition and key statistics
-- **Services**: 7 core service offerings (Restaurant Consulting, Retail Strategy, Entertainment Venues, Menu Creation, Beverage Programs, Kitchen Layout, Permitting & Licensing)
+- **Services**: 9 core service offerings, each linking to its own detail page (see Service Pages below)
 - **Expertise**: Team credentials and qualifications (Certified Sommeliers, Spirit Experts, Food & Beverage Directors, General Managers, Owner Operators)
 - **Financial Services**: Accounting and controller capabilities
 - **About/Philosophy**: Company philosophy and sectors served
 - **Contact**: Contact form for inquiries
+
+## Service Pages
+
+Each service category has a dedicated page covering capabilities, engagement process, deliverables, and FAQs:
+
+- /services — overview of all nine categories
+- /services/restaurant-consulting — Restaurant Consulting
+- /services/retail-strategy — Retail Strategy
+- /services/entertainment-venues — Entertainment Venues
+- /services/menu-creation-food-cost-analysis — Menu Creation & Food Cost Analysis
+- /services/beverage-programs-bar-design — Beverage Programs & Bar Layout Design
+- /services/kitchen-layout-design — Kitchen Layout & Design Consulting
+- /services/permitting-licensing — Permitting & Licensing
+- /services/website-design — Website Design
+- /services/business-accounting — Full Scale Business Accounting
 
 ## Contact Information
 

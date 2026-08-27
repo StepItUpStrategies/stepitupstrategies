@@ -11,6 +11,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@netlify/database@1",
         "npm:@netlify/vite-plugin-tanstack-start@1.3.7",
         "npm:@tailwindcss/vite@^4.0.6",
         "npm:@tanstack/react-router@1.168.22",
@@ -20,6 +21,8 @@
         "npm:@types/react-dom@^19.2.0",
         "npm:@types/react@^19.2.0",
         "npm:@vitejs/plugin-react@^5.0.4",
+        "npm:drizzle-kit@^1.0.0-beta.22",
+        "npm:drizzle-orm@^1.0.0-beta.22",
         "npm:framer-motion@11",
         "npm:react-dom@^19.2.0",
         "npm:react@^19.2.0",
