@@ -334,7 +334,9 @@ function StepItUpLanding() {
               className="animate-fade"
               style={{ marginBottom: '1.75rem' }}
             >
-              <span className="section-label">Business Management &amp; Consulting</span>
+              <span className="section-label">
+                Business Management, Consulting, Comprehensive Accounting &amp; Analysis
+              </span>
             </div>
 
             <h1
