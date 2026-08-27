@@ -336,7 +336,32 @@ body {
   vertical-align: middle;
 }
 
-/* Tag pill */
+/* Keeps the footer's last row clear of the BBB Accredited Business seal. The
+   seal is fixed to the viewport's bottom-right (160x61 image at right:15px,
+   bottom:5px), so it claims the rightmost ~175px and bottom ~66px and lands on
+   top of the footer once the page is scrolled to the bottom. */
+
+/* Wide screens: the row has plenty of slack, so slide the right-aligned tagline
+   left by just the amount the centered 1280px container's gutter doesn't already
+   cover -- it stays flush right on screens wide enough to clear the seal on
+   their own. Offset with position:relative so the copyright and privacy links
+   don't move. */
+@media (min-width: 1280px) {
+  .footer-bottom-bar .brand-tagline {
+    position: relative;
+    right: max(0px, 190px - max(2rem, (100vw - 1280px) / 2));
+  }
+}
+
+/* Narrower screens: there isn't room to slide the tagline left without running
+   it into the privacy link, and under 768px the row stacks and centres. Lift the
+   whole row above the seal instead. */
+@media (max-width: 1279px) {
+  .footer-bottom-bar {
+    padding-bottom: 4.75rem;
+  }
+}
+
 .tag-pill {
   padding: 0.55rem 1rem;
   border: 1.5px solid var(--color-line);

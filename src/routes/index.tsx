@@ -1635,7 +1635,7 @@ function StepItUpLanding() {
             fontSize: '0.78rem',
             color: 'rgba(255,255,255,0.6)',
           }}
-          className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0"
+          className="footer-bottom-bar flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0"
         >
           <div>
             &copy; {new Date().getFullYear()} Step It Up Strategies. All rights reserved.

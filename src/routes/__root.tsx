@@ -116,6 +116,28 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 
+// Better Business Bureau Accredited Business seal (Central Florida BBB).
+// Rendered as a plain inline script in the document shell so it executes once
+// on initial page load for every route. `var bbb` must remain a global — the
+// badge script reads `window.bbb` for its config — so this cannot be moved
+// into a module or bundled import.
+const BBB_SEAL_SCRIPT = `
+	var bbb = bbb || [];
+	bbb.push(["bbbid", "central-florida"]);
+	bbb.push(["bid", "235981507"]);
+	bbb.push(["chk", "C28801739B"]);
+	bbb.push(["pos", "bottom-right"]);
+	(function () {
+	    var scheme = (("https:" == document.location.protocol) ? "https://" : "http://");
+	    var bbb = document.createElement("script");
+	    bbb.type = "text/javascript";
+	    bbb.async = true;
+	    bbb.src = scheme + "seal-centralflorida.bbb.org/badge/badge.min.js";
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bbb, s);
+	})();
+`
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -124,6 +146,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <script
+          type="text/javascript"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: BBB_SEAL_SCRIPT }}
+        />
         <Scripts />
       </body>
     </html>
