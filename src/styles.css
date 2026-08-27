@@ -451,3 +451,13 @@ body {
   margin-bottom: 0;
 }
 
+.article-content .article-byline {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(31, 42, 140, 0.15);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+

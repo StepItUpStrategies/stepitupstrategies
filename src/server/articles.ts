@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import type { Article } from '../data/articles'
+import { withAuthorByline } from './author-byline'
 
 const SORO_TOKEN = '3cc0116b-c696-4d4d-8f15-cdd7c40c1db6'
 const SORO_EMBED_URL = `https://app.trysoro.com/api/embed/${SORO_TOKEN}`
@@ -95,7 +96,7 @@ async function getAllMergedArticles(): Promise<Article[]> {
   const dbSlugs = new Set(dbArticles.map((a) => a.slug))
   const newFromSoro = soroMapped.filter((a) => !dbSlugs.has(a.slug))
 
-  const all = [...dbArticles, ...newFromSoro]
+  const all = [...dbArticles, ...newFromSoro].map(withAuthorByline)
   all.sort(
     (a, b) =>
       new Date(b.publishedAt ?? 0).getTime() -
@@ -134,13 +135,13 @@ export const getArticles = createServerFn({ method: 'GET' }).handler(
         const dbArticles = rows.map(dbRowToArticle)
         const dbSlugs = new Set(dbArticles.map((a) => a.slug))
         const fallback = staticArticles.filter((a) => !dbSlugs.has(a.slug))
-        return [...dbArticles, ...fallback]
+        return [...dbArticles, ...fallback].map(withAuthorByline)
       }
     } catch {
       // DB not available yet — fall back to static data
     }
 
-    return staticArticles
+    return staticArticles.map(withAuthorByline)
   }
 )
 
@@ -157,7 +158,7 @@ export const getArticleBySlug = createServerFn({ method: 'GET' })
         .where(eq(articlesTable.slug, slug))
 
       if (rows.length > 0) {
-        return dbRowToArticle(rows[0])
+        return withAuthorByline(dbRowToArticle(rows[0]))
       }
     } catch {
       // DB not available yet
@@ -165,13 +166,13 @@ export const getArticleBySlug = createServerFn({ method: 'GET' })
 
     const { articles } = await import('../data/articles')
     const article = articles.find((a) => a.slug === slug)
-    if (article) return article
+    if (article) return withAuthorByline(article)
 
     const soroArticles = await fetchSoroArticleList()
     const soroArticle = soroArticles.find((a) => a.slug === slug)
     if (soroArticle) {
       const content = await fetchSoroArticleContent(soroArticle.id)
-      return { ...soroToArticle(soroArticle), content }
+      return withAuthorByline({ ...soroToArticle(soroArticle), content })
     }
 
     throw new Error('Article not found')
