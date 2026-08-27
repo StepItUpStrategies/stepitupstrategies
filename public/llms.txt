@@ -15,6 +15,7 @@ The site is built with TanStack Start, React, and Tailwind CSS. The landing page
 - **Expertise**: Team credentials and qualifications (Certified Sommeliers, Spirit Experts, Food & Beverage Directors, General Managers, Owner Operators)
 - **Financial Services**: Accounting and controller capabilities
 - **About/Philosophy**: Company philosophy and sectors served
+- **Notary Public strip**: Slim band beneath the credentials ticker linking to /notary
 - **Contact**: Contact form for inquiries
 
 ## Service Pages
@@ -31,6 +32,14 @@ Each service category has a dedicated page covering capabilities, engagement pro
 - /services/permitting-licensing — Permitting & Licensing
 - /services/website-design — Website Design
 - /services/business-accounting — Full Scale Business Accounting
+
+## Notary Public
+
+- /notary — Notary Public services. Certified, licensed and bonded notary public.
+  In-office appointments at 504 W Plant St, Winter Garden, FL; mobile service
+  throughout the greater Central Florida area; and remote online notarization for
+  signers anywhere in the United States. By appointment only. The page carries its
+  own appointment-request form (Netlify form name: `notary-appointment`).
 
 ## Contact Information
 
@@ -49,7 +58,7 @@ See `/sitemap.xml` for the complete site structure and page hierarchy.
 
 ## Form Submission
 
-The site includes a contact form that submits to Netlify Forms. Form submissions are processed and forwarded to the business contact email.
+The site includes two forms that submit to Netlify Forms — the homepage contact form (`contact`) and the notary appointment-request form (`notary-appointment`). Form submissions are processed and forwarded to the business contact email.
 
 ## Accessibility
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <!-- This file exists only so Netlify registers the form at build time. -->
+    <!-- It is never shown to users. See src/routes/notary.tsx for the real form. -->
+    <form name="notary-appointment" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="service-format" />
+      <input type="text" name="document-type" />
+      <input type="text" name="preferred-time" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" hidden />
+    </form>
+  </body>
+</html>
