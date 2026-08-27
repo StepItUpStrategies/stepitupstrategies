@@ -17,6 +17,11 @@ function BrandLogo({
   alt = 'Step It Up Strategies',
   className = '',
   heightClass = 'h-[99px] lg:h-[132px]',
+  // The source PNG carries ~30% transparent padding above and below the artwork, so a
+  // plain height-scaled render wastes most of its box. Pass boxClass to serve the asset
+  // pre-cropped to its artwork bounds and letterbox it inside a fixed box instead: the
+  // box keeps the same footprint in the layout while the mark itself renders much larger.
+  boxClass,
   loading = 'eager' as 'eager' | 'lazy',
   fetchPriority = 'auto' as 'high' | 'low' | 'auto',
 }: {
@@ -24,18 +29,28 @@ function BrandLogo({
   alt?: string
   className?: string
   heightClass?: string
+  boxClass?: string
   loading?: 'eager' | 'lazy'
   fetchPriority?: 'high' | 'low' | 'auto'
 }) {
+  const cropped = Boolean(boxClass)
   return (
     <span className="logo-lockup">
       <img
-        src="/.netlify/images?url=/logo.png&w=440&q=80"
+        src={
+          cropped
+            ? '/.netlify/images?url=/logo.png&w=880&h=222&fit=cover&q=80'
+            : '/.netlify/images?url=/logo.png&w=440&q=80'
+        }
         alt={alt}
-        width={440}
-        height={264}
-        className={`${heightClass} ${className}`}
-        style={{ width: 'auto', display: 'block' }}
+        width={cropped ? 880 : 440}
+        height={cropped ? 222 : 264}
+        className={`${boxClass ?? heightClass} ${className}`}
+        style={
+          cropped
+            ? { objectFit: 'contain', display: 'block' }
+            : { width: 'auto', display: 'block' }
+        }
         loading={loading}
         fetchPriority={fetchPriority}
       />
@@ -227,7 +242,7 @@ function StepItUpLanding() {
         >
           <BrandLogo
             fetchPriority="high"
-            heightClass="h-[70px] lg:h-[96px]"
+            boxClass="h-[88px] w-[192px] lg:h-[120px] lg:w-[304px]"
           />
         </a>
 
