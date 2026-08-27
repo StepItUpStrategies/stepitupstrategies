@@ -26,14 +26,19 @@ export function SiteHeader() {
         className="flex items-center no-underline shrink-0"
         aria-label="Step It Up Strategies — home"
       >
-        <img
-          src="/.netlify/images?url=/logo.png&w=440&q=80"
-          alt="Step It Up Strategies"
-          width={440}
-          height={264}
-          className="h-[80px] md:h-[132px]"
-          style={{ width: 'auto', display: 'block' }}
-        />
+        <span className="logo-lockup">
+          <img
+            src="/.netlify/images?url=/logo.png&w=440&q=80"
+            alt="Step It Up Strategies"
+            width={440}
+            height={264}
+            className="h-[62px] md:h-[96px]"
+            style={{ width: 'auto', display: 'block' }}
+          />
+          <span className="logo-tagline">
+            BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
+          </span>
+        </span>
       </a>
 
       <div className="hidden lg:flex gap-9 items-center">
@@ -89,15 +94,20 @@ export function SiteFooter() {
               }}
             >
               <a href="/" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                <img
-                  src="/.netlify/images?url=/logo.png&w=440&q=80"
-                  alt="Step It Up Strategies"
-                  width={440}
-                  height={264}
-                  loading="lazy"
-                  className="h-[96px]"
-                  style={{ width: 'auto', display: 'block' }}
-                />
+                <span className="logo-lockup">
+                  <img
+                    src="/.netlify/images?url=/logo.png&w=440&q=80"
+                    alt="Step It Up Strategies"
+                    width={440}
+                    height={264}
+                    loading="lazy"
+                    className="h-[96px]"
+                    style={{ width: 'auto', display: 'block' }}
+                  />
+                  <span className="logo-tagline">
+                    BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
+                  </span>
+                </span>
               </a>
             </div>
             <address

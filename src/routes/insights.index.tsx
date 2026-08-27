@@ -33,12 +33,17 @@ export default function Insights() {
           className="flex items-center no-underline"
           aria-label="Step It Up Strategies — home"
         >
-          <img
-            src="/logo.png"
-            alt="Step It Up Strategies"
-            className="h-[99px] md:h-[132px]"
-            style={{ width: 'auto', display: 'block' }}
-          />
+          <span className="logo-lockup">
+            <img
+              src="/logo.png"
+              alt="Step It Up Strategies"
+              className="h-[70px] md:h-[96px]"
+              style={{ width: 'auto', display: 'block' }}
+            />
+            <span className="logo-tagline">
+              BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
+            </span>
+          </span>
         </a>
         <a
           href="/"
