@@ -178,6 +178,19 @@ export function SiteFooter() {
                   {service.title}
                 </Link>
               ))}
+              {/* Notary Public is a standalone offering (its own /notary page), not one of
+                  the nine SERVICES entries, so it is appended to the list by hand. */}
+              <Link
+                to="/notary"
+                style={{
+                  color: 'rgba(255,255,255,0.75)',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem',
+                  lineHeight: 1.9,
+                }}
+              >
+                Notary Public
+              </Link>
             </div>
           </div>
         </div>

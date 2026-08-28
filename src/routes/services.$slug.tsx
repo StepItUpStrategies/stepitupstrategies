@@ -772,7 +772,7 @@ function ServiceDetailPage() {
               marginBottom: '1.5rem',
             }}
           >
-            Pairs Well With
+            Related Services
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
