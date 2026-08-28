@@ -143,6 +143,26 @@ function useScrollReveal() {
   }, [])
 }
 
+// ─── Credentials Ticker Terms ─────────────────────────────────────────────────
+// Each term links to the section of this page where that capability is actually
+// covered, so the ribbon works as navigation rather than decoration. Declared
+// once and rendered twice by the marquee: the track slides exactly -50%, so the
+// two halves must stay identical for the loop to appear seamless.
+const TICKER_TERMS: ReadonlyArray<{ label: string; href: string }> = [
+  { label: 'Certified Sommeliers', href: '#expertise' },
+  { label: 'Spirit Experts', href: '#expertise' },
+  { label: 'Food & Beverage Directors', href: '#expertise' },
+  { label: 'District Managers', href: '#expertise' },
+  { label: 'General Managers', href: '#expertise' },
+  { label: 'Menu Development', href: '#services' },
+  { label: 'Beverage Program Creation', href: '#services' },
+  { label: 'Food Cost Analysis', href: '#services' },
+  { label: 'Bar & Kitchen Layout', href: '#services' },
+  { label: 'Business Permitting', href: '#services' },
+  { label: 'Financial Strategy', href: '#financial' },
+  { label: 'Accounting', href: '#financial' },
+]
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 function StepItUpLanding() {
   useScrollReveal()
@@ -429,6 +449,55 @@ function StepItUpLanding() {
                 Start a Conversation
               </a>
             </div>
+
+            {/* Service-area line. Local-intent signal for search and for
+                visitors deciding whether we cover them — Florida on the ground,
+                the rest of the country remotely.
+
+                The wrapper is a query container so the line's font-size can be
+                sized against the width of this copy column rather than the
+                viewport — see .hero-service-area, which keeps the sentence on a
+                single line instead of orphaning "States". */}
+            <div className="hero-service-area-box">
+              <p
+                className="animate-fade delay-400 hero-service-area"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  marginTop: '2rem',
+                  marginBottom: 0,
+                  fontFamily: 'var(--font-body)',
+                  lineHeight: 1.6,
+                  color: 'var(--color-ink-soft)',
+                }}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--color-orange)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  style={{ flexShrink: 0 }}
+                >
+                  <path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>
+                  Proudly serving clients across{' '}
+                  <strong style={{ color: 'var(--color-blue)', fontWeight: 600 }}>Florida</strong>{' '}
+                  and throughout the{' '}
+                  <strong style={{ color: 'var(--color-blue)', fontWeight: 600 }}>
+                    United States
+                  </strong>
+                  .
+                </span>
+              </p>
+            </div>
           </div>
 
           {/* Right: Stats panel — links to /by-the-numbers, the research page
@@ -549,58 +618,46 @@ function StepItUpLanding() {
         }}
       >
         <div className="marquee-track">
-          {[
-            'Certified Sommeliers',
-            'Spirit Experts',
-            'Food & Beverage Directors',
-            'District Managers',
-            'General Managers',
-            'Menu Development',
-            'Beverage Program Creation',
-            'Food Cost Analysis',
-            'Bar & Kitchen Layout',
-            'Business Permitting',
-            'Financial Strategy',
-            'Certified Sommeliers',
-            'Spirit Experts',
-            'Food & Beverage Directors',
-            'District Managers',
-            'General Managers',
-            'Menu Development',
-            'Beverage Program Creation',
-            'Food Cost Analysis',
-            'Bar & Kitchen Layout',
-            'Business Permitting',
-            'Financial Strategy',
-          ].map((item, i) => (
-            <span
-              key={i}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '1.5rem',
-                padding: '0 1.75rem',
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.78rem',
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
-                fontWeight: 600,
-                color: i % 3 === 0 ? 'var(--color-orange-light)' : '#fff',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {item}
-              <span
+          {[...TICKER_TERMS, ...TICKER_TERMS].map(({ label, href }, i) => {
+            // Second pass is the visual duplicate that makes the loop seamless;
+            // hide it from assistive tech and the tab order so the same twelve
+            // links are not announced or tabbed through twice.
+            const isDuplicate = i >= TICKER_TERMS.length
+            return (
+              <a
+                key={i}
+                href={href}
+                className="marquee-link"
+                aria-hidden={isDuplicate || undefined}
+                tabIndex={isDuplicate ? -1 : undefined}
                 style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  background: 'var(--color-orange)',
-                  flexShrink: 0,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '1.5rem',
+                  padding: '0 1.75rem',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                  color: i % 3 === 0 ? 'var(--color-orange-light)' : '#fff',
+                  whiteSpace: 'nowrap',
                 }}
-              />
-            </span>
-          ))}
+              >
+                {label}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: 'var(--color-orange)',
+                    flexShrink: 0,
+                  }}
+                />
+              </a>
+            )
+          })}
         </div>
       </div>
 
@@ -1463,7 +1520,8 @@ function StepItUpLanding() {
             >
               Whether you're opening your first location, optimizing an existing operation,
               or need financial clarity on a struggling business — we're ready to get to work.
-              Reach out and let's start the conversation.
+              We work on-site with clients across Florida and remotely with clients
+              anywhere in the country. Reach out and let's start the conversation.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <a
