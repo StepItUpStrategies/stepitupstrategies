@@ -148,6 +148,33 @@ body {
 .delay-700 { animation-delay: 0.7s; }
 .delay-800 { animation-delay: 0.8s; }
 
+/* Hero service-area line — kept on a single line.
+   The sentence is a fixed length (33.4em of advance width plus the pin icon), so
+   rather than size it against the viewport — the hero copy column is half the
+   grid at lg, which viewport maths gets wrong — the wrapper is a query container
+   and the size is expressed in cqi (1% of that column). The size therefore
+   tracks the real column width at every breakpoint and the line stays inside it
+   instead of wrapping and orphaning "States".
+   2.5cqi reaches the 0.9rem cap exactly at the 576px column of the full-width
+   desktop layout, and the 0.7rem floor stays clear of overflow down to a 405px
+   column. Below a 420px column no size both fits and stays readable, so it wraps
+   there at full size; text-wrap: pretty keeps a lone word off the last line. */
+.hero-service-area-box {
+  container-type: inline-size;
+}
+
+.hero-service-area {
+  font-size: 0.9rem;
+  text-wrap: pretty;
+}
+
+@container (min-width: 420px) {
+  .hero-service-area {
+    white-space: nowrap;
+    font-size: clamp(0.7rem, 2.5cqi, 0.9rem);
+  }
+}
+
 /* Marquee ticker */
 .marquee-track {
   display: flex;
@@ -155,8 +182,33 @@ body {
   animation: marquee 38s linear infinite;
 }
 
-.marquee-track:hover {
+.marquee-track:hover,
+/* Keyboard users need the track to stop too, or a focused link scrolls away
+   before it can be activated. */
+.marquee-track:focus-within {
   animation-play-state: paused;
+}
+
+/* Ticker terms are links to the section each one is covered in. Colour is set
+   inline (it alternates by index), so the affordance here is the underline. */
+.marquee-link {
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.marquee-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 1px;
+  opacity: 0.85;
+}
+
+.marquee-link:focus-visible {
+  outline: 2px solid var(--color-orange-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
 }
 
 /* Service card hover */
