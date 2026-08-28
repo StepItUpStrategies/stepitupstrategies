@@ -72,7 +72,12 @@ All design tokens are defined in `src/styles.css` using `@theme` (Tailwind CSS 4
 The `useScrollReveal` hook uses `IntersectionObserver` to add `in-view` to `.reveal` elements. CSS transitions animate opacity and translateY. Delay variants: `.reveal-delay-1` through `.reveal-delay-6`. No JS animation library is used.
 
 ### Logo
-The `LogoMark` component in `index.tsx` renders a custom SVG staircase/arrow motif. **The actual company logo has not yet been provided.** When available, replace `<LogoMark>` with `<img src="/logo.png" alt="Step It Up Strategies" />` or a new SVG. The component is used in both the nav and footer.
+The official logo lives at `public/logo.png` and is served through the Netlify Image CDN. The `BrandLogo` component in `index.tsx` renders it; `PageChrome.tsx` and `insights.index.tsx` carry near-identical inline copies for their own headers.
+
+Two non-obvious details:
+
+- The source PNG has ~30% transparent bands above and below the artwork. Requesting it with `&w=880&h=222&fit=cover` trims those bands, so the mark renders large inside a fixed box. Callers that pass `boxClass` (nav, footers) get this cropped variant; the plain height-scaled variant leaves most of its box empty.
+- The "BUSINESS ADVISORS & ACCOUNTING SPECIALISTS" tagline (`.logo-tagline`) appears **only in the top nav**. Footers render the mark alone (`showTagline={false}` on `BrandLogo`, tagline omitted in `SiteFooter`) so it fills its white card with uniform padding on all sides.
 
 ### Contact Form
 The contact form is client-side only with a `window.alert` confirmation — it does not submit data anywhere. To enable real form handling, integrate Netlify Forms (see `.agents/skills/netlify-forms-tanstack/SKILL.md`) or a server function endpoint.

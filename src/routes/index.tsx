@@ -14,7 +14,6 @@ export const Route = createFileRoute('/')({
 // ─── Brand Logo ──────────────────────────────────────────────────────────────
 // Uses the official Step It Up Strategies logo asset.
 function BrandLogo({
-  height,
   alt = 'Step It Up Strategies',
   className = '',
   heightClass = 'h-[99px] lg:h-[132px]',
@@ -25,14 +24,17 @@ function BrandLogo({
   boxClass,
   loading = 'eager' as 'eager' | 'lazy',
   fetchPriority = 'auto' as 'high' | 'low' | 'auto',
+  // The "BUSINESS ADVISORS & ACCOUNTING SPECIALISTS" line under the mark. Kept in the
+  // top nav, dropped in the footers so the mark alone fills its white card.
+  showTagline = true,
 }: {
-  height?: number
   alt?: string
   className?: string
   heightClass?: string
   boxClass?: string
   loading?: 'eager' | 'lazy'
   fetchPriority?: 'high' | 'low' | 'auto'
+  showTagline?: boolean
 }) {
   const cropped = Boolean(boxClass)
   return (
@@ -55,16 +57,25 @@ function BrandLogo({
         loading={loading}
         fetchPriority={fetchPriority}
       />
-      <span className="logo-tagline">
-        BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
-      </span>
+      {showTagline && (
+        <span className="logo-tagline">
+          BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
+        </span>
+      )}
     </span>
   )
 }
 
-// Compact mark used where the full wordmark would be too wide (footer column, mobile nav)
-function BrandLogoCompact({ height = 36 }: { height?: number }) {
-  return <BrandLogo height={height} loading="lazy" />
+// Footer mark: no tagline, and served pre-cropped to the artwork bounds so the logo
+// fills its white card instead of sitting inside the source PNG's transparent bands.
+function BrandLogoCompact() {
+  return (
+    <BrandLogo
+      showTagline={false}
+      loading="lazy"
+      boxClass="h-[62px] w-[246px] sm:h-[104px] sm:w-[412px]"
+    />
+  )
 }
 
 // ─── Accordion Item ───────────────────────────────────────────────────────────
@@ -459,7 +470,7 @@ function StepItUpLanding() {
                   fontFamily: 'var(--font-display)',
                   fontWeight: 700,
                   color: 'var(--color-orange)',
-                  fontSize: '1.5rem',
+                  fontSize: '1.85rem',
                 }}
               >
                 ↗
@@ -1669,26 +1680,38 @@ function StepItUpLanding() {
             <div
               style={{
                 background: '#fff',
-                padding: '1.25rem 1.75rem',
+                // Uniform padding only — the mark fills the card and stays centred in it.
+                padding: '0.75rem',
                 borderRadius: '14px',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              <a href="#" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                <BrandLogoCompact height={240} />
+              <a
+                href="#"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <BrandLogoCompact />
               </a>
             </div>
+            {/* Width matches the logo card above it (image width + its 0.75rem padding on
+                each side), so the address spans exactly the same footprint with its text
+                centred under the mark. */}
             <address
               style={{
                 fontStyle: 'normal',
-                fontSize: '0.82rem',
-                lineHeight: 1.6,
-                color: 'rgba(255,255,255,0.7)',
+                fontSize: '1.02rem',
+                lineHeight: 1.55,
+                color: 'rgba(255,255,255,0.78)',
                 fontFamily: 'var(--font-display)',
                 letterSpacing: '0.04em',
               }}
-              className="text-center md:text-left"
+              className="w-[270px] sm:w-[436px] max-w-full text-center"
             >
               <a
                 href="https://www.google.com/maps/dir/?api=1&destination=504+W+Plant+St,+Winter+Garden,+FL+34787"

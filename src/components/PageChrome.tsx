@@ -90,39 +90,50 @@ export function SiteFooter() {
             <div
               style={{
                 background: '#fff',
-                padding: '1rem 1.4rem',
+                // Uniform padding only — the mark fills the card and stays centred in it.
+                padding: '0.75rem',
                 borderRadius: '14px',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              <a href="/" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                <span className="logo-lockup">
-                  <img
-                    src="/.netlify/images?url=/logo.png&w=440&q=80"
-                    alt="Step It Up Strategies"
-                    width={440}
-                    height={264}
-                    loading="lazy"
-                    className="h-[96px]"
-                    style={{ width: 'auto', display: 'block' }}
-                  />
-                  <span className="logo-tagline">
-                    BUSINESS ADVISORS &amp; ACCOUNTING SPECIALISTS
-                  </span>
-                </span>
+              <a
+                href="/"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {/* No tagline in the footer, and served pre-cropped to the artwork bounds
+                    so the mark fills the white card rather than the source PNG's
+                    transparent bands. The top nav keeps the full lockup. */}
+                <img
+                  src="/.netlify/images?url=/logo.png&w=880&h=222&fit=cover&q=80"
+                  alt="Step It Up Strategies"
+                  width={880}
+                  height={222}
+                  loading="lazy"
+                  className="h-[62px] w-[246px] sm:h-[84px] sm:w-[333px]"
+                  style={{ objectFit: 'contain', display: 'block' }}
+                />
               </a>
             </div>
+            {/* Width matches the logo card above it (image width + its 0.75rem padding on
+                each side), so the address spans exactly the same footprint with its text
+                centred under the mark. */}
             <address
               style={{
                 fontStyle: 'normal',
-                fontSize: '0.82rem',
-                lineHeight: 1.6,
-                color: 'rgba(255,255,255,0.7)',
+                fontSize: '1.02rem',
+                lineHeight: 1.55,
+                color: 'rgba(255,255,255,0.78)',
                 fontFamily: 'var(--font-display)',
                 letterSpacing: '0.04em',
                 marginTop: '1.25rem',
               }}
+              className="w-[270px] sm:w-[357px] max-w-full text-center"
             >
               <a
                 href="https://www.google.com/maps/dir/?api=1&destination=504+W+Plant+St,+Winter+Garden,+FL+34787"
