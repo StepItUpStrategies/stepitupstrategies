@@ -90,6 +90,38 @@ Two non-obvious details:
 - The source PNG has ~30% transparent bands above and below the artwork. Requesting it with `&w=880&h=222&fit=cover` trims those bands, so the mark renders large inside a fixed box. Callers that pass `boxClass` (nav, footers) get this cropped variant; the plain height-scaled variant leaves most of its box empty.
 - The "BUSINESS ADVISORS & ACCOUNTING SPECIALISTS" tagline (`.logo-tagline`) appears **only in the top nav**. Footers render the mark alone (`showTagline={false}` on `BrandLogo`, tagline omitted in `SiteFooter`) so it fills its white card with uniform padding on all sides.
 
+### Article Artwork
+
+Article images come from the Soro feed's Supabase storage — a third-party origin — and are rendered
+through `ArticleImage` (`src/components/ArticleImage.tsx`), which wraps `sizedImage()` from
+`src/utils/images.ts`. Always use `ArticleImage` for article artwork rather than a bare `<img>` with
+`sizedImage()`.
+
+The reason is reliability, not tidiness. An Image CDN transform of a remote image has to fetch the
+full-resolution original before it can resize it, and the insights archive asks for dozens of those
+at once. Cold transforms in a batch that size occasionally lose the race and return 504 (the CDN
+gives up after 30s), which leaves a blank card. Which cards it hits is random, so the page can look
+fine on one device and have a hole in a different place on the next. `ArticleImage` catches that and
+re-points the same element at the untransformed original, which serves fine on its own — including
+the case where the transform failed before React hydrated and the error event was lost (it checks for
+a finished image with no intrinsic width on mount).
+
+### BBB Accredited Business Seal
+
+The floating Better Business Bureau seal (bottom-right, on every page) comes from an inline script in
+`__root.tsx`. Two constraints that are easy to break:
+
+- `var bbb` must stay a global — BBB's `badge.min.js` reads `window.bbb` for its config, so the
+  config cannot move into a module.
+- `badge.min.js` does not draw anything when it executes. It assigns a `window.onload` handler and
+  draws from there. We deliberately delay fetching it until after the page has loaded, which means
+  that handler would never fire, so the inline script calls it directly once the badge script's own
+  `load` event fires (and restores the previous `window.onload`). **Remove that shim and the seal
+  silently disappears from every page** — nothing errors, it just never renders.
+
+`styles.css` keeps the footer's last row clear of the seal's fixed 160×61 slot; those rules assume
+the seal is present.
+
 ### Contact Form
 The contact form is client-side only with a `window.alert` confirmation — it does not submit data anywhere. To enable real form handling, integrate Netlify Forms (see `.agents/skills/netlify-forms-tanstack/SKILL.md`) or a server function endpoint.
 

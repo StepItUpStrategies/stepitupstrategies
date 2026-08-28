@@ -132,8 +132,15 @@ export const Route = createRootRoute({
 // load event, then to the first idle moment. It is a third-party request to another
 // origin for a fixed-position badge that nothing else depends on, so letting it
 // contend with our own CSS, fonts and hydration bundle only delayed first paint.
-// The badge still injects itself into the same bottom-right slot, just after the
-// page it sits on top of is done loading.
+//
+// Deferring it that far does need one workaround. badge.min.js does not draw the
+// seal when it executes: it installs a `window.onload` handler and draws from
+// there. Injecting it after the load event has already fired therefore installs a
+// handler that can never run, and the seal silently never appears. So once the
+// script has executed we invoke the handler it just installed ourselves, and put
+// window.onload back the way we found it. If BBB ever switches the badge to an
+// addEventListener('load') hook this shim stops covering for it, so the seal is
+// worth a look after any badge change.
 const BBB_SEAL_SCRIPT = `
 	var bbb = bbb || [];
 	bbb.push(["bbbid", "central-florida"]);
@@ -141,6 +148,7 @@ const BBB_SEAL_SCRIPT = `
 	bbb.push(["chk", "C28801739B"]);
 	bbb.push(["pos", "bottom-right"]);
 	(function () {
+	    var previousOnload = window.onload;
 	    var injected = false;
 	    function inject() {
 	        if (injected) return;
@@ -150,6 +158,15 @@ const BBB_SEAL_SCRIPT = `
 	        el.type = "text/javascript";
 	        el.async = true;
 	        el.src = scheme + "seal-centralflorida.bbb.org/badge/badge.min.js";
+	        el.onload = function () {
+	            var draw = window.onload;
+	            if (typeof draw === "function" && draw !== previousOnload) {
+	                window.onload = previousOnload;
+	                try {
+	                    draw();
+	                } catch (e) {}
+	            }
+	        };
 	        var s = document.getElementsByTagName("script")[0];
 	        s.parentNode.insertBefore(el, s);
 	    }

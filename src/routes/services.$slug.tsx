@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { SERVICES, getServiceBySlug } from '../data/services'
 import { SiteHeader, SiteFooter } from '../components/PageChrome'
 import { getArticlesBySlugs } from '../server/articles'
-import { sizedImage } from '../utils/images'
+import { ArticleImage } from '../components/ArticleImage'
 
 const SITE = 'https://www.stepitupstrategies.com'
 
@@ -685,11 +685,10 @@ function ServiceDetailPage() {
                   }}
                 >
                   <div style={{ width: '100%', height: '150px', overflow: 'hidden' }}>
-                    <img
-                      src={sizedImage(article.image, 700)}
+                    <ArticleImage
+                      src={article.image}
+                      width={700}
                       alt={article.title}
-                      loading="lazy"
-                      decoding="async"
                       style={{
                         width: '100%',
                         height: '100%',
