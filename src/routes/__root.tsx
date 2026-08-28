@@ -22,20 +22,25 @@ export const Route = createRootRoute({
       { name: 'twitter:description', content: 'Expert business management and consulting for restaurant, retail, and entertainment industries.' },
     ],
     links: [
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      // Fonts are self-hosted and declared with @font-face in styles.css, so there
+      // is no third-party stylesheet on the critical path any more. These two files
+      // cover essentially all visible text on first paint (DM Sans for body copy,
+      // Bai Jamjuree 700 for headings), so they are preloaded to start downloading
+      // alongside the CSS rather than after it has parsed. The remaining weights and
+      // the latin-ext subset are left to load on demand via unicode-range.
       {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        href: '/fonts/dm-sans-latin.woff2',
         crossOrigin: 'anonymous',
       },
       {
         rel: 'preload',
-        as: 'style',
-        href: 'https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap',
+        as: 'font',
+        type: 'font/woff2',
+        href: '/fonts/bai-jamjuree-700-latin.woff2',
+        crossOrigin: 'anonymous',
       },
       {
         rel: 'preload',
@@ -121,6 +126,14 @@ export const Route = createRootRoute({
 // on initial page load for every route. `var bbb` must remain a global — the
 // badge script reads `window.bbb` for its config — so this cannot be moved
 // into a module or bundled import.
+//
+// The config array is still populated synchronously (the badge script reads it the
+// moment it runs), but fetching badge.min.js is held back until after the window
+// load event, then to the first idle moment. It is a third-party request to another
+// origin for a fixed-position badge that nothing else depends on, so letting it
+// contend with our own CSS, fonts and hydration bundle only delayed first paint.
+// The badge still injects itself into the same bottom-right slot, just after the
+// page it sits on top of is done loading.
 const BBB_SEAL_SCRIPT = `
 	var bbb = bbb || [];
 	bbb.push(["bbbid", "central-florida"]);
@@ -128,13 +141,30 @@ const BBB_SEAL_SCRIPT = `
 	bbb.push(["chk", "C28801739B"]);
 	bbb.push(["pos", "bottom-right"]);
 	(function () {
-	    var scheme = (("https:" == document.location.protocol) ? "https://" : "http://");
-	    var bbb = document.createElement("script");
-	    bbb.type = "text/javascript";
-	    bbb.async = true;
-	    bbb.src = scheme + "seal-centralflorida.bbb.org/badge/badge.min.js";
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bbb, s);
+	    var injected = false;
+	    function inject() {
+	        if (injected) return;
+	        injected = true;
+	        var scheme = (("https:" == document.location.protocol) ? "https://" : "http://");
+	        var el = document.createElement("script");
+	        el.type = "text/javascript";
+	        el.async = true;
+	        el.src = scheme + "seal-centralflorida.bbb.org/badge/badge.min.js";
+	        var s = document.getElementsByTagName("script")[0];
+	        s.parentNode.insertBefore(el, s);
+	    }
+	    function schedule() {
+	        if (typeof window.requestIdleCallback === "function") {
+	            window.requestIdleCallback(inject, { timeout: 3000 });
+	        } else {
+	            window.setTimeout(inject, 1200);
+	        }
+	    }
+	    if (document.readyState === "complete") {
+	        schedule();
+	    } else {
+	        window.addEventListener("load", schedule, { once: true });
+	    }
 	})();
 `
 

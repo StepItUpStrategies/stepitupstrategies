@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { getArticleBySlug } from '../server/articles'
+import { sizedImage } from '../utils/images'
 
 export const Route = createFileRoute('/insights/$slug')({
   component: InsightPost,
@@ -396,8 +397,10 @@ export default function InsightPost() {
 
         <div className="rounded-[2rem] bg-white shadow-xl border border-blue-100 overflow-hidden">
           <img
-            src={post.image}
+            src={sizedImage(post.image, 1600)}
             alt={post.title}
+            decoding="async"
+            fetchPriority="high"
             style={{
               width: '100%',
               height: '360px',
