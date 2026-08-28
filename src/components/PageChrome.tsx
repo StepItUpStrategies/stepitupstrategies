@@ -86,7 +86,10 @@ export function SiteFooter() {
     >
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-10 md:gap-16">
-          <div>
+          {/* Single-column mobile footer: the logo card (an inline-flex box, so text-align
+              moves it) and the address below it sit centred in the viewport. From md up the
+              two-column desktop layout takes over and both go back to flush left. */}
+          <div className="text-center md:text-left">
             <div
               style={{
                 background: '#fff',
@@ -133,7 +136,7 @@ export function SiteFooter() {
                 letterSpacing: '0.04em',
                 marginTop: '1.25rem',
               }}
-              className="w-[270px] sm:w-[357px] max-w-full text-center"
+              className="w-[270px] sm:w-[357px] max-w-full text-center mx-auto md:mx-0"
             >
               <a
                 href="https://www.google.com/maps/dir/?api=1&destination=504+W+Plant+St,+Winter+Garden,+FL+34787"

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { getCurrentArticles, getArchiveArticles } from '../server/articles'
-import { sizedImage } from '../utils/images'
+import { ArticleImage } from '../components/ArticleImage'
 
 export const Route = createFileRoute('/insights/')({
   component: Insights,
@@ -243,11 +243,10 @@ export default function Insights() {
                         position: 'relative',
                       }}
                     >
-                      <img
-                        src={sizedImage(article.image, 800)}
+                      <ArticleImage
+                        src={article.image}
+                        width={800}
                         alt={article.title}
-                        loading="lazy"
-                        decoding="async"
                         style={{
                           width: '100%',
                           height: '100%',
@@ -522,11 +521,10 @@ export default function Insights() {
                           position: 'relative',
                         }}
                       >
-                        <img
-                          src={sizedImage(article.image, 480)}
+                        <ArticleImage
+                          src={article.image}
+                          width={480}
                           alt={article.title}
-                          loading="lazy"
-                          decoding="async"
                           style={{
                             width: '100%',
                             height: '100%',
