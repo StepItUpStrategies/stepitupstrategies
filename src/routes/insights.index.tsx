@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { getCurrentArticles, getArchiveArticles } from '../server/articles'
+import { sizedImage } from '../utils/images'
 
 export const Route = createFileRoute('/insights/')({
   component: Insights,
@@ -16,6 +17,30 @@ export const Route = createFileRoute('/insights/')({
 export default function Insights() {
   const { currentArticles, archiveArticles } = Route.useLoaderData()
   const [articlesVisible, setArticlesVisible] = useState(false)
+
+  // The archive accordion animates `max-height`, which needs a concrete pixel
+  // value to transition to — but a fixed cap silently clips the grid once the
+  // archive outgrows it. With dozens of articles the grid is taller than any
+  // reasonable cap at narrow widths (a single-column phone layout runs to well
+  // over ten thousand pixels), so the tail of the archive became unreachable.
+  // Measure the content instead, then drop the cap once the reveal finishes so
+  // later reflows — font swap, image decode, window resize — can't re-clip it.
+  const archiveRef = useRef<HTMLDivElement>(null)
+  const [archiveMaxHeight, setArchiveMaxHeight] = useState('0px')
+
+  const toggleArticles = () => {
+    const el = archiveRef.current
+    const full = el ? `${el.scrollHeight}px` : '100000px'
+    if (articlesVisible) {
+      // Pin the measured height first so the collapse has a start value.
+      setArchiveMaxHeight(full)
+      setArticlesVisible(false)
+      requestAnimationFrame(() => setArchiveMaxHeight('0px'))
+    } else {
+      setArchiveMaxHeight(full)
+      setArticlesVisible(true)
+    }
+  }
 
   return (
     <div style={{ background: 'var(--color-cream)', minHeight: '100vh' }}>
@@ -65,9 +90,15 @@ export default function Insights() {
         style={{ padding: '5rem 2rem 4rem' }}
       >
         <img
-          src="/brand-icon.png"
+          src="/.netlify/images?url=/brand-icon.png&w=900&q=60"
           alt=""
           aria-hidden="true"
+          // Decorative watermark at 7% opacity, resized by the Image CDN instead of
+          // shipping the full-size PNG. Requested immediately but at low priority so
+          // it does not compete with text, fonts and the hydration bundle — matching
+          // how the same watermark is handled on the homepage.
+          fetchPriority="low"
+          decoding="async"
           style={{
             position: 'absolute',
             top: '50%',
@@ -213,8 +244,10 @@ export default function Insights() {
                       }}
                     >
                       <img
-                        src={article.image}
+                        src={sizedImage(article.image, 800)}
                         alt={article.title}
+                        loading="lazy"
+                        decoding="async"
                         style={{
                           width: '100%',
                           height: '100%',
@@ -401,7 +434,7 @@ export default function Insights() {
               <span style={{ color: 'var(--color-orange)' }}>Articles</span>
             </h2>
             <button
-              onClick={() => setArticlesVisible((v) => !v)}
+              onClick={toggleArticles}
               aria-expanded={articlesVisible}
               aria-label={articlesVisible ? 'Hide articles' : 'Show articles'}
               style={{
@@ -432,8 +465,14 @@ export default function Insights() {
           </div>
 
           <div
+            ref={archiveRef}
+            onTransitionEnd={(e) => {
+              if (e.propertyName === 'max-height' && articlesVisible) {
+                setArchiveMaxHeight('none')
+              }
+            }}
             style={{
-              maxHeight: articlesVisible ? '5000px' : '0',
+              maxHeight: archiveMaxHeight,
               overflow: 'hidden',
               opacity: articlesVisible ? 1 : 0,
               transition: 'max-height 0.5s ease, opacity 0.3s ease',
@@ -453,6 +492,13 @@ export default function Insights() {
                     key={article.slug}
                     to="/insights/$slug"
                     params={{ slug: article.slug }}
+                    // The archive holds every article but the three most recent, so
+                    // this grid renders dozens of links. The router's hover preloading
+                    // is opted out of here: each article's loader is a request to the
+                    // external article feed, and a pointer sweeping down a long grid
+                    // would fire a great many of them for articles nobody opened. The
+                    // three featured cards above keep preloading.
+                    preload={false}
                     style={{ textDecoration: 'none', display: 'block' }}
                   >
                     <div
@@ -477,8 +523,10 @@ export default function Insights() {
                         }}
                       >
                         <img
-                          src={article.image}
+                          src={sizedImage(article.image, 480)}
                           alt={article.title}
+                          loading="lazy"
+                          decoding="async"
                           style={{
                             width: '100%',
                             height: '100%',

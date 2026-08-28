@@ -105,16 +105,31 @@ async function getAllMergedArticles(): Promise<Article[]> {
   return all
 }
 
+/**
+ * Strip the article body for list responses.
+ *
+ * The insights page renders teaser cards — it reads only slug, title, summary
+ * and image, and links through to /insights/$slug for the body. Serialising
+ * `content` for every article shipped the entire archive's HTML inside the page
+ * payload (hundreds of kilobytes of markup nothing on the page renders), so the
+ * list endpoints blank it out. Detail pages keep using getArticleBySlug, which
+ * still returns the full body.
+ */
+function toCard(article: Article): Article {
+  return { ...article, content: '' }
+}
+
 export const getCurrentArticles = createServerFn({ method: 'GET' }).handler(
   async () => {
     const articles = await getAllMergedArticles()
-    return articles.slice(0, 3)
+    return articles.slice(0, 3).map(toCard)
   }
 )
 
 export const getArchiveArticles = createServerFn({ method: 'GET' }).handler(
   async () => {
-    return getAllMergedArticles()
+    const articles = await getAllMergedArticles()
+    return articles.map(toCard)
   }
 )
 

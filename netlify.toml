@@ -6,8 +6,36 @@
   targetPort = 3000
   port = 8888
 
+# Article artwork served by the external Soro feed lives in Supabase public storage.
+# Allowlisting it lets the Image CDN resize those images down to the size the cards
+# actually render at, and serve them from our own edge cache rather than making every
+# visitor fetch full-resolution originals from a third-party origin.
+# Keep this in sync with ALLOWED_REMOTE in src/utils/images.ts.
+[images]
+  remote_images = [
+    "https://[a-z0-9-]+\\.supabase\\.co/storage/v1/object/public/.*"
+  ]
+
+# Self-hosted webfonts. Filenames are stable rather than content-hashed, so if a
+# font file is ever replaced, rename it too — an immutable response will not be
+# revalidated for a year.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 [[headers]]
   for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.webp"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 

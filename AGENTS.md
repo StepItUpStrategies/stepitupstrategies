@@ -14,7 +14,7 @@ A single-page marketing/landing site for **Step It Up Strategies**, a business m
 | Frontend | React 19, TanStack Router v1 |
 | Build | Vite 7 |
 | Styling | Tailwind CSS 4 + custom CSS custom properties |
-| Fonts | Cormorant Garamond (display) + DM Sans (body) via Google Fonts |
+| Fonts | Bai Jamjuree (display) + DM Sans (body), self-hosted woff2 in `public/fonts/` |
 | Language | TypeScript 5.7 (strict mode) |
 | Deployment | Netlify |
 
@@ -23,7 +23,7 @@ A single-page marketing/landing site for **Step It Up Strategies**, a business m
 ```
 src/
 ├── routes/
-│   ├── __root.tsx        # Root shell: Google Fonts links, SEO meta, HTML structure
+│   ├── __root.tsx        # Root shell: font preloads, SEO meta, HTML structure
 │   ├── index.tsx         # Landing page — all sections in one component
 │   ├── services.index.tsx  # /services — overview grid of the nine categories
 │   └── services.$slug.tsx  # /services/:slug — service detail page (one per category)
@@ -61,12 +61,23 @@ Each detail page sets its own `<title>`, meta description, Open Graph tags, and 
 route's `head()`. Canonical URLs are per-route (the homepage sets its own in `index.tsx`) — the root
 route deliberately does not set one, or every page would canonicalize to the homepage.
 
+### Self-hosted Fonts
+Both families are served from `public/fonts/` rather than fonts.googleapis.com. The
+`@font-face` blocks live at the top of `src/styles.css` and are a copy of Google's own CSS —
+same woff2 files, same `unicode-range` subsetting, same `font-display: swap` — so rendering is
+unchanged while the critical path loses a third-party stylesheet and two extra origins. Only
+the `latin` and `latin-ext` subsets are kept (no Thai or Vietnamese copy on the site).
+
+`__root.tsx` preloads the two files that cover first paint (`dm-sans-latin.woff2` and
+`bai-jamjuree-700-latin.woff2`). Font filenames are not content-hashed but are served
+`immutable` for a year, so **rename the file if you ever replace a font**.
+
 ### Design System via CSS Custom Properties
 All design tokens are defined in `src/styles.css` using `@theme` (Tailwind CSS 4 syntax) and standard CSS `--custom-property` variables:
 - `--color-obsidian` / `--color-charcoal` / `--color-surface` — dark backgrounds
 - `--color-cream` / `--color-cream-dim` — text colors
 - `--color-gold` / `--color-gold-light` / `--color-gold-pale` — accent colors
-- `--font-display` (Cormorant Garamond serif) / `--font-body` (DM Sans)
+- `--font-display` (Bai Jamjuree) / `--font-body` (DM Sans)
 
 ### Scroll Reveal Animations
 The `useScrollReveal` hook uses `IntersectionObserver` to add `in-view` to `.reveal` elements. CSS transitions animate opacity and translateY. Delay variants: `.reveal-delay-1` through `.reveal-delay-6`. No JS animation library is used.

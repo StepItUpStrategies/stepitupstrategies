@@ -359,6 +359,11 @@ function StepItUpLanding() {
           width={800}
           height={578}
           loading="eager"
+          // Decorative watermark at 9% opacity. Still requested immediately, but
+          // marked low priority so it queues behind the logo, fonts and hydration
+          // bundle instead of competing with them for the first connections.
+          fetchPriority="low"
+          decoding="async"
           style={{
             position: 'absolute',
             top: 'calc(9rem + 1mm - 1in / 3)',
