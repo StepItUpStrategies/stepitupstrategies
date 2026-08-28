@@ -93,26 +93,36 @@ body {
    panel is a link, so the arrow pulses along its own diagonal to advertise it. */
 @keyframes pulseArrow {
   0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
-  50% { transform: translate(3px, -3px) scale(1.18); opacity: 0.6; }
+  50% { transform: translate(6px, -6px) scale(1.42); opacity: 0.45; }
 }
 
 /* Click affordance for the footer address, which opens driving directions.
-   Animates opacity and glow rather than colour: the homepage footer sets its
-   hover colour via an inline style, and animation declarations outrank inline
+   Animates opacity, scale and glow rather than colour: the homepage footer sets
+   its hover colour via an inline style, and animation declarations outrank inline
    styles in the cascade, so animating colour here would kill that hover. */
 @keyframes pulseAddress {
-  0%, 100% { opacity: 1; text-shadow: 0 0 0 rgba(255, 154, 61, 0); }
-  50% { opacity: 0.6; text-shadow: 0 0 12px rgba(255, 154, 61, 0.55); }
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(255, 154, 61, 0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.06);
+    text-shadow:
+      0 0 14px rgba(255, 154, 61, 0.9),
+      0 0 30px rgba(255, 154, 61, 0.5);
+  }
 }
 
 .pulse-arrow {
   display: inline-block;
-  animation: pulseArrow 1.9s ease-in-out infinite;
+  animation: pulseArrow 1.6s ease-in-out infinite;
 }
 
 .pulse-address {
   display: inline-block;
-  animation: pulseAddress 2.6s ease-in-out infinite;
+  animation: pulseAddress 2.2s ease-in-out infinite;
 }
 
 /* Both pulses are attention cues, not content — drop them when the visitor has
