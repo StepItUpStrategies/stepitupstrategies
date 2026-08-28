@@ -184,11 +184,14 @@ function StepItUpLanding() {
       if (target && target.getAttribute('href')?.startsWith('#')) {
         // Only apply offset on desktop (screen width > 768px)
         if (window.innerWidth >= 1024) {
-          e.preventDefault()
           const href = target.getAttribute('href')
-          if (href) {
+          // "#" on its own is not a valid selector, and querySelector throws on it,
+          // which would leave the click both cancelled and unhandled. Anything that
+          // does not resolve to an element is left to the browser's own behaviour.
+          if (href && href.length > 1) {
             const element = document.querySelector(href)
             if (element) {
+              e.preventDefault()
               const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
               // Offset by 51px (approximately 1/2 + 1/3 + 1/4 inch total) to account for fixed nav
               const offsetPosition = elementPosition - 51
@@ -1082,13 +1085,13 @@ function StepItUpLanding() {
             >
               {[
                 {
-                  role: 'Certified Sommeliers',
-                  desc: 'Formal sommelier certification with deep expertise across Old World and New World wine programs, cellar management, and guest education.',
+                  role: 'Owner Operators',
+                  desc: 'First-hand ownership and operating experience — we have built, opened, and run our own concepts, carrying the same risk, capital, and accountability our clients face every day.',
                   delay: 'reveal-delay-1',
                 },
                 {
-                  role: 'Spirit Experts',
-                  desc: 'Advanced spirits knowledge spanning whiskey, rum, agave, and craft distillates — applied to cocktail program design and staff training.',
+                  role: 'Certified Bookkeepers & Accountants',
+                  desc: 'Certified bookkeeping and accounting expertise — from day-to-day ledgers and payroll to financial reporting and controller-level oversight, keeping the numbers accurate and the business audit-ready.',
                   delay: 'reveal-delay-2',
                 },
                 {
@@ -1102,13 +1105,13 @@ function StepItUpLanding() {
                   delay: 'reveal-delay-4',
                 },
                 {
-                  role: 'Certified Bookkeepers & Accountants',
-                  desc: 'Certified bookkeeping and accounting expertise — from day-to-day ledgers and payroll to financial reporting and controller-level oversight, keeping the numbers accurate and the business audit-ready.',
+                  role: 'Spirit Experts',
+                  desc: 'Advanced spirits knowledge spanning whiskey, rum, agave, and craft distillates — applied to cocktail program design and staff training.',
                   delay: 'reveal-delay-5',
                 },
                 {
-                  role: 'Owner Operators',
-                  desc: 'First-hand ownership and operating experience — we have built, opened, and run our own concepts, carrying the same risk, capital, and accountability our clients face every day.',
+                  role: 'Certified Sommeliers',
+                  desc: 'Formal sommelier certification with deep expertise across Old World and New World wine programs, cellar management, and guest education.',
                   delay: 'reveal-delay-6',
                 },
               ].map(({ role, desc, delay }) => (
@@ -1608,7 +1611,7 @@ function StepItUpLanding() {
           {/* Right: Contact form */}
           <div className="reveal reveal-delay-2">
             {/* Hidden form for Netlify detection */}
-            <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+            <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
               <input type="text" name="name" />
               <input type="email" name="email" />
               <input type="text" name="company" />
@@ -1752,7 +1755,7 @@ function StepItUpLanding() {
               }}
             >
               <a
-                href="#"
+                href="#top"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',

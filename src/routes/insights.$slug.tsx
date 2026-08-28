@@ -10,7 +10,15 @@ export const Route = createFileRoute('/insights/$slug')({
   },
 })
 
+// Called during render, so it cannot assume a browser: DOMParser does not exist on
+// the server and throwing here aborts the whole server render (the page then arrives
+// as an empty shell that only fills in after hydration). The result is only ever fed
+// to speech synthesis, which is client-only, so the server can make do with a plain
+// tag strip and the browser keeps the accurate entity-decoding path.
 function stripHtml(html: string): string {
+  if (typeof DOMParser === 'undefined') {
+    return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  }
   const doc = new DOMParser().parseFromString(html, 'text/html')
   return doc.body.textContent || ''
 }
@@ -63,6 +71,9 @@ function useTextToSpeech(text: string) {
   const [femaleVoice, setFemaleVoice] = useState<SpeechSynthesisVoice | undefined>()
 
   useEffect(() => {
+    // ListenButton hides itself when speech synthesis is missing, but that happens in
+    // its own effect — this one still runs first, so it has to check for itself.
+    if (typeof window === 'undefined' || !window.speechSynthesis) return
     const pickVoice = () => setFemaleVoice(getFemaleVoice())
     pickVoice()
     window.speechSynthesis.addEventListener('voiceschanged', pickVoice)

@@ -2,6 +2,7 @@ import { createRouter } from '@tanstack/react-router'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
+import { NotFound } from './components/NotFound'
 
 // Create a new router instance
 export const getRouter = () => {
@@ -16,6 +17,9 @@ export const getRouter = () => {
     // the nav from firing requests for links nobody meant to open.
     defaultPreload: 'intent',
     defaultPreloadDelay: 80,
+    // Any URL that matches no route (and any route that calls notFound()) renders
+    // the branded 404 instead of the router's bare built-in fallback.
+    defaultNotFoundComponent: NotFound,
   })
 
   return router
