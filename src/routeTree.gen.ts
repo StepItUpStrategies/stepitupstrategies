@@ -16,7 +16,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
-import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -54,11 +53,6 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
-  id: '/products/$productId',
-  path: '/products/$productId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const InsightsSlugRoute = InsightsSlugRouteImport.update({
   id: '/insights/$slug',
   path: '/insights/$slug',
@@ -71,7 +65,6 @@ export interface FileRoutesByFullPath {
   '/notary': typeof NotaryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/insights/$slug': typeof InsightsSlugRoute
-  '/products/$productId': typeof ProductsProductIdRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/insights/': typeof InsightsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -82,7 +75,6 @@ export interface FileRoutesByTo {
   '/notary': typeof NotaryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/insights/$slug': typeof InsightsSlugRoute
-  '/products/$productId': typeof ProductsProductIdRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/insights': typeof InsightsIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -94,7 +86,6 @@ export interface FileRoutesById {
   '/notary': typeof NotaryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/insights/$slug': typeof InsightsSlugRoute
-  '/products/$productId': typeof ProductsProductIdRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/insights/': typeof InsightsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -107,7 +98,6 @@ export interface FileRouteTypes {
     | '/notary'
     | '/privacy-policy'
     | '/insights/$slug'
-    | '/products/$productId'
     | '/services/$slug'
     | '/insights/'
     | '/services/'
@@ -118,7 +108,6 @@ export interface FileRouteTypes {
     | '/notary'
     | '/privacy-policy'
     | '/insights/$slug'
-    | '/products/$productId'
     | '/services/$slug'
     | '/insights'
     | '/services'
@@ -129,7 +118,6 @@ export interface FileRouteTypes {
     | '/notary'
     | '/privacy-policy'
     | '/insights/$slug'
-    | '/products/$productId'
     | '/services/$slug'
     | '/insights/'
     | '/services/'
@@ -141,7 +129,6 @@ export interface RootRouteChildren {
   NotaryRoute: typeof NotaryRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   InsightsSlugRoute: typeof InsightsSlugRoute
-  ProductsProductIdRoute: typeof ProductsProductIdRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   InsightsIndexRoute: typeof InsightsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -198,13 +185,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/products/$productId': {
-      id: '/products/$productId'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof ProductsProductIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/insights/$slug': {
       id: '/insights/$slug'
       path: '/insights/$slug'
@@ -221,7 +201,6 @@ const rootRouteChildren: RootRouteChildren = {
   NotaryRoute: NotaryRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   InsightsSlugRoute: InsightsSlugRoute,
-  ProductsProductIdRoute: ProductsProductIdRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   InsightsIndexRoute: InsightsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,

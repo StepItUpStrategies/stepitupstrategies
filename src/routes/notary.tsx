@@ -2,32 +2,58 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { SiteHeader, SiteFooter } from '../components/PageChrome'
 import { NotaryBadge } from '../components/NotaryBadge'
+import {
+  BRAND,
+  GEO_COORDINATES,
+  MAP_URL,
+  NAP,
+  POSTAL_ADDRESS,
+  SITE,
+  ogImage,
+  pageMeta,
+} from '../utils/seo'
 
-const SITE = 'https://www.stepitupstrategies.com'
 const URL = `${SITE}/notary`
 
-const META_TITLE = 'Notary Public — Winter Garden, Central Florida & Online | Step It Up Strategies'
+// Title and description lead on "Notary Public" plus the place name, because that
+// is the shape of the query this page has to win: a person looking for a notary
+// near them, not a person looking for this company. The brand is carried by
+// `og:site_name` and the WebSite node instead of eating title characters.
+const META_TITLE = 'Notary Public in Winter Garden, FL — Mobile & Online Notary'
 const META_DESCRIPTION =
-  'Certified, licensed and bonded notary public serving Winter Garden and the greater Central Florida area, with remote online notarization available anywhere in the United States. By appointment only.'
+  'Licensed, bonded notary public in Winter Garden, FL. Notary appointments at our office, a mobile notary who travels to you across Central Florida, or online notarization nationwide. Same-day appointments available.'
 
 export const Route = createFileRoute('/notary')({
   component: NotaryPage,
   head: () => ({
     meta: [
-      { title: META_TITLE },
-      { name: 'description', content: META_DESCRIPTION },
+      ...pageMeta({
+        title: META_TITLE,
+        description: META_DESCRIPTION,
+        url: URL,
+        image: ogImage('/notary/notary-public-stamping-document.jpg'),
+        imageAlt: 'Notary public applying a seal to a document',
+      }),
       {
         name: 'keywords',
         content:
-          'notary public Winter Garden FL, mobile notary Central Florida, online notary, remote online notarization, Orlando notary, licensed bonded notary, notary near me',
+          'notary, notary public, notary public near me, notary near me, notary public Winter Garden FL, Winter Garden notary, mobile notary Central Florida, mobile notary Orlando, online notary, remote online notarization, Orlando notary public, Ocoee notary, Windermere notary, Clermont notary, licensed bonded notary public',
       },
-      { property: 'og:title', content: META_TITLE },
-      { property: 'og:description', content: META_DESCRIPTION },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: URL },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: META_TITLE },
-      { name: 'twitter:description', content: META_DESCRIPTION },
+      // Repeated on this route as well as sitewide: the notary listing is the page
+      // most likely to be crawled in isolation for a proximity query, so the
+      // coordinates should be present in its own head regardless of the fallback.
+      { name: 'geo.region', content: `US-${NAP.region}` },
+      { name: 'geo.placename', content: `${NAP.city}, ${NAP.regionName}` },
+      { name: 'geo.position', content: `${NAP.latitude};${NAP.longitude}` },
+      { name: 'ICBM', content: `${NAP.latitude}, ${NAP.longitude}` },
+      { property: 'business:contact_data:street_address', content: NAP.street },
+      { property: 'business:contact_data:locality', content: NAP.city },
+      { property: 'business:contact_data:region', content: NAP.region },
+      { property: 'business:contact_data:postal_code', content: NAP.postalCode },
+      { property: 'business:contact_data:country_name', content: 'United States' },
+      { property: 'business:contact_data:phone_number', content: NAP.phone },
+      { property: 'place:location:latitude', content: String(NAP.latitude) },
+      { property: 'place:location:longitude', content: String(NAP.longitude) },
     ],
     links: [{ rel: 'canonical', href: URL }],
   }),
@@ -91,6 +117,96 @@ const DOCUMENTS = [
   'Corporate resolutions and LLC filings',
 ]
 
+/**
+ * Where the mobile notary actually travels, grouped by county.
+ *
+ * This drives three things at once: the visible "service area" section, the
+ * `areaServed` list in the LocalBusiness markup, and the county containment that
+ * lets a search engine connect a city name it does not recognise to a county it
+ * does. Keep the lists honest — an area listed here is an area we have said we
+ * will drive to, and a search engine that surfaces us for a town we then decline
+ * is worse than not ranking there at all.
+ */
+const SERVICE_AREAS: Array<{ county: string; cities: string[] }> = [
+  {
+    county: 'Orange County',
+    cities: [
+      'Winter Garden',
+      'Ocoee',
+      'Oakland',
+      'Windermere',
+      'Gotha',
+      'Horizon West',
+      'Orlando',
+      'Apopka',
+      'Winter Park',
+      'Maitland',
+    ],
+  },
+  {
+    county: 'Lake County',
+    cities: ['Clermont', 'Minneola', 'Groveland', 'Montverde', 'Mascotte', 'Mount Dora', 'Tavares'],
+  },
+  {
+    county: 'Osceola County',
+    cities: ['Kissimmee', 'St. Cloud', 'Celebration', 'Poinciana'],
+  },
+  {
+    county: 'Seminole County',
+    cities: ['Sanford', 'Lake Mary', 'Longwood', 'Altamonte Springs', 'Oviedo', 'Winter Springs'],
+  },
+  {
+    county: 'Polk County',
+    cities: ['Davenport', 'Haines City', 'Winter Haven'],
+  },
+]
+
+/** ZIP codes inside the routine mobile radius, listed for proximity queries. */
+const SERVICE_ZIPS = [
+  '34787',
+  '34786',
+  '34761',
+  '34760',
+  '34734',
+  '34756',
+  '32835',
+  '32836',
+  '32819',
+  '34711',
+  '34714',
+  '32703',
+  '34741',
+  '34747',
+]
+
+/** The three notarial delivery formats, as schema.org Services. */
+const NOTARY_SERVICES: Array<{
+  name: string
+  serviceType: string
+  description: string
+  nationwide?: boolean
+}> = [
+  {
+    name: 'In-Office Notary Public Appointments',
+    serviceType: 'Notary Public',
+    description:
+      'Notary public appointments at our Winter Garden office at 504 W Plant St, for single signatures and small document packages.',
+  },
+  {
+    name: 'Mobile Notary Public',
+    serviceType: 'Mobile Notary',
+    description:
+      'A commissioned notary public travels to your home, office, hospital, title company, or job site anywhere in the greater Central Florida area.',
+  },
+  {
+    name: 'Remote Online Notarization',
+    serviceType: 'Online Notary',
+    description:
+      'Remote online notarization over a secure audio-video session, available to signers anywhere in the United States.',
+    nationwide: true,
+  },
+]
+
 const STEPS: Array<{ label: string; title: string; body: string }> = [
   {
     label: '01',
@@ -130,6 +246,10 @@ const FAQS: Array<{ q: string; a: string }> = [
   {
     q: 'How far will you travel?',
     a: 'We travel throughout the greater Central Florida area, including Orange, Lake, Osceola, Seminole, and neighboring counties — Winter Garden, Orlando, Ocoee, Windermere, Clermont, Apopka, Kissimmee, and the surrounding communities. If you are outside that radius, ask us and we will let you know what is workable, or set up an online session instead.',
+  },
+  {
+    q: 'Is there a notary public near me?',
+    a: 'If you are in or around Winter Garden, Ocoee, Windermere, Oakland, Horizon West, Orlando, Apopka, Clermont, or Kissimmee, then yes — our office sits at 504 W Plant St in downtown Winter Garden, and our mobile notary covers roughly a thirty-mile radius around it. Tell us your address or ZIP code when you request an appointment and we will confirm whether a mobile visit or an online session is the faster route for you.',
   },
   {
     q: 'Can you notarize for someone outside of Florida?',
@@ -468,39 +588,100 @@ function NotaryPage() {
   const structuredData = [
     {
       '@context': 'https://schema.org',
-      '@type': 'ProfessionalService',
-      '@id': URL,
-      name: 'Step It Up Strategies — Notary Public',
+      // `Notary` is a real schema.org type (LocalBusiness > LegalService > Notary).
+      // Declaring it alongside LocalBusiness is what lets a search engine classify
+      // this as a notary rather than as a generic consultancy that mentions notary
+      // work, and it is the type Google reads for the "notary public" category.
+      '@type': ['Notary', 'LocalBusiness', 'ProfessionalService'],
+      '@id': `${URL}#notary`,
+      name: `${BRAND} — Notary Public`,
+      alternateName: 'Winter Garden Notary Public',
       description: META_DESCRIPTION,
       url: URL,
-      telephone: '+1-321-513-0479',
-      email: 'brian@stepitupstrategies.com',
+      telephone: NAP.phone,
+      email: NAP.email,
       priceRange: '$$',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '504 W Plant St',
-        addressLocality: 'Winter Garden',
-        addressRegion: 'FL',
-        postalCode: '34787',
-        addressCountry: 'US',
+      currenciesAccepted: 'USD',
+      paymentAccepted: 'Cash, Credit Card, Debit Card, Check',
+      image: ogImage('/notary/notary-public-stamping-document.jpg'),
+      logo: `${SITE}/logo.png`,
+      additionalType: 'https://en.wikipedia.org/wiki/Notary_public',
+      knowsLanguage: ['en-US'],
+      address: POSTAL_ADDRESS,
+      // The two properties that make this page answerable for a proximity query.
+      // `geo` fixes the office on the map; `serviceArea` describes how far the
+      // mobile notary will travel from it, which is a different claim and has to be
+      // stated separately or the radius is assumed to be zero.
+      geo: GEO_COORDINATES,
+      hasMap: MAP_URL,
+      serviceArea: {
+        '@type': 'GeoCircle',
+        geoMidpoint: GEO_COORDINATES,
+        // ~30 miles, the practical mobile-notary radius described in the FAQ.
+        geoRadius: '48280',
+        description:
+          'Mobile notary travel radius from our Winter Garden office, covering Orange, Lake, Osceola, Seminole and neighboring counties.',
       },
-      parentOrganization: {
-        '@type': 'Organization',
-        name: 'Step It Up Strategies',
-        url: SITE,
-      },
+      parentOrganization: { '@id': `${SITE}/#organization` },
       areaServed: [
-        { '@type': 'City', name: 'Winter Garden' },
-        { '@type': 'City', name: 'Orlando' },
+        ...SERVICE_AREAS.flatMap((county) =>
+          county.cities.map((city) => ({
+            '@type': 'City',
+            name: `${city}, ${NAP.regionName}`,
+            containedInPlace: {
+              '@type': 'AdministrativeArea',
+              name: `${county.county}, ${NAP.regionName}`,
+            },
+          })),
+        ),
         { '@type': 'AdministrativeArea', name: 'Central Florida' },
+        { '@type': 'State', name: NAP.regionName },
+        // Remote online notarization is genuinely nationwide, so the country is a
+        // real claim here rather than boilerplate.
         { '@type': 'Country', name: 'United States' },
       ],
-      availableService: {
+      availableService: NOTARY_SERVICES.map((svc) => ({
         '@type': 'Service',
+        name: svc.name,
+        serviceType: svc.serviceType,
+        description: svc.description,
+        provider: { '@id': `${URL}#notary` },
+        areaServed: svc.nationwide
+          ? { '@type': 'Country', name: 'United States' }
+          : {
+              '@type': 'GeoCircle',
+              geoMidpoint: GEO_COORDINATES,
+              geoRadius: '48280',
+            },
+      })),
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
         name: 'Notary Public Services',
-        serviceType: 'Notary Public',
-        description:
-          'In-office, mobile and remote online notarization for affidavits, powers of attorney, deeds, estate documents, loan packages, and business filings.',
+        itemListElement: DOCUMENTS.map((doc) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: `Notarization — ${doc}`,
+            serviceType: 'Notary Public',
+          },
+        })),
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      '@id': `${URL}#webpage`,
+      url: URL,
+      name: META_TITLE,
+      description: META_DESCRIPTION,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': `${SITE}/#website` },
+      about: { '@id': `${URL}#notary` },
+      mainEntity: { '@id': `${URL}#notary` },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: ogImage('/notary/notary-public-stamping-document.jpg'),
+        caption: 'Notary public applying a seal to a document',
       },
     },
     {
@@ -587,7 +768,7 @@ function NotaryPage() {
                   letterSpacing: '-0.015em',
                 }}
               >
-                A certified, licensed notary public{' '}
+                A certified, licensed notary public in Winter Garden{' '}
                 <span style={{ color: 'var(--color-orange)' }}>you can actually get an appointment with</span>
               </h1>
               <span className="brand-rule" style={{ width: '96px', margin: '1.75rem 0' }} />
@@ -953,6 +1134,142 @@ function NotaryPage() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── SERVICE AREA ─────────────────────────────────────────────────── */}
+      {/* The proximity half of this page's search intent. The LocalBusiness markup
+          tells a crawler where the office is and how far the mobile notary travels;
+          this section is the human-readable version of the same claim, and it is
+          what gives a query naming a specific town or ZIP something on the page to
+          match against. The county grouping is deliberate — it mirrors the
+          `containedInPlace` structure in the schema above. */}
+      <section
+        id="notary-service-area"
+        style={{ maxWidth: '1280px', margin: '0 auto', padding: '6rem 2rem' }}
+      >
+        <div style={{ maxWidth: '760px' }}>
+          <SectionHeading label="Where We Work" accent="service area">
+            Notary public
+          </SectionHeading>
+          <p style={{ color: 'var(--color-ink-soft)', lineHeight: 1.8, fontSize: '1.02rem' }}>
+            Our office is at{' '}
+            <strong style={{ color: 'var(--color-blue)' }}>
+              {NAP.street}, {NAP.city}, {NAP.region} {NAP.postalCode}
+            </strong>
+            , in historic downtown Winter Garden. If you are looking for a notary public near
+            you, our mobile notary travels roughly thirty miles from that office — across Orange,
+            Lake, Osceola, Seminole, and Polk counties. Anywhere further out, a remote online
+            notarization session covers you no matter where in the United States you are signing
+            from.
+          </p>
+          <div className="flex flex-wrap gap-4" style={{ marginTop: '2rem' }}>
+            <a
+              href={MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+            >
+              Get Directions
+            </a>
+            <a href={`tel:${NAP.phone}`} className="btn-outline">
+              Call {NAP.phoneDisplay}
+            </a>
+          </div>
+        </div>
+
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          style={{ marginTop: '3.5rem' }}
+        >
+          {SERVICE_AREAS.map((area) => (
+            <div
+              key={area.county}
+              style={{
+                border: '1.5px solid var(--color-line)',
+                borderRadius: '14px',
+                padding: '1.6rem 1.5rem',
+                background: 'var(--color-cream)',
+              }}
+            >
+              <h3
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '1.05rem',
+                  fontWeight: 700,
+                  color: 'var(--color-blue)',
+                  margin: '0 0 0.9rem',
+                }}
+              >
+                {area.county}
+              </h3>
+              <ul
+                style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '0.4rem 0.75rem',
+                }}
+              >
+                {area.cities.map((city) => (
+                  <li
+                    key={city}
+                    style={{
+                      color: 'var(--color-ink-soft)',
+                      fontSize: '0.9rem',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {city}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          <div
+            style={{
+              border: '1.5px solid rgba(245, 130, 32, 0.35)',
+              borderRadius: '14px',
+              padding: '1.6rem 1.5rem',
+              background: 'var(--color-orange-soft)',
+            }}
+          >
+            <h3
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.05rem',
+                fontWeight: 700,
+                color: 'var(--color-blue)',
+                margin: '0 0 0.9rem',
+              }}
+            >
+              ZIP codes we cover
+            </h3>
+            <p
+              style={{
+                color: 'var(--color-ink-soft)',
+                fontSize: '0.9rem',
+                lineHeight: 1.7,
+                margin: 0,
+              }}
+            >
+              {SERVICE_ZIPS.join(' · ')}
+            </p>
+            <p
+              style={{
+                color: 'var(--color-ink-soft)',
+                fontSize: '0.85rem',
+                lineHeight: 1.7,
+                margin: '0.9rem 0 0',
+              }}
+            >
+              Not on the list? Ask — we will tell you whether a mobile visit works or set up an
+              online session instead.
+            </p>
+          </div>
         </div>
       </section>
 

@@ -1,8 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { SERVICES } from '../data/services'
 import { SiteHeader, SiteFooter } from '../components/PageChrome'
-
-const SITE = 'https://www.stepitupstrategies.com'
+import { SITE, ogImage, pageMeta } from '../utils/seo'
 
 const TITLE = 'Our Services — Step It Up Strategies'
 const DESCRIPTION =
@@ -11,17 +10,13 @@ const DESCRIPTION =
 export const Route = createFileRoute('/services/')({
   component: ServicesIndex,
   head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: 'description', content: DESCRIPTION },
-      { property: 'og:title', content: TITLE },
-      { property: 'og:description', content: DESCRIPTION },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: `${SITE}/services` },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: TITLE },
-      { name: 'twitter:description', content: DESCRIPTION },
-    ],
+    meta: pageMeta({
+      title: TITLE,
+      description: DESCRIPTION,
+      url: `${SITE}/services`,
+      image: ogImage('/services/restaurant-consulting.jpg'),
+      imageAlt: 'Step It Up Strategies consulting services',
+    }),
     links: [{ rel: 'canonical', href: `${SITE}/services` }],
   }),
 })

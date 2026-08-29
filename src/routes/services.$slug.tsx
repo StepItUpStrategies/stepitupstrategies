@@ -5,8 +5,7 @@ import { SiteHeader, SiteFooter } from '../components/PageChrome'
 import { getArticlesBySlugs } from '../server/articles'
 import { ArticleImage } from '../components/ArticleImage'
 import { sizedImage } from '../utils/images'
-
-const SITE = 'https://www.stepitupstrategies.com'
+import { DEFAULT_OG_IMAGE, SITE, ogImage, pageMeta } from '../utils/seo'
 
 export const Route = createFileRoute('/services/$slug')({
   component: ServiceDetailPage,
@@ -20,21 +19,24 @@ export const Route = createFileRoute('/services/$slug')({
   head: ({ params }) => {
     const service = getServiceBySlug(params.slug)
     if (!service) {
-      return { meta: [{ title: 'Service Not Found — Step It Up Strategies' }] }
+      // An unknown slug renders the not-found panel, so keep it out of the index
+      // rather than letting a soft 404 accumulate crawl budget.
+      return {
+        meta: [
+          { title: 'Service Not Found — Step It Up Strategies' },
+          { name: 'robots', content: 'noindex, follow' },
+        ],
+      }
     }
     const url = `${SITE}/services/${service.slug}`
     return {
-      meta: [
-        { title: service.metaTitle },
-        { name: 'description', content: service.metaDescription },
-        { property: 'og:title', content: service.metaTitle },
-        { property: 'og:description', content: service.metaDescription },
-        { property: 'og:type', content: 'website' },
-        { property: 'og:url', content: url },
-        { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: service.metaTitle },
-        { name: 'twitter:description', content: service.metaDescription },
-      ],
+      meta: pageMeta({
+        title: service.metaTitle,
+        description: service.metaDescription,
+        url,
+        image: service.image ? ogImage(service.image) : DEFAULT_OG_IMAGE,
+        imageAlt: service.title,
+      }),
       links: [{ rel: 'canonical', href: url }],
     }
   },
@@ -152,12 +154,16 @@ function ServiceDetailPage() {
       description: service.metaDescription,
       serviceType: service.serviceType,
       url,
-      provider: {
-        '@type': 'Organization',
-        name: 'Step It Up Strategies',
-        url: SITE,
-      },
-      areaServed: 'United States',
+      ...(service.image ? { image: ogImage(service.image) } : {}),
+      // Reference the sitewide Organization node instead of restating it, so the
+      // service and the business resolve to one entity rather than two.
+      provider: { '@id': `${SITE}/#organization` },
+      areaServed: [
+        { '@type': 'City', name: 'Winter Garden, Florida' },
+        { '@type': 'City', name: 'Orlando, Florida' },
+        { '@type': 'AdministrativeArea', name: 'Central Florida' },
+        { '@type': 'Country', name: 'United States' },
+      ],
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
         name: `${service.title} Capabilities`,
@@ -184,6 +190,17 @@ function ServiceDetailPage() {
         name: f.q,
         acceptedAnswer: { '@type': 'Answer', text: f.a },
       })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      '@id': `${url}#webpage`,
+      url,
+      name: service.metaTitle,
+      description: service.metaDescription,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': `${SITE}/#website` },
+      about: { '@id': `${SITE}/#organization` },
     },
   ]
 

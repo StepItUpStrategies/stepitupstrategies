@@ -1,4 +1,12 @@
+# https://www.stepitupstrategies.com/robots.txt
 User-agent: *
 Allow: /
+
+# Hidden stubs that exist only so Netlify registers the forms at build time.
+# They contain nothing a visitor should ever land on. They are also served with
+# an X-Robots-Tag: noindex header (see netlify.toml), which covers the case where
+# one gets indexed from an external link without being crawled.
+Disallow: /contact-form.html
+Disallow: /notary-form.html
 
 Sitemap: https://www.stepitupstrategies.com/sitemap.xml
