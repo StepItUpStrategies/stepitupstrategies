@@ -144,6 +144,22 @@ Three things not to break:
   card object in `index.tsx`; there is no automatic matching, so renaming a file means editing that
   field.
 
+### Financial Services Photo Fan
+
+The `#financial` section renders two photographs (`public/financial/`) behind its copy, centered in
+the section and rotated in opposite directions from a shared pivot below their bottom edge
+(`transform-origin: 50% 118%`) so they overlap like a pair of playing cards held in one hand. The
+rules live in `.card-fan*` in `styles.css`.
+
+It is decorative: `aria-hidden`, `alt=""`, `pointer-events: none`, and the section's content grid
+carries `position: relative; z-index: 1` to sit above it. The accordion column has a transparent
+background, so the fan shows through under both columns by design.
+
+The opacity (0.24, dropping to 0.16 under 768px where the columns stack) is the load-bearing value —
+the body copy and accordion labels sit directly on top of these images, so raising it trades
+readability for the photos. The radial mask on `.card-fan-inner` is what keeps the fan from ending
+on a hard rectangle.
+
 ### Contact Form
 The contact form is client-side only with a `window.alert` confirmation — it does not submit data anywhere. To enable real form handling, integrate Netlify Forms (see `.agents/skills/netlify-forms-tanstack/SKILL.md`) or a server function endpoint.
 
