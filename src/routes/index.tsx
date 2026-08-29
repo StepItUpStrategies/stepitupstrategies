@@ -1044,11 +1044,13 @@ function StepItUpLanding() {
           <div
             style={{
               display: 'grid',
-              alignItems: 'start',
+              // Stretch, not start: the intro column needs the card grid's height
+              // so its photograph can end level with the last row of cards.
+              alignItems: 'stretch',
             }}
             className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-12 lg:gap-24"
           >
-            <div className="reveal">
+            <div className="reveal veterans-intro">
               <span className="section-label">Who We Are</span>
               <h2
                 style={{
@@ -1075,6 +1077,33 @@ function StepItUpLanding() {
                 ourselves in high-volume, high-pressure environments. Resumes available upon
                 request.
               </p>
+              {/* Section photograph. Unlike the credential-card photos below, this one
+                  is content rather than decoration, so it keeps a real alt text.
+                  Its height comes from .veterans-photo, which stretches it to the
+                  bottom of the last credential-card row.
+
+                  The `sizes` widths are deliberately larger than the 380px column:
+                  the stretched box is taller than the source's 3:2, so `object-fit:
+                  cover` scales the image up until it covers the height and throws
+                  the side overflow away. Declaring the real 380px would let the
+                  browser pick a source with too few vertical pixels for that, and
+                  the visible middle would be a blurry upscale. */}
+              <div className="veterans-photo">
+                <img
+                  src={sizedImage('/expertise/industry-veterans.jpg', 760)}
+                  srcSet={[
+                    `${sizedImage('/expertise/industry-veterans.jpg', 480)} 480w`,
+                    `${sizedImage('/expertise/industry-veterans.jpg', 760)} 760w`,
+                    `${sizedImage('/expertise/industry-veterans.jpg', 1280)} 1280w`,
+                  ].join(', ')}
+                  sizes="(min-width: 1024px) 640px, calc(100vw - 4rem)"
+                  width={1536}
+                  height={1024}
+                  alt="A Step It Up Strategies advisor reviewing an operations checklist on the floor of a working restaurant during service hours."
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             </div>
 
             <div

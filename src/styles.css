@@ -557,6 +557,63 @@ body {
   }
 }
 
+/* ── "Who We Are" intro column ────────────────────────────────────────────────
+   The section photograph under the intro copy is sized to end level with the
+   bottom of the last credential-card row (the "Spirit Experts" / "Certified
+   Sommeliers" pair) rather than to a fixed aspect ratio. The column is a flex
+   box and the photo takes the leftover space, so it stays aligned no matter how
+   the cards reflow or how long the intro copy runs.
+
+   This only applies from the lg breakpoint up, where the two columns sit side by
+   side and the parent grid's `align-items: stretch` gives this column the card
+   grid's full height. Below it the columns stack, there is nothing to line up
+   with, and the photo falls back to the 3:2 frame of the original.
+
+   Because the box ends up taller than 3:2, `object-fit: cover` trims the left and
+   right edges — see the `sizes` attribute on the img, which is widened to account
+   for that so the crop is not upscaled. */
+/* The frame, not the img, is the flex item that gets stretched. An <img> given a
+   zero flex-basis is the one place this layout would be fragile — Safari has a
+   long history of refusing to grow or shrink replaced elements from that basis —
+   so the photo is laid over a plain div instead, the same way
+   .credential-card-media is. As there, `inset: 0` positions it against the
+   padding box, so it bleeds under the border and is clipped to the inner radius,
+   leaving the orange top rule and the hairline border as a frame. */
+.veterans-photo {
+  position: relative;
+  overflow: hidden;
+  margin-top: 2rem;
+  aspect-ratio: 3 / 2;
+  border: 1.5px solid var(--color-line);
+  border-top: 4px solid var(--color-orange);
+  border-radius: 16px;
+}
+
+.veterans-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .veterans-intro {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .veterans-photo {
+    /* Height is whatever the copy above leaves over, so the frame bottoms out
+       level with the last card row. The minimum only matters if the cards ever
+       get much shorter than the intro copy. */
+    aspect-ratio: auto;
+    flex: 1 1 0;
+    min-height: 20rem;
+  }
+}
+
 /* Nav link hover */
 .nav-link {
   position: relative;
