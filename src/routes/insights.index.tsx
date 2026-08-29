@@ -5,6 +5,24 @@ import { ArticleImage } from '../components/ArticleImage'
 
 export const Route = createFileRoute('/insights/')({
   component: Insights,
+  // Insights sits outside the site's SEO system by request, so it gets no canonical,
+  // no share card and no sitemap entry. What it does need is its own robots
+  // directive: with no head() at all it inherited the sitewide `index, follow` and
+  // the homepage's title and description from __root.tsx, so the archive and every
+  // article underneath it were indexable pages claiming to be the homepage — thin
+  // duplicates competing against the page they were impersonating.
+  //
+  // `follow` is deliberate. These pages link to the service pages that are meant to
+  // rank, and dropping the links would waste that. For the same reason there is no
+  // robots.txt Disallow for /insights: a disallowed URL is never fetched, so the
+  // directive below would never be read, and the page could still be indexed from an
+  // external link. Noindex only works if the crawler is allowed in to see it.
+  head: () => ({
+    meta: [
+      { title: 'Insights — Step It Up Strategies' },
+      { name: 'robots', content: 'noindex, follow' },
+    ],
+  }),
   loader: async () => {
     const [currentArticles, archiveArticles] = await Promise.all([
       getCurrentArticles(),

@@ -38,7 +38,12 @@ public/
 └── placeholder.png
 ```
 
-**Note:** `src/routes/products/` and `src/data/products.ts` are scaffolding leftovers from the original marketing template. They are unused but harmless.
+**Note:** `src/routes/products/` and `src/data/products.ts` were scaffolding leftovers from the
+marketing template this site started as. Nothing linked to them, but `/products/$productId` was a
+live, crawlable route with no `head()` of its own, so it inherited the sitewide `index, follow` and
+the homepage's title — every product id was an indexable page impersonating the homepage. The route
+and its data file have been deleted. `public/placeholder.png` was only ever referenced by that data
+and is now unused; it is left in place because nothing depends on it either way.
 
 ## Key Architectural Decisions
 
@@ -53,9 +58,9 @@ cards as a standalone overview.
 
 To edit or add a category, edit `src/data/services.ts` only. The homepage grid, the overview page,
 the footer service list, the sitemap-worthy URL, and the page's schema.org markup all derive from it.
-Slugs are public URLs — do not rename one without adding a redirect. Note that the `Service`
-JSON-LD block inside the `#services` section of `index.tsx` is still hand-maintained and is not
-generated from this data.
+Slugs are public URLs — do not rename one without adding a redirect. The `Service` JSON-LD block
+inside the `#services` section of `index.tsx` is generated from this data too, so adding a category
+gives it a schema.org node automatically.
 
 Each detail page sets its own `<title>`, meta description, Open Graph tags, and canonical URL via the
 route's `head()`. Canonical URLs are per-route (the homepage sets its own in `index.tsx`) — the root
@@ -69,6 +74,19 @@ Six routes import from it. **Do not retype the phone number or address in a rout
 local ranking depends on the NAP triple matching exactly across every page, the Google
 Business Profile, and the BBB listing, and a number that differs between two pages
 reads as two different businesses.
+
+Alongside the NAP triple, three more values in that file exist so they cannot drift:
+`AREA_SERVED` (the one `areaServed` list every schema node uses — it had already
+forked before this was centralised, with the service pages quietly omitting
+Florida), `SOCIAL_PROFILES` (the Organization's `sameAs`; **only ever add a profile
+verified to be this business** — a wrong URL merges this company's entity with
+someone else's, which is worse than having none), and `serviceId()`.
+
+`serviceId(slug)` is load-bearing rather than cosmetic. The homepage grid and the
+service's own detail page both describe the same nine services, so both emit nodes
+under that shared `@id`. Drop it and each page mints an anonymous node instead: the
+detail page's capabilities and FAQs attach to one copy of the service, the
+homepage's description to another, and neither inherits the other's authority.
 
 `pageMeta()` returns the full title/description/robots/OG/Twitter block for a page.
 Every indexable route calls it. TanStack Router resolves head meta deepest-match-first
@@ -91,8 +109,21 @@ declaring one that 404s is a spam signal.
 
 `public/sitemap.xml` lists only real URLs. Fragment links such as `/#services` are
 deliberately excluded — Google discards the fragment, so they collapse into the
-homepage and register as duplicates. Insights routes are outside this system by
-request and are not in the sitemap.
+homepage and register as duplicates.
+
+Insights is outside this system by request: no canonical, no share card, no sitemap
+entry, no article markup. It does still carry a robots directive of its own, because
+having no `head()` at all meant `/insights` and every `/insights/:slug` inherited the
+sitewide `index, follow` **and the homepage's title and description** — dozens of
+indexable pages presenting as copies of the homepage. Both routes now send
+`noindex, follow`.
+
+Two parts of that are deliberate. `follow` stays because these articles link to the
+service pages that are meant to rank. And there is **no robots.txt `Disallow` for
+/insights** — a disallowed URL is never fetched, so the noindex would never be read
+and the page could still be indexed from an external link. Noindex only works if the
+crawler is allowed in to see it, which is the opposite of the belt-and-braces
+treatment the form stubs get below.
 
 The two hidden Netlify Forms stubs (`public/contact-form.html`, `public/notary-form.html`)
 are kept out of the index by *both* a `robots.txt` `Disallow` and an `X-Robots-Tag:
