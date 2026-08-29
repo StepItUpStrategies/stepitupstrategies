@@ -167,6 +167,9 @@
   --color-blue-tint: #e9ebf7;
   --color-orange: #f58220;
   --color-orange-light: #ff9a3d;
+  /* Darker orange for accent type that sits on a photograph rather than on
+     cream — the standard orange is too light to read against an image. */
+  --color-orange-deep: #c05a0c;
   --color-orange-soft: #fdecd9;
 
   --color-ink: #14185a;
@@ -1123,5 +1126,94 @@ body {
 @media (max-width: 767px) {
   .card-fan-inner {
     opacity: 0.16;
+  }
+}
+
+/* ── Contact photo backdrop ───────────────────────────────────────────────
+   The CTA copy in #contact sits on a faded photograph that mirrors the form
+   card opposite it: same 20px radius, and the same height, because the
+   section grid stretches both columns to the taller of the two (the form).
+   The copy is centred inside that box rather than filling it. */
+.contact-copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Matches the form card's inner padding so the text clears the photo edge. */
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* The photo layer is absolutely positioned, so it would otherwise paint over
+   its static siblings. Lifting the copy instead of pushing the photo down
+   keeps it a plain backdrop with no stacking context of its own. */
+.contact-copy > :not(.contact-photo) {
+  position: relative;
+  z-index: 1;
+  /* Cream halo behind the type. This is what allows the wash over the photo to
+     stay light: the copy holds its own edge over the dark areas of the image
+     instead of needing the whole photograph faded out to stay readable. */
+  text-shadow:
+    0 0 3px rgba(251, 250, 246, 0.95),
+    0 0 14px rgba(251, 250, 246, 0.82);
+}
+
+/* "Ready to Step It Up?" sits on the photo like the rest of the copy, but it is
+   small uppercase type in the brand orange, which is the lightest colour in the
+   section. Deepening it here only — the same label on flat cream elsewhere on the
+   page is fine as is. */
+.contact-copy .section-label {
+  color: var(--color-orange-deep);
+}
+
+.contact-copy .section-label::before {
+  background: var(--color-orange-deep);
+}
+
+.contact-photo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.contact-photo img {
+  width: 100%;
+  height: 100%;
+  /* The box is portrait and the source is landscape, so the crop happens here
+     rather than in the Image CDN request. Framed slightly high because both
+     figures sit above the centre line of the frame. */
+  object-fit: cover;
+  object-position: 50% 32%;
+  opacity: 0.8;
+}
+
+/* Cream wash over the photo — the headline, body copy and contact links sit
+   directly on it, and this is what keeps them readable. The photo is meant to
+   read as a photograph, not a texture, so the wash is kept as light as the text
+   allows: heaviest at the left edge where the copy starts and thinning out to
+   the right, where nothing sits on top of it. Lighten it further and the blue
+   type starts to lose the dark areas of the image behind it. */
+.contact-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(251, 250, 246, 0.78) 0%,
+    rgba(251, 250, 246, 0.64) 55%,
+    rgba(251, 250, 246, 0.46) 100%
+  );
+}
+
+/* Stacked columns put the copy across the full width of the photo, so the wash
+   is evened out to hold the same contrast under the text on the right. */
+@media (max-width: 1023px) {
+  .contact-photo::after {
+    background: linear-gradient(
+      100deg,
+      rgba(251, 250, 246, 0.8) 0%,
+      rgba(251, 250, 246, 0.72) 100%
+    );
   }
 }
