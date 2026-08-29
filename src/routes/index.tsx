@@ -1580,12 +1580,31 @@ function StepItUpLanding() {
             maxWidth: '1280px',
             margin: '0 auto',
             display: 'grid',
-            alignItems: 'center',
+            /* Stretch, not center: it is what makes the photo behind the copy
+               the same height as the form card beside it. */
+            alignItems: 'stretch',
           }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20"
         >
-          {/* Left: CTA copy */}
-          <div className="reveal">
+          {/* Left: CTA copy over a photo backdrop — see .contact-copy in styles.css.
+              The copy uses the darker end of the palette (blue-deep / ink) rather
+              than the blue and ink-soft the rest of the page uses, because it sits
+              on the photograph instead of flat cream. */}
+          <div className="reveal contact-copy">
+            <div className="contact-photo" aria-hidden="true">
+              <img
+                src={sizedImage('/contact/inventory-review.jpg', 900)}
+                srcSet={[
+                  `${sizedImage('/contact/inventory-review.jpg', 600)} 600w`,
+                  `${sizedImage('/contact/inventory-review.jpg', 900)} 900w`,
+                  `${sizedImage('/contact/inventory-review.jpg', 1200)} 1200w`,
+                ].join(', ')}
+                sizes="(max-width: 1023px) 100vw, 600px"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
             <span className="section-label">Ready to Step It Up?</span>
             <h2
               style={{
@@ -1593,7 +1612,7 @@ function StepItUpLanding() {
                 fontSize: 'clamp(2.25rem, 4vw, 3.75rem)',
                 fontWeight: 700,
                 lineHeight: 1.1,
-                color: 'var(--color-blue)',
+                color: 'var(--color-blue-deep)',
                 margin: '1.25rem 0 1.5rem',
                 letterSpacing: '-0.01em',
               }}
@@ -1604,7 +1623,7 @@ function StepItUpLanding() {
             </h2>
             <p
               style={{
-                color: 'var(--color-ink-soft)',
+                color: 'var(--color-ink)',
                 lineHeight: 1.8,
                 maxWidth: '480px',
                 marginBottom: '2rem',
@@ -1623,7 +1642,7 @@ function StepItUpLanding() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.75rem',
-                  color: 'var(--color-blue)',
+                  color: 'var(--color-blue-deep)',
                   textDecoration: 'none',
                   fontSize: '1rem',
                   fontWeight: 600,
@@ -1632,7 +1651,7 @@ function StepItUpLanding() {
                   transition: 'color 0.2s',
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue-deep)')}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -1647,7 +1666,7 @@ function StepItUpLanding() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.75rem',
-                  color: 'var(--color-blue)',
+                  color: 'var(--color-blue-deep)',
                   textDecoration: 'none',
                   fontSize: '1rem',
                   fontWeight: 600,
@@ -1656,7 +1675,7 @@ function StepItUpLanding() {
                   transition: 'color 0.2s',
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue-deep)')}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -1671,7 +1690,7 @@ function StepItUpLanding() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.75rem',
-                  color: 'var(--color-blue)',
+                  color: 'var(--color-blue-deep)',
                   textDecoration: 'none',
                   fontSize: '1rem',
                   fontWeight: 600,
@@ -1680,7 +1699,7 @@ function StepItUpLanding() {
                   transition: 'color 0.2s',
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-orange)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-blue-deep)')}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />

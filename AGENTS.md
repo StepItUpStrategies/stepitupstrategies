@@ -160,6 +160,26 @@ the body copy and accordion labels sit directly on top of these images, so raisi
 readability for the photos. The radial mask on `.card-fan-inner` is what keeps the fan from ending
 on a hard rectangle.
 
+### Contact Photo Backdrop
+
+The CTA copy in `#contact` sits on a faded photograph (`public/contact/inventory-review.jpg`)
+cropped to mirror the form card opposite it — same 20px radius, same height. The rules live in
+`.contact-copy` / `.contact-photo` in `styles.css`.
+
+Two load-bearing details:
+
+- The heights match because the section's grid uses `align-items: stretch` (not `center`, as it
+  did before the photo existed) and `.contact-copy` re-centres its own copy with flexbox. Switch
+  the grid back to `center` and the photo shrinks to the height of the text.
+- The photo is decorative (`aria-hidden`, `alt=""`, `pointer-events: none`) and the copy sits
+  directly on top of it. It is rendered close to its true colour on purpose, so what keeps the
+  headline and contact links readable is the light cream wash in `.contact-photo::after`, the
+  cream `text-shadow` halo on the copy, and the copy's darker-than-usual colours (`--color-blue-deep`
+  and `--color-ink`, set inline in `index.tsx`, where the rest of the page uses `--color-blue` and
+  `--color-ink-soft`). Removing any of the three means dropping the image opacity a long way to
+  compensate. The crop is done by `object-fit: cover` in CSS rather than in the Image CDN request,
+  per the note in `src/utils/images.ts`.
+
 ### Contact Form
 The contact form is client-side only with a `window.alert` confirmation — it does not submit data anywhere. To enable real form handling, integrate Netlify Forms (see `.agents/skills/netlify-forms-tanstack/SKILL.md`) or a server function endpoint.
 
