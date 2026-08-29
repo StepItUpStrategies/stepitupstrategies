@@ -1066,3 +1066,62 @@ body {
     flex-wrap: nowrap;
   }
 }
+
+/* ── Financial section photo fan ─────────────────────────────────────────────
+   Two photographs sitting behind the "Controller & Accounting Capabilities"
+   copy, centered in the section. Both cards share a pivot point below their
+   bottom edge and rotate in opposite directions from it, so they overlap and
+   splay the way a pair of playing cards does when held in one hand.
+
+   Purely decorative: pointer events are off and the images are aria-hidden in
+   the markup. The opacity is deliberately low and the fan is masked to fade at
+   its edges — the section's body copy and accordion sit on top of it, so the
+   fan has to stay well below text-contrast territory. Raising the opacity here
+   makes the copy hard to read. */
+.card-fan {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card-fan-inner {
+  position: relative;
+  width: clamp(260px, 44vw, 600px);
+  aspect-ratio: 3 / 2;
+  opacity: 0.24;
+  /* Dissolve the fan into the page instead of ending on a hard rectangle. */
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 40%, transparent 80%);
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 40%, transparent 80%);
+}
+
+.card-fan-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  /* Pivot below the cards — the "hand" holding them. */
+  transform-origin: 50% 118%;
+  box-shadow: 0 24px 55px rgba(20, 24, 90, 0.35);
+}
+
+.card-fan-photo-rear {
+  transform: rotate(-9.5deg);
+}
+
+.card-fan-photo-front {
+  transform: rotate(8deg);
+}
+
+/* On narrow screens the two columns stack and the copy runs nearly edge to
+   edge, so the fan is pulled back further still to keep the text legible. */
+@media (max-width: 767px) {
+  .card-fan-inner {
+    opacity: 0.16;
+  }
+}

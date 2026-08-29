@@ -1217,12 +1217,48 @@ function StepItUpLanding() {
           maxWidth: '1280px',
           margin: '0 auto',
           padding: '7rem 2rem',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
+        {/* Decorative photo fan behind the copy — see .card-fan in styles.css */}
+        <div className="card-fan" aria-hidden="true">
+          <div className="card-fan-inner">
+            <img
+              className="card-fan-photo card-fan-photo-rear"
+              src={sizedImage('/financial/accounting-inventory.jpg', 900)}
+              srcSet={[
+                `${sizedImage('/financial/accounting-inventory.jpg', 600)} 600w`,
+                `${sizedImage('/financial/accounting-inventory.jpg', 900)} 900w`,
+                `${sizedImage('/financial/accounting-inventory.jpg', 1200)} 1200w`,
+              ].join(', ')}
+              sizes="(max-width: 767px) 90vw, 44vw"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              className="card-fan-photo card-fan-photo-front"
+              src={sizedImage('/financial/controller.jpg', 900)}
+              srcSet={[
+                `${sizedImage('/financial/controller.jpg', 600)} 600w`,
+                `${sizedImage('/financial/controller.jpg', 900)} 900w`,
+                `${sizedImage('/financial/controller.jpg', 1200)} 1200w`,
+              ].join(', ')}
+              sizes="(max-width: 767px) 90vw, 44vw"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+
         <div
           style={{
             display: 'grid',
             alignItems: 'start',
+            position: 'relative',
+            zIndex: 1,
           }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20"
         >
