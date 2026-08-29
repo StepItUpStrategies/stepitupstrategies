@@ -490,6 +490,73 @@ body {
   }
 }
 
+/* Credential card photo swap — each of the six "Who We Are" boxes carries a
+   photograph of the role it describes (public/expertise/) and trades its copy for
+   that photograph, full-bleed, while the pointer is over the box.
+
+   This is deliberately a stronger swap than .card-swap above: the service cards
+   exchange only their body copy and keep their heading, whereas here the heading
+   goes too, so the whole box reads as the picture.
+
+   The copy keeps its place in the flow — only its opacity moves — so nothing
+   reflows on hover and the equal-height rows the grid gets from
+   `md:[grid-auto-rows:1fr]` are unaffected. The photo is positioned against the
+   card's padding box, so it bleeds under the 2rem padding and is clipped by the
+   card's own `overflow: hidden` to the inner radius, leaving the orange top rule
+   and the border visible as a frame.
+
+   Gated behind a genuinely hovering pointer: on a touchscreen `:hover` sticks
+   after a tap, which would strand a box as a photo with its text hidden until the
+   visitor tapped elsewhere. Touch devices keep the cards as plain text. */
+.credential-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.credential-card-copy {
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.35s ease;
+}
+
+.credential-card-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Biased above centre for the same reason .card-swap-media is: these are
+     photographs of people, and a square-ish crop of a 3:2 frame otherwise cuts
+     through the faces. */
+  object-position: center 40%;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.35s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .credential-card:hover .credential-card-copy {
+    opacity: 0;
+  }
+
+  .credential-card:hover .credential-card-media {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credential-card-copy,
+  .credential-card-media {
+    transition-duration: 0.01ms;
+  }
+
+  .credential-card-media {
+    transform: none;
+  }
+}
+
 /* Nav link hover */
 .nav-link {
   position: relative;

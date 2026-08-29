@@ -122,6 +122,28 @@ The floating Better Business Bureau seal (bottom-right, on every page) comes fro
 `styles.css` keeps the footer's last row clear of the seal's fixed 160×61 slot; those rules assume
 the seal is present.
 
+### Credential Card Hover Photos
+
+The six "Who We Are" cards in the `#expertise` section each swap their copy for a full-bleed
+photograph of that role while the pointer is over the card (`.credential-card` in `styles.css`,
+photos in `public/expertise/`). It is a stronger version of the `.card-swap` effect the service
+cards use — there the heading stays and only the body copy is replaced; here the heading fades too,
+so the whole box reads as the picture.
+
+Three things not to break:
+
+- The swap is gated behind `@media (hover: hover) and (pointer: fine)`. On a touchscreen `:hover`
+  sticks after a tap, which would leave a card stranded as a photo with its text hidden until the
+  visitor tapped something else. **Remove the gate and the cards break on phones**, not desktops,
+  so it will not show up in ordinary testing.
+- The copy is faded with `opacity`, not `display` or conditional rendering. It stays in the flow, so
+  the card keeps its height and the equal-height rows from `md:[grid-auto-rows:1fr]` on the grid
+  container do not shift on hover. It also stays in the accessibility tree, which is why the photo
+  is `alt=""` / `aria-hidden`.
+- Filenames are slugs of the role they belong to. The mapping lives in the `image` field of each
+  card object in `index.tsx`; there is no automatic matching, so renaming a file means editing that
+  field.
+
 ### Contact Form
 The contact form is client-side only with a `window.alert` confirmation — it does not submit data anywhere. To enable real form handling, integrate Netlify Forms (see `.agents/skills/netlify-forms-tanstack/SKILL.md`) or a server function endpoint.
 
@@ -137,7 +159,7 @@ Only React `useState` is used:
 2. **Hero** — Full-viewport, two-column: headline copy left, animated stat counters right
 3. **Credentials Ticker** — CSS marquee of expertise keywords (pauses on hover)
 4. **Services** (`#services`) — 9 service cards in a CSS grid, each linking to `/services/<slug>`
-5. **Expertise** (`#expertise`) — 4 credential cards in a 2×2 grid
+5. **Expertise** (`#expertise`) — 6 credential cards in a two-column grid, each swapping to a photo on hover
 6. **Financial Services** (`#financial`) — Accordion covering 7 accounting/controller functions
 7. **About / Philosophy** (`#about`) — Three philosophy cards + sector tag cloud
 8. **Contact** (`#contact`) — Two-column: copy + inquiry form

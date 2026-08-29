@@ -1081,43 +1081,49 @@ function StepItUpLanding() {
               style={{
                 display: 'grid',
               }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-9"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-9 md:[grid-auto-rows:1fr]"
             >
               {[
                 {
                   role: 'Owner Operators',
+                  image: '/expertise/owner-operators.jpg',
                   desc: 'First-hand ownership and operating experience — we have built, opened, and run our own concepts, carrying the same risk, capital, and accountability our clients face every day.',
                   delay: 'reveal-delay-1',
                 },
                 {
                   role: 'Certified Bookkeepers & Accountants',
+                  image: '/expertise/certified-bookkeepers-accountants.jpg',
                   desc: 'Certified bookkeeping and accounting expertise — from day-to-day ledgers and payroll to financial reporting and controller-level oversight, keeping the numbers accurate and the business audit-ready.',
                   delay: 'reveal-delay-2',
                 },
                 {
                   role: 'Food & Beverage Directors',
+                  image: '/expertise/food-beverage-directors.jpg',
                   desc: 'Overseen full-service F&B operations at scale, managing multi-outlet programs, vendor negotiations, and P&L accountability.',
                   delay: 'reveal-delay-3',
                 },
                 {
                   role: 'District & General Managers',
+                  image: '/expertise/district-general-managers.jpg',
                   desc: 'Multi-unit district management and single-unit GM experience — operations, HR, budgeting, and brand standards execution.',
                   delay: 'reveal-delay-4',
                 },
                 {
                   role: 'Spirit Experts',
+                  image: '/expertise/spirit-experts.jpg',
                   desc: 'Advanced spirits knowledge spanning whiskey, rum, agave, and craft distillates — applied to cocktail program design and staff training.',
                   delay: 'reveal-delay-5',
                 },
                 {
                   role: 'Certified Sommeliers',
+                  image: '/expertise/certified-sommeliers.jpg',
                   desc: 'Formal sommelier certification with deep expertise across Old World and New World wine programs, cellar management, and guest education.',
                   delay: 'reveal-delay-6',
                 },
-              ].map(({ role, desc, delay }) => (
+              ].map(({ role, desc, delay, image }) => (
                 <div
                   key={role}
-                  className={`reveal ${delay}`}
+                  className={`reveal ${delay} credential-card`}
                   style={{
                     padding: '2rem',
                     background: '#fff',
@@ -1126,27 +1132,41 @@ function StepItUpLanding() {
                     borderTop: '4px solid var(--color-orange)',
                   }}
                 >
-                  <h4
-                    style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '1.2rem',
-                      fontWeight: 700,
-                      color: 'var(--color-blue)',
-                      margin: '0 0 0.75rem',
-                    }}
-                  >
-                    {role}
-                  </h4>
-                  <p
-                    style={{
-                      color: 'var(--color-ink-soft)',
-                      fontSize: '0.92rem',
-                      lineHeight: 1.7,
-                      margin: 0,
-                    }}
-                  >
-                    {desc}
-                  </p>
+                  {/* Role and description cross-fade out under the photograph on
+                      hover (see .credential-card in styles.css). The copy stays in
+                      flow and in the accessibility tree; the photo is decorative,
+                      so it is hidden from assistive tech. */}
+                  <div className="credential-card-copy">
+                    <h4
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
+                        color: 'var(--color-blue)',
+                        margin: '0 0 0.75rem',
+                      }}
+                    >
+                      {role}
+                    </h4>
+                    <p
+                      style={{
+                        color: 'var(--color-ink-soft)',
+                        fontSize: '0.92rem',
+                        lineHeight: 1.7,
+                        margin: 0,
+                      }}
+                    >
+                      {desc}
+                    </p>
+                  </div>
+                  <img
+                    className="credential-card-media"
+                    src={sizedImage(image, 720)}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               ))}
             </div>
