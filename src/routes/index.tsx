@@ -958,26 +958,6 @@ function StepItUpLanding() {
                   background: 'var(--color-orange)',
                 }}
               />
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  marginBottom: '1.25rem',
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '0.85rem',
-                    color: 'var(--color-orange)',
-                    letterSpacing: '0.14em',
-                    fontWeight: 700,
-                  }}
-                >
-                  / {service.number}
-                </span>
-              </div>
               <h3
                 style={{
                   fontFamily: 'var(--font-display)',

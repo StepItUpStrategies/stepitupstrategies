@@ -387,7 +387,9 @@ body {
 .card-swap {
   position: relative;
   flex: 1 1 auto;
-  min-height: 7.5rem;
+  /* Sized to absorb the vertical space the "/ NN" card label used to occupy, so
+     the photograph got taller rather than the card getting shorter. */
+  min-height: 10rem;
   border-radius: 12px;
 }
 
@@ -420,9 +422,14 @@ body {
   transform: scale(1);
 }
 
-/* Service detail hero photo backdrop. Sits between the "Service / NN" label and
-   the bottom of the CTA row, filling the hero's left grid column — which is what
-   keeps it clear of the "This is for you if…" panel beside it.
+/* Service detail hero photo backdrop. Leads the hero's left grid column and runs
+   to the bottom of the CTA row, filling that column — which is what keeps it clear
+   of the "This is for you if…" panel beside it.
+
+   The extra top padding is deliberate: it is the space the old "Service / NN"
+   label and its margin used to hold, folded into the photo so the picture covers
+   that area instead of the hero simply getting shorter. Reduce it and the headline
+   rides up against the top edge of the photograph.
 
    The photograph is shown as uploaded: no overlay, no brightness filter, no
    saturation change. That means nothing darkens the background behind the copy,
@@ -432,8 +439,8 @@ body {
 .service-hero-media {
   position: relative;
   isolation: isolate;
-  margin-top: 1.5rem;
-  padding: clamp(1.75rem, 3.2vw, 2.75rem);
+  padding: clamp(3rem, 4.8vw, 5.25rem) clamp(1.75rem, 3.2vw, 2.75rem)
+    clamp(1.75rem, 3.2vw, 2.75rem);
   border-radius: 20px;
   overflow: hidden;
   background: var(--color-blue-deep);
@@ -470,30 +477,6 @@ body {
 .service-hero-media .btn-on-dark {
   border-color: rgba(255, 255, 255, 0.8);
   text-shadow: 0 1px 3px rgba(6, 9, 40, 0.8);
-}
-
-/* Lines the top of the "This is for you if…" panel up with the top of the hero
-   photograph. The panel's column carries a hidden copy of the "Service / NN"
-   label, so it inherits exactly the same leading height as the column beside it
-   and the two tops match without a hard-coded offset that would drift the moment
-   the label's type changes. `visibility` rather than `display` because the copy
-   has to keep occupying its line; `aria-hidden` in the markup keeps it out of the
-   accessibility tree. The 1.5rem below it mirrors .service-hero-media's own top
-   margin. Only at the two-column breakpoint — stacked, the panel follows the
-   photo directly and the copy collapses. */
-.hero-aside-lead {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .hero-aside-lead {
-    display: inline-flex;
-    visibility: hidden;
-  }
-
-  .hero-aside-lead + * {
-    margin-top: 1.5rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

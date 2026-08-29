@@ -245,13 +245,12 @@ function ServiceDetailPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-20 items-start">
             <div className="animate-reveal">
-              <span className="section-label">Service / {service.number}</span>
               {/* Everything from the headline down to the CTA row shares one block
                   so that a category with a photograph can use it as a backdrop:
-                  the photo starts under the "Service / NN" label and ends below the
-                  buttons, and because the block is the hero's left grid column it
-                  never reaches the "This is for you if…" panel. Copy colors flip to
-                  white in that case — see onPhoto below. */}
+                  the photo leads the hero's left grid column and ends below the
+                  buttons, and because the block is that column it never reaches the
+                  "This is for you if…" panel. Copy colors flip to white in that
+                  case — see onPhoto below. */}
               <div className={service.image ? 'service-hero-media' : undefined}>
                 {service.image && (
                   <img
@@ -271,7 +270,7 @@ function ServiceDetailPage() {
                     fontWeight: 700,
                     lineHeight: 1.07,
                     color: onPhoto ? '#fff' : 'var(--color-blue)',
-                    margin: onPhoto ? '0' : '1.25rem 0 0',
+                    margin: 0,
                     letterSpacing: '-0.015em',
                   }}
                 >
@@ -321,20 +320,10 @@ function ServiceDetailPage() {
               </div>
             </div>
 
-            {/* "This is for you if" panel. On a category with a photograph, its
-                column repeats the left column's leading element — a copy of the
-                "Service / NN" label that holds its space without being painted or
-                announced — so the panel starts level with the top of the photo
-                rather than level with the label. See .hero-aside-lead in
-                styles.css; below the two-column breakpoint the copy collapses and
-                the panel simply follows the photo. Categories without one keep the
-                original flush-to-the-top alignment. */}
+            {/* "This is for you if" panel. Both hero columns now lead with their
+                own top edge — the photo block on the left, this panel on the right —
+                so the grid's items-start does the aligning and no spacer is needed. */}
             <div>
-              {onPhoto && (
-                <span className="section-label hero-aside-lead" aria-hidden="true">
-                  Service / {service.number}
-                </span>
-              )}
               <aside
                 className="animate-reveal delay-200"
                 style={{
@@ -847,24 +836,13 @@ function ServiceDetailPage() {
                   textDecoration: 'none',
                 }}
               >
-                <span
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '0.8rem',
-                    color: 'var(--color-orange-light)',
-                    letterSpacing: '0.14em',
-                    fontWeight: 700,
-                  }}
-                >
-                  / {item.number}
-                </span>
                 <h3
                   style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: '1.3rem',
                     fontWeight: 700,
                     color: '#fff',
-                    margin: '0.75rem 0 0.6rem',
+                    margin: '0 0 0.6rem',
                     lineHeight: 1.25,
                   }}
                 >
