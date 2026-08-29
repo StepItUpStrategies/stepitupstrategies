@@ -61,6 +61,71 @@ Each detail page sets its own `<title>`, meta description, Open Graph tags, and 
 route's `head()`. Canonical URLs are per-route (the homepage sets its own in `index.tsx`) — the root
 route deliberately does not set one, or every page would canonicalize to the homepage.
 
+### SEO, Structured Data & the Entity Graph
+
+`src/utils/seo.ts` is the single source of truth for the canonical origin, the
+name/address/phone triple, the geo coordinates, and the Open Graph image pipeline.
+Six routes import from it. **Do not retype the phone number or address in a route** —
+local ranking depends on the NAP triple matching exactly across every page, the Google
+Business Profile, and the BBB listing, and a number that differs between two pages
+reads as two different businesses.
+
+`pageMeta()` returns the full title/description/robots/OG/Twitter block for a page.
+Every indexable route calls it. TanStack Router resolves head meta deepest-match-first
+and dedupes on `name`/`property`, so `__root.tsx` can carry sitewide fallbacks and a
+route silently overrides them by setting the same key — which is why there is exactly
+one of each tag in the rendered head, not two.
+
+Structured data is one **entity graph**, not a pile of independent nodes:
+
+- `__root.tsx` emits the `Organization` (typed `ProfessionalService` as well, so its
+  address and geo are eligible for local results) at `@id` `${SITE}/#organization`, and
+  the `WebSite` at `${SITE}/#website`.
+- Every page-level node references those `@id`s rather than restating the company.
+  Restating it creates duplicate entities and dilutes both.
+
+Two things deliberately absent: the root sets **no canonical** (or every page would
+canonicalize to the homepage — see Service Detail Pages), and there is **no
+`SearchAction`/sitelinks searchbox**, because the site has no search endpoint and
+declaring one that 404s is a spam signal.
+
+`public/sitemap.xml` lists only real URLs. Fragment links such as `/#services` are
+deliberately excluded — Google discards the fragment, so they collapse into the
+homepage and register as duplicates. Insights routes are outside this system by
+request and are not in the sitemap.
+
+The two hidden Netlify Forms stubs (`public/contact-form.html`, `public/notary-form.html`)
+are kept out of the index by *both* a `robots.txt` `Disallow` and an `X-Robots-Tag:
+noindex` header in `netlify.toml`; the header is what covers the case where an external
+link gets one indexed without it ever being crawled.
+
+### Notary Page Local SEO
+
+`/notary` is the one page tuned for proximity queries ("notary public near me"), so it
+carries machinery the other pages do not:
+
+- Its schema node is typed `['Notary', 'LocalBusiness', 'ProfessionalService']`.
+  `Notary` is a real schema.org type (LocalBusiness > LegalService > Notary) and is what
+  classifies the page as a notary rather than a consultancy that mentions notary work.
+  **Dropping it costs the notary-category classification.**
+- `geo` and `serviceArea` are two separate claims and both are required. `geo` fixes the
+  office on the map; `serviceArea` is a `GeoCircle` describing how far the mobile notary
+  travels from it (48,280 m ≈ 30 miles). Omit the second and the travel radius is
+  assumed to be zero, which is the whole proximity story.
+- `SERVICE_AREAS` in `notary.tsx` drives three things at once: the visible "Notary public
+  service area" section, the `areaServed` list in the markup, and the `containedInPlace`
+  county nesting that connects a town name a crawler does not know to a county it does.
+  **Only list areas we will actually travel to** — ranking for a town we then decline is
+  worse than not ranking there.
+- The title, H1, and the service-area copy all carry "notary public" and the place name
+  on purpose. That is the query shape, not filler.
+
+Business hours are **not** in the markup. The service is appointment-only and no
+verified hours exist; inventing an `openingHoursSpecification` that contradicts the
+Google Business Profile is worse than omitting it. Add one only from confirmed hours.
+The geo coordinates are derived from the street address and are accurate to the block —
+replace them with the Business Profile's own pin if you have it.
+
 ### Self-hosted Fonts
 Both families are served from `public/fonts/` rather than fonts.googleapis.com. The
 `@font-face` blocks live at the top of `src/styles.css` and are a copy of Google's own CSS —

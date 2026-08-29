@@ -1,7 +1,36 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { BRAND, SITE, pageMeta } from '../utils/seo'
+
+const TITLE = `Privacy Policy — ${BRAND}`
+const DESCRIPTION =
+  'How Step It Up Strategies collects, uses, and protects the information you share through this website and our contact and appointment forms.'
 
 export const Route = createFileRoute('/privacy-policy')({
   component: PrivacyPolicy,
+  head: () => ({
+    meta: pageMeta({
+      title: TITLE,
+      description: DESCRIPTION,
+      url: `${SITE}/privacy-policy`,
+    }),
+    links: [{ rel: 'canonical', href: `${SITE}/privacy-policy` }],
+    scripts: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          '@id': `${SITE}/privacy-policy#webpage`,
+          url: `${SITE}/privacy-policy`,
+          name: TITLE,
+          description: DESCRIPTION,
+          inLanguage: 'en-US',
+          isPartOf: { '@id': `${SITE}/#website` },
+          publisher: { '@id': `${SITE}/#organization` },
+        }),
+      },
+    ],
+  }),
 })
 
 export default function PrivacyPolicy() {

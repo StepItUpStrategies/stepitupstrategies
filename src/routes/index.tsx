@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { SERVICES } from '../data/services'
 import { sizedImage } from '../utils/images'
 import { NotaryBadge } from '../components/NotaryBadge'
+import { BRAND, NAP, SITE, ogImage, pageMeta } from '../utils/seo'
 
 /** Shared by both service-card body variants (plain copy, and copy under a photo). */
 const SERVICE_CARD_BODY_STYLE = {
@@ -13,10 +14,70 @@ const SERVICE_CARD_BODY_STYLE = {
   margin: '0 0 1.5rem',
 }
 
+const HOME_TITLE = `${BRAND} — Restaurant, Retail & Entertainment Consulting in Central Florida`
+const HOME_DESCRIPTION =
+  'Business management and consulting for restaurant, retail, and entertainment operators — menu creation and food cost analysis, beverage programs, kitchen layout, permitting, website design, full-scale accounting, and notary public services. Based in Winter Garden, Florida, serving Central Florida and nationwide.'
+
 export const Route = createFileRoute('/')({
   component: StepItUpLanding,
   head: () => ({
-    links: [{ rel: 'canonical', href: 'https://www.stepitupstrategies.com/' }],
+    meta: [
+      ...pageMeta({
+        title: HOME_TITLE,
+        description: HOME_DESCRIPTION,
+        url: `${SITE}/`,
+        image: ogImage('/services/restaurant-consulting.jpg'),
+        imageAlt: `${BRAND} — restaurant, retail and entertainment consulting`,
+      }),
+    ],
+    links: [{ rel: 'canonical', href: `${SITE}/` }],
+    scripts: [
+      {
+        type: 'application/ld+json',
+        // Ties this page to the sitewide entity graph in __root.tsx rather than
+        // restating the company. `mainEntity` is what tells Google the homepage is
+        // the business's own page — the signal that lets the address and geo
+        // coordinates on the Organization node feed local and map results.
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'WebPage',
+              '@id': `${SITE}/#webpage`,
+              url: `${SITE}/`,
+              name: HOME_TITLE,
+              description: HOME_DESCRIPTION,
+              inLanguage: 'en-US',
+              isPartOf: { '@id': `${SITE}/#website` },
+              about: { '@id': `${SITE}/#organization` },
+              mainEntity: { '@id': `${SITE}/#organization` },
+              primaryImageOfPage: { '@id': `${SITE}/#logo` },
+              significantLink: [
+                `${SITE}/services`,
+                `${SITE}/notary`,
+                `${SITE}/by-the-numbers`,
+              ],
+            },
+            {
+              '@type': 'ContactPage',
+              '@id': `${SITE}/#contact`,
+              url: `${SITE}/#contact`,
+              name: `Contact ${BRAND}`,
+              isPartOf: { '@id': `${SITE}/#website` },
+              about: { '@id': `${SITE}/#organization` },
+              mainEntity: {
+                '@type': 'ContactPoint',
+                telephone: NAP.phone,
+                email: NAP.email,
+                contactType: 'sales',
+                areaServed: 'US',
+                availableLanguage: ['English'],
+              },
+            },
+          ],
+        }),
+      },
+    ],
   }),
 })
 

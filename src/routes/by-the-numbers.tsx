@@ -2,8 +2,7 @@ import type { ReactNode } from 'react'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { SERVICES } from '../data/services'
 import { SiteHeader, SiteFooter } from '../components/PageChrome'
-
-const SITE = 'https://www.stepitupstrategies.com'
+import { SITE, ogImage, pageMeta } from '../utils/seo'
 
 const TITLE = 'By the Numbers — Why a Strategic Partner Pays For Itself | Step It Up Strategies'
 const DESCRIPTION =
@@ -12,17 +11,14 @@ const DESCRIPTION =
 export const Route = createFileRoute('/by-the-numbers')({
   component: ByTheNumbers,
   head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: 'description', content: DESCRIPTION },
-      { property: 'og:title', content: TITLE },
-      { property: 'og:description', content: DESCRIPTION },
-      { property: 'og:type', content: 'article' },
-      { property: 'og:url', content: `${SITE}/by-the-numbers` },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: TITLE },
-      { name: 'twitter:description', content: DESCRIPTION },
-    ],
+    meta: pageMeta({
+      title: TITLE,
+      description: DESCRIPTION,
+      url: `${SITE}/by-the-numbers`,
+      type: 'article',
+      image: ogImage('/financial/accounting-inventory.jpg'),
+      imageAlt: 'The research behind strategic business partnership',
+    }),
     links: [{ rel: 'canonical', href: `${SITE}/by-the-numbers` }],
   }),
 })
@@ -157,13 +153,16 @@ function ByTheNumbers() {
       headline: 'Why a Strategic Partner Pays For Itself',
       description: DESCRIPTION,
       url: `${SITE}/by-the-numbers`,
+      '@id': `${SITE}/by-the-numbers#webpage`,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': `${SITE}/#website` },
       about: [
         { '@type': 'Thing', name: 'Business Consulting' },
         { '@type': 'Thing', name: 'Business Mentoring' },
         { '@type': 'Thing', name: 'Financial Management' },
         { '@type': 'Thing', name: 'Restaurant Concept Development' },
       ],
-      publisher: { '@type': 'Organization', name: 'Step It Up Strategies' },
+      publisher: { '@id': `${SITE}/#organization` },
     },
     {
       '@context': 'https://schema.org',

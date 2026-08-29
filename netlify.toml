@@ -16,6 +16,21 @@
     "https://[a-z0-9-]+\\.supabase\\.co/storage/v1/object/public/.*"
   ]
 
+# The two hidden form stubs exist only so Netlify's build-time form detection
+# registers `contact` and `notary`. They are real, publicly reachable HTML files
+# with no content, so they are kept out of the index with a header as well as with
+# a robots.txt Disallow — a Disallowed URL can still be indexed if something links
+# to it, whereas a noindex header cannot.
+[[headers]]
+  for = "/contact-form.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/notary-form.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 # Self-hosted webfonts. Filenames are stable rather than content-hashed, so if a
 # font file is ever replaced, rename it too — an immutable response will not be
 # revalidated for a year.
