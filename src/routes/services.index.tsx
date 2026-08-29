@@ -153,24 +153,13 @@ function ServicesIndex() {
                   background: 'var(--color-orange)',
                 }}
               />
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.85rem',
-                  color: 'var(--color-orange)',
-                  letterSpacing: '0.14em',
-                  fontWeight: 700,
-                }}
-              >
-                / {service.number}
-              </span>
               <h2
                 style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '1.4rem',
                   fontWeight: 700,
                   color: 'var(--color-blue)',
-                  margin: '1.25rem 0 0.875rem',
+                  margin: '0 0 0.875rem',
                   lineHeight: 1.2,
                   letterSpacing: '-0.005em',
                 }}
