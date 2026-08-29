@@ -206,6 +206,39 @@ function CheckIcon() {
   )
 }
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <span className="section-label">{children}</span>
+}
+
+function SectionTitle({
+  children,
+  accent,
+}: {
+  children: React.ReactNode
+  accent?: string
+}) {
+  return (
+    <h2
+      style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(1.85rem, 3.4vw, 2.75rem)',
+        fontWeight: 700,
+        lineHeight: 1.15,
+        color: 'var(--color-blue)',
+        margin: '1.25rem 0 1.25rem',
+        letterSpacing: '-0.01em',
+      }}
+    >
+      {children} {accent && <span style={{ color: 'var(--color-orange)' }}>{accent}</span>}
+    </h2>
+  )
+}
+
+/**
+ * Label above title, the default for every section on this page. Sections that need
+ * the two on separate grid rows — so a neighbouring column can align to the title
+ * rather than to the label — compose SectionLabel and SectionTitle directly instead.
+ */
 function SectionHeading({
   label,
   children,
@@ -217,20 +250,8 @@ function SectionHeading({
 }) {
   return (
     <>
-      <span className="section-label">{label}</span>
-      <h2
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(1.85rem, 3.4vw, 2.75rem)',
-          fontWeight: 700,
-          lineHeight: 1.15,
-          color: 'var(--color-blue)',
-          margin: '1.25rem 0 1.25rem',
-          letterSpacing: '-0.01em',
-        }}
-      >
-        {children} {accent && <span style={{ color: 'var(--color-orange)' }}>{accent}</span>}
-      </h2>
+      <SectionLabel>{label}</SectionLabel>
+      <SectionTitle accent={accent}>{children}</SectionTitle>
     </>
   )
 }
@@ -711,14 +732,39 @@ function NotaryPage() {
 
       {/* ── THREE WAYS TO GET NOTARIZED ──────────────────────────────────── */}
       <section style={{ maxWidth: '1280px', margin: '0 auto', padding: '6rem 2rem' }}>
-        <div style={{ maxWidth: '720px' }}>
-          <SectionHeading label="How It Works" accent="that fits your day">
-            Three ways to get notarized
-          </SectionHeading>
-          <p style={{ color: 'var(--color-ink-soft)', lineHeight: 1.8, fontSize: '1.02rem' }}>
-            Come to us, let us come to you, or handle it entirely online. Every option is a full
-            notarial act performed by a commissioned Florida notary public.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-10 lg:gap-16 items-center">
+          <div style={{ maxWidth: '720px' }}>
+            <SectionHeading label="How It Works" accent="that fits your day">
+              Three ways to get notarized
+            </SectionHeading>
+            <p style={{ color: 'var(--color-ink-soft)', lineHeight: 1.8, fontSize: '1.02rem' }}>
+              Come to us, let us come to you, or handle it entirely online. Every option is a full
+              notarial act performed by a commissioned Florida notary public.
+            </p>
+          </div>
+
+          {/* Fills the space alongside the heading; decorative, so the copy carries the meaning. */}
+          <figure
+            className="animate-reveal delay-200"
+            style={{
+              margin: 0,
+              borderRadius: '18px',
+              overflow: 'hidden',
+              border: '1.5px solid var(--color-line)',
+              boxShadow: '0 24px 48px -20px rgba(31, 42, 140, 0.28)',
+              aspectRatio: '4 / 3',
+            }}
+          >
+            <img
+              src="/.netlify/images?url=/notary/notary-public-stamping-document.jpg&w=760&q=78"
+              alt="Notary public applying a seal to a document at a desk"
+              width={760}
+              height={570}
+              loading="lazy"
+              decoding="async"
+              style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </figure>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ marginTop: '3rem' }}>
@@ -804,11 +850,18 @@ function NotaryPage() {
       {/* ── WHAT WE NOTARIZE ─────────────────────────────────────────────── */}
       <section style={{ background: 'var(--color-cream)', padding: '6rem 2rem' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-10 lg:gap-20 items-start">
+          {/* Only the section label spans both columns, so the document list starts level
+              with the "Documents we routinely notarize" title beside it rather than with
+              the label above it. The list mirrors SectionTitle's 1.25rem top margin at lg
+              so their first lines sit on the same baseline; on mobile it stacks instead and
+              takes the wider margin. */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-x-10 lg:gap-x-20 gap-y-0 items-start">
+            <div className="lg:col-span-2">
+              <SectionLabel>Scope of Work</SectionLabel>
+            </div>
+
             <div>
-              <SectionHeading label="Scope of Work" accent="routinely notarize">
-                Documents we
-              </SectionHeading>
+              <SectionTitle accent="routinely notarize">Documents we</SectionTitle>
               <p style={{ color: 'var(--color-ink-soft)', lineHeight: 1.8, fontSize: '1.02rem' }}>
                 If your document requires an acknowledgment, a jurat, an oath, or a witnessed
                 signature, we can almost certainly handle it. Not sure? Ask — we will tell you
@@ -828,7 +881,7 @@ function NotaryPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 mt-10 lg:mt-5">
               {DOCUMENTS.map((doc) => (
                 <div
                   key={doc}
