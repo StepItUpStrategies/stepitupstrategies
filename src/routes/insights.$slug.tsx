@@ -8,6 +8,17 @@ export const Route = createFileRoute('/insights/$slug')({
   loader: async ({ params }) => {
     return getArticleBySlug({ data: params.slug })
   },
+  // Held out of the index for the same reason as the archive — see the note in
+  // insights.index.tsx. The title is set from the article so a noindexed page still
+  // reads correctly in a browser tab, a bookmark or a pasted link, none of which the
+  // robots directive covers. Articles are loaded at request time, so loaderData is
+  // absent on the first pass and the fallback carries the page until it resolves.
+  head: ({ loaderData }) => ({
+    meta: [
+      { title: loaderData?.title ? `${loaderData.title} — Step It Up Strategies` : 'Insights — Step It Up Strategies' },
+      { name: 'robots', content: 'noindex, follow' },
+    ],
+  }),
 })
 
 // Called during render, so it cannot assume a browser: DOMParser does not exist on
