@@ -4,6 +4,7 @@ import { SERVICES, getServiceBySlug } from '../data/services'
 import { SiteHeader, SiteFooter } from '../components/PageChrome'
 import { getArticlesBySlugs } from '../server/articles'
 import { ArticleImage } from '../components/ArticleImage'
+import { sizedImage } from '../utils/images'
 
 const SITE = 'https://www.stepitupstrategies.com'
 
@@ -139,6 +140,10 @@ function ServiceDetailPage() {
 
   const url = `${SITE}/services/${service.slug}`
 
+  // Hero copy sits on top of the category photograph when there is one, which
+  // means light-on-dark type instead of the page's usual dark-on-cream.
+  const onPhoto = Boolean(service.image)
+
   const structuredData = [
     {
       '@context': 'https://schema.org',
@@ -241,87 +246,137 @@ function ServiceDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-20 items-start">
             <div className="animate-reveal">
               <span className="section-label">Service / {service.number}</span>
-              <h1
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(2.1rem, 4.6vw, 3.6rem)',
-                  fontWeight: 700,
-                  lineHeight: 1.07,
-                  color: 'var(--color-blue)',
-                  margin: '1.25rem 0 0',
-                  letterSpacing: '-0.015em',
-                }}
-              >
-                {service.headline}{' '}
-                <span style={{ color: 'var(--color-orange)' }}>{service.headlineAccent}</span>
-              </h1>
-              <span className="brand-rule" style={{ width: '96px', margin: '1.75rem 0' }} />
-              <p
-                style={{
-                  color: 'var(--color-ink-soft)',
-                  fontSize: '1.15rem',
-                  lineHeight: 1.7,
-                  maxWidth: '600px',
-                  margin: 0,
-                }}
-              >
-                {service.lede}
-              </p>
-              <div className="flex flex-wrap gap-4" style={{ marginTop: '2.25rem' }}>
-                <a
-                  href="https://form.jotform.com/261257161071046"
-                  className="btn-primary"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {/* Everything from the headline down to the CTA row shares one block
+                  so that a category with a photograph can use it as a backdrop:
+                  the photo starts under the "Service / NN" label and ends below the
+                  buttons, and because the block is the hero's left grid column it
+                  never reaches the "This is for you if…" panel. Copy colors flip to
+                  white in that case — see onPhoto below. */}
+              <div className={service.image ? 'service-hero-media' : undefined}>
+                {service.image && (
+                  <img
+                    className="service-hero-media__img"
+                    src={sizedImage(service.image, 1400)}
+                    alt=""
+                    aria-hidden="true"
+                    fetchPriority="high"
+                    decoding="async"
+                  />
+                )}
+                <h1
+                  className={onPhoto ? 'service-hero-copy' : undefined}
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(2.1rem, 4.6vw, 3.6rem)',
+                    fontWeight: 700,
+                    lineHeight: 1.07,
+                    color: onPhoto ? '#fff' : 'var(--color-blue)',
+                    margin: onPhoto ? '0' : '1.25rem 0 0',
+                    letterSpacing: '-0.015em',
+                  }}
                 >
-                  Free Business Assessment
-                </a>
-                <a href="/#contact" className="btn-outline">
-                  Talk to Us
-                </a>
+                  {service.headline}{' '}
+                  <span style={{ color: onPhoto ? 'var(--color-orange-light)' : 'var(--color-orange)' }}>
+                    {service.headlineAccent}
+                  </span>
+                </h1>
+                {/* The stock rule fades orange into brand blue, which disappears
+                    against the photo — keep it orange when it sits on one. */}
+                <span
+                  className="brand-rule"
+                  style={{
+                    width: '96px',
+                    margin: '1.75rem 0',
+                    background: onPhoto
+                      ? 'linear-gradient(90deg, var(--color-orange), var(--color-orange-light))'
+                      : undefined,
+                  }}
+                />
+                <p
+                  className={onPhoto ? 'service-hero-copy' : undefined}
+                  style={{
+                    color: onPhoto ? '#fff' : 'var(--color-ink-soft)',
+                    fontSize: '1.15rem',
+                    lineHeight: 1.7,
+                    maxWidth: '600px',
+                    margin: 0,
+                    fontWeight: onPhoto ? 500 : undefined,
+                  }}
+                >
+                  {service.lede}
+                </p>
+                <div className="flex flex-wrap gap-4" style={{ marginTop: '2.25rem' }}>
+                  <a
+                    href="https://form.jotform.com/261257161071046"
+                    className="btn-primary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Free Business Assessment
+                  </a>
+                  <a href="/#contact" className={onPhoto ? 'btn-outline btn-on-dark' : 'btn-outline'}>
+                    Talk to Us
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* "This is for you if" panel */}
-            <aside
-              className="animate-reveal delay-200"
-              style={{
-                background: '#fff',
-                border: '1.5px solid var(--color-line)',
-                borderTop: '4px solid var(--color-orange)',
-                borderRadius: '18px',
-                padding: '2rem',
-              }}
-            >
-              <h2
+            {/* "This is for you if" panel. On a category with a photograph, its
+                column repeats the left column's leading element — a copy of the
+                "Service / NN" label that holds its space without being painted or
+                announced — so the panel starts level with the top of the photo
+                rather than level with the label. See .hero-aside-lead in
+                styles.css; below the two-column breakpoint the copy collapses and
+                the panel simply follows the photo. Categories without one keep the
+                original flush-to-the-top alignment. */}
+            <div>
+              {onPhoto && (
+                <span className="section-label hero-aside-lead" aria-hidden="true">
+                  Service / {service.number}
+                </span>
+              )}
+              <aside
+                className="animate-reveal delay-200"
                 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.1rem',
-                  fontWeight: 700,
-                  color: 'var(--color-blue)',
-                  margin: '0 0 1.25rem',
+                  background: '#fff',
+                  border: '1.5px solid var(--color-line)',
+                  borderTop: '4px solid var(--color-orange)',
+                  borderRadius: '18px',
+                  padding: '2rem',
                 }}
               >
-                This is for you if…
-              </h2>
-              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.9rem' }}>
-                {service.signals.map((signal) => (
-                  <li
-                    key={signal}
-                    style={{
-                      display: 'flex',
-                      gap: '0.7rem',
-                      color: 'var(--color-ink-soft)',
-                      fontSize: '0.92rem',
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    <CheckIcon />
-                    <span>{signal}</span>
-                  </li>
-                ))}
-              </ul>
-            </aside>
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    color: 'var(--color-blue)',
+                    margin: '0 0 1.25rem',
+                  }}
+                >
+                  This is for you if…
+                </h2>
+                <ul
+                  style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.9rem' }}
+                >
+                  {service.signals.map((signal) => (
+                    <li
+                      key={signal}
+                      style={{
+                        display: 'flex',
+                        gap: '0.7rem',
+                        color: 'var(--color-ink-soft)',
+                        fontSize: '0.92rem',
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      <CheckIcon />
+                      <span>{signal}</span>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            </div>
           </div>
         </div>
       </section>

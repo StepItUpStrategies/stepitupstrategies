@@ -2,7 +2,16 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { SERVICES } from '../data/services'
+import { sizedImage } from '../utils/images'
 import { NotaryBadge } from '../components/NotaryBadge'
+
+/** Shared by both service-card body variants (plain copy, and copy under a photo). */
+const SERVICE_CARD_BODY_STYLE = {
+  color: 'var(--color-ink-soft)',
+  fontSize: '0.95rem',
+  lineHeight: 1.7,
+  margin: '0 0 1.5rem',
+}
 
 export const Route = createFileRoute('/')({
   component: StepItUpLanding,
@@ -982,16 +991,27 @@ function StepItUpLanding() {
               >
                 {service.title}
               </h3>
-              <p
-                style={{
-                  color: 'var(--color-ink-soft)',
-                  fontSize: '0.95rem',
-                  lineHeight: 1.7,
-                  margin: '0 0 1.5rem',
-                }}
-              >
-                {service.cardBody}
-              </p>
+              {/* Card body. A category with a photograph layers it over the copy
+                  and cross-fades the two on hover (see .card-swap in styles.css);
+                  the photo is decorative here, so it is hidden from assistive tech
+                  and the copy it covers stays readable to it. */}
+              {service.image ? (
+                <div className="card-swap">
+                  <p className="card-swap-copy" style={SERVICE_CARD_BODY_STYLE}>
+                    {service.cardBody}
+                  </p>
+                  <img
+                    className="card-swap-media"
+                    src={sizedImage(service.image, 720)}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ) : (
+                <p style={SERVICE_CARD_BODY_STYLE}>{service.cardBody}</p>
+              )}
               <span
                 style={{
                   marginTop: 'auto',

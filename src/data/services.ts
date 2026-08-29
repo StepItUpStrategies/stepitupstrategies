@@ -14,6 +14,13 @@ export type ServiceDetail = {
   title: string
   /** Homepage card copy */
   cardBody: string
+  /**
+   * Optional photograph for the category. Where present it does double duty: it
+   * takes over the homepage card body on hover, and it becomes the backdrop the
+   * detail-page hero copy sits on top of. Anything in `public/` is fine — it is
+   * requested through the Netlify Image CDN at the width of the slot.
+   */
+  image?: string
   metaTitle: string
   metaDescription: string
   /** schema.org Service.serviceType */
@@ -44,6 +51,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Restaurant Consulting',
     cardBody:
       'From concept to grand opening and beyond — operational systems, menu engineering, staff structure, and profitability modeling tailored to your concept and market.',
+    image: '/services/restaurant-consulting.jpg',
     metaTitle: 'Restaurant Consulting — Step It Up Strategies',
     metaDescription:
       'Restaurant consulting from concept through grand opening and beyond: operating systems, labor models, menu engineering, prime cost control, and turnaround work led by former owner-operators.',
@@ -156,6 +164,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Full Scale Business Accounting',
     cardBody:
       'End-to-end accounting built for hospitality and retail — bookkeeping, payroll, accounts payable and receivable, financial reporting, and controller-level oversight. We keep your books clean, your cash flow clear, and your business audit-ready.',
+    image: '/services/business-accounting.jpg',
     metaTitle: 'Full Scale Business Accounting — Step It Up Strategies',
     metaDescription:
       'Hospitality and retail accounting: bookkeeping, payroll, accounts payable and receivable, sales tax, weekly reporting, budgeting and cash flow forecasting, and controller-level oversight.',
@@ -264,6 +273,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Website Design',
     cardBody:
       'Modern, conversion-focused websites built to showcase your concept and drive bookings, orders, and inquiries. From brand-aligned visual design to mobile-first builds and ongoing content updates.',
+    image: '/services/website-design.jpg',
     metaTitle: 'Website Design & Development — Step It Up Strategies',
     metaDescription:
       'Conversion-focused website design and development for restaurants, retail, and venues: mobile-first builds, menu and booking integration, local SEO, and ongoing content updates.',
@@ -368,6 +378,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Menu Creation & Food Cost Analysis',
     cardBody:
       'Recipe development, costing, and menu engineering for profit maximization. We analyze every line item so your kitchen runs with precision — and profitability.',
+    image: '/services/menu-creation-food-cost-analysis.jpg',
     metaTitle: 'Menu Creation & Food Cost Analysis — Step It Up Strategies',
     metaDescription:
       'Menu development and food cost analysis: recipe creation, plate costing to the gram, menu engineering, pricing strategy, yield testing, and waste and variance control.',
@@ -476,6 +487,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Beverage Programs & Bar Layout Design',
     cardBody:
       'Certified sommeliers and spirit experts design your wine list, cocktail program, and spirits selection from scratch. We also consult on bar layout for optimal speed-of-service and revenue per square foot.',
+    image: '/services/beverage-programs-bar-design.jpg',
     metaTitle: 'Beverage Programs & Bar Layout Design — Step It Up Strategies',
     metaDescription:
       'Certified sommeliers and spirits experts build wine lists, cocktail programs, and spirits selections from scratch, plus bar layout design for speed of service and revenue per square foot.',
@@ -584,6 +596,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Kitchen Layout & Design Consulting',
     cardBody:
       'Flow-optimized kitchen designs that reduce labor costs and improve ticket times. We work with your architects and equipment vendors to get it right before the first nail is driven.',
+    image: '/services/kitchen-layout-design.jpg',
     metaTitle: 'Kitchen Layout & Design Consulting — Step It Up Strategies',
     metaDescription:
       'Commercial kitchen layout and design consulting: workflow zoning, station design, equipment specification, ticket time and labor modeling, and coordination with architects and vendors.',
@@ -688,6 +701,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Permitting & Licensing',
     cardBody:
       'Liquor licenses, health permits, occupancy certificates, entertainment licenses — we acquire and maintain all permits required for opening new businesses and sustaining operational readiness.',
+    image: '/services/permitting-licensing.jpg',
     metaTitle: 'Permitting & Licensing Services — Step It Up Strategies',
     metaDescription:
       'Permitting and licensing for restaurants, retail, and entertainment venues: liquor licenses, health permits, certificates of occupancy, entertainment and signage permits, plus renewal tracking.',
@@ -792,6 +806,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Entertainment Venues',
     cardBody:
       'Multi-revenue-stream operations including bar programs, event logistics, staffing frameworks, and the financial controls that keep entertainment businesses healthy.',
+    image: '/services/entertainment-venues.jpg',
     metaTitle: 'Entertainment Venue Consulting — Step It Up Strategies',
     metaDescription:
       'Entertainment venue consulting for multi-revenue operations: bar programs, event and private booking logistics, flexible staffing models, crowd flow, security, and cash controls.',
@@ -896,6 +911,7 @@ export const SERVICES: ServiceDetail[] = [
     title: 'Retail Strategy',
     cardBody:
       'Merchandise planning, floor layout optimization, vendor relationships, shrinkage control, and customer experience design for retail environments.',
+    image: '/services/retail-strategy.jpg',
     metaTitle: 'Retail Strategy Consulting — Step It Up Strategies',
     metaDescription:
       'Retail strategy consulting covering merchandise planning, floor layout and adjacency, inventory turns, shrinkage control, vendor terms, and staff selling standards.',

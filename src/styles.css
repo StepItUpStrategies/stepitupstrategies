@@ -378,6 +378,135 @@ body {
   box-shadow: 0 18px 40px -24px rgba(31, 42, 140, 0.35);
 }
 
+/* Service card photo swap — a category that carries an `image` in
+   src/data/services.ts trades its card copy for that photograph while the pointer
+   is over the card. The paragraph stays in flow (and in the accessibility tree);
+   only its opacity moves, so nothing reflows and the card keeps its height. The
+   wrapper takes the slack the trailing link's `margin-top: auto` would otherwise
+   absorb, which is what gives the photo a usable height instead of a sliver. */
+.card-swap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 7.5rem;
+  border-radius: 12px;
+}
+
+.card-swap-copy {
+  transition: opacity 0.35s ease;
+}
+
+.card-swap-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  border-radius: 12px;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.35s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+.service-card:hover .card-swap-copy,
+.service-card:focus-visible .card-swap-copy {
+  opacity: 0;
+}
+
+.service-card:hover .card-swap-media,
+.service-card:focus-visible .card-swap-media {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Service detail hero photo backdrop. Sits between the "Service / NN" label and
+   the bottom of the CTA row, filling the hero's left grid column — which is what
+   keeps it clear of the "This is for you if…" panel beside it.
+
+   The photograph is shown as uploaded: no overlay, no brightness filter, no
+   saturation change. That means nothing darkens the background behind the copy,
+   so legibility rests entirely on the type — the shadows in .service-hero-copy
+   are what keep the white text readable where it crosses a bright part of the
+   picture. Do not remove them without putting a scrim back. */
+.service-hero-media {
+  position: relative;
+  isolation: isolate;
+  margin-top: 1.5rem;
+  padding: clamp(1.75rem, 3.2vw, 2.75rem);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--color-blue-deep);
+  box-shadow: 0 26px 60px -30px rgba(20, 26, 95, 0.55);
+}
+
+.service-hero-media__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  z-index: -1;
+}
+
+/* An unoffset rim plus progressively softer drops. The rim is what holds the
+   letterforms apart from whatever is immediately behind them; the wider shadows
+   sink the area around the text without touching the rest of the photo. All nine
+   category photographs run through here undarkened, and they range from a
+   near-black nightclub to a brightly lit kitchen pass, so this is the only thing
+   keeping white type legible across the set. */
+.service-hero-copy {
+  text-shadow:
+    0 0 2px rgba(6, 9, 40, 0.95),
+    0 1px 2px rgba(6, 9, 40, 0.9),
+    0 2px 8px rgba(6, 9, 40, 0.8),
+    0 6px 22px rgba(6, 9, 40, 0.6);
+}
+
+/* The outline CTA sits on a photograph rather than a flat dark panel, so its
+   border needs more presence than the default on-dark treatment gives it. Kept to
+   the border and the type — no fill, so the picture behind it stays untouched. */
+.service-hero-media .btn-on-dark {
+  border-color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 3px rgba(6, 9, 40, 0.8);
+}
+
+/* Lines the top of the "This is for you if…" panel up with the top of the hero
+   photograph. The panel's column carries a hidden copy of the "Service / NN"
+   label, so it inherits exactly the same leading height as the column beside it
+   and the two tops match without a hard-coded offset that would drift the moment
+   the label's type changes. `visibility` rather than `display` because the copy
+   has to keep occupying its line; `aria-hidden` in the markup keeps it out of the
+   accessibility tree. The 1.5rem below it mirrors .service-hero-media's own top
+   margin. Only at the two-column breakpoint — stacked, the panel follows the
+   photo directly and the copy collapses. */
+.hero-aside-lead {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .hero-aside-lead {
+    display: inline-flex;
+    visibility: hidden;
+  }
+
+  .hero-aside-lead + * {
+    margin-top: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-swap-copy,
+  .card-swap-media {
+    transition-duration: 0.01ms;
+  }
+
+  .card-swap-media {
+    transform: none;
+  }
+}
+
 /* Nav link hover */
 .nav-link {
   position: relative;
