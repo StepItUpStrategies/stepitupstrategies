@@ -242,11 +242,34 @@ const BBB_SEAL_SCRIPT = `
 	})();
 `
 
+// Google tag (gtag.js) — Google Analytics 4 property G-1L576VDZND.
+// Rendered directly in the document shell's <head> rather than through the route's
+// `scripts` head array so it lands in the initial HTML on every route, ahead of
+// hydration, and is the last thing in the head as Google's install snippet asks.
+// `dataLayer` and `gtag` must stay globals on `window` — gtag.js reads them — so
+// this is an inline script rather than a module import.
+const GTAG_ID = 'G-1L576VDZND'
+const GTAG_INIT_SCRIPT = `
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', '${GTAG_ID}');
+`
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`}
+        />
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: GTAG_INIT_SCRIPT }}
+        />
       </head>
       <body>
         {children}

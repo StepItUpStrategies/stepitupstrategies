@@ -315,3 +315,19 @@ netlify dev      # Start dev server with Netlify feature emulation (port 8888)
 ## Deployment
 
 Netlify auto-deploys from the `main` branch. Build command: `vite build`. Publish directory: `dist/client`. See `netlify.toml` for full config.
+
+### Google Analytics (gtag.js)
+
+The GA4 tag for property `G-1L576VDZND` is rendered inside `<head>` in `RootDocument`
+(`__root.tsx`) — the loader `<script async src>` plus the inline `dataLayer`/`gtag('config')`
+snippet — so it is present on every route, including `/insights`, with no per-route wiring.
+Two notes:
+
+- It is in the shell's `<head>` rather than the route's `scripts` head array so it appears in the
+  initial server-rendered HTML and does not wait on hydration. React hoists the async loader a
+  little higher in the head than it is written; the inline config script stays last before
+  `</head>`. Both land in the same head, and the `dataLayer` queue makes their relative order
+  irrelevant.
+- `dataLayer` and `gtag` must stay globals — gtag.js reads them off `window` — which is why the
+  config is an inline `dangerouslySetInnerHTML` script and not a module import. It carries
+  `suppressHydrationWarning` for the same reason the BBB seal script does.
