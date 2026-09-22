@@ -1,0 +1,16 @@
+-- A corrected version of "Notary Public: What Business Operators Need" was published
+-- in Soro (slug 'notary-public-business-operators', Soro id
+-- 261d1b46-4ef1-4c89-af29-07255071d5b5). The stored DB record still holds the text
+-- that had the error in it.
+--
+-- The Insights page prioritizes the stored DB record over the live Soro feed, so the
+-- uncorrected version keeps showing on both the Current Articles section and the
+-- Archive until the stale row is removed. Delete it so the merge logic in
+-- src/server/articles.ts falls through to the live feed and serves the corrected
+-- title, excerpt and body immediately. The daily sync function
+-- (netlify/functions/fetch-soro-articles.mts) then re-inserts the row from the same
+-- corrected source on its next run.
+--
+-- The slug is unchanged, so this is a content refresh only — no redirect is needed
+-- and /insights/notary-public-business-operators stays live throughout.
+DELETE FROM "articles" WHERE "slug" = 'notary-public-business-operators';
