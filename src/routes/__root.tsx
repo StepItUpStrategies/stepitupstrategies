@@ -51,6 +51,14 @@ export const Route = createRootRoute({
       { name: 'ICBM', content: `${NAP.latitude}, ${NAP.longitude}` },
     ],
     links: [
+      // The gtag.js loader below is an async script to another origin, and it is
+      // requested on every route. Opening the TCP connection and finishing the TLS
+      // handshake to that origin costs a round trip or two before the request can
+      // even be sent, and the browser only starts that work when it reaches the
+      // script tag. Warming the connection here overlaps it with our own CSS and
+      // font downloads. The origin really is used on first load on every page, so
+      // this is not a speculative preconnect that goes to waste.
+      { rel: 'preconnect', href: 'https://www.googletagmanager.com' },
       // Fonts are self-hosted and declared with @font-face in styles.css, so there
       // is no third-party stylesheet on the critical path any more. These two files
       // cover essentially all visible text on first paint (DM Sans for body copy,

@@ -1,4 +1,4 @@
-# https://www.stepitupstrategies.com/robots.txt
+# https://stepitupstrategies.com/robots.txt
 User-agent: *
 Allow: /
 
@@ -9,4 +9,4 @@ Allow: /
 Disallow: /contact-form.html
 Disallow: /notary-form.html
 
-Sitemap: https://www.stepitupstrategies.com/sitemap.xml
+Sitemap: https://stepitupstrategies.com/sitemap.xml
