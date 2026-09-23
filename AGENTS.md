@@ -29,6 +29,7 @@ src/
 │   └── services.$slug.tsx  # /services/:slug — service detail page (one per category)
 ├── components/
 │   └── PageChrome.tsx    # Shared nav + footer for interior pages
+├── start.ts              # Start instance: request middleware that sets edge-cache headers
 ├── data/
 │   └── services.ts       # Content for the nine service categories (single source of truth)
 ├── styles.css            # Tailwind CSS 4 import + @theme tokens + animations
@@ -66,6 +67,55 @@ Each detail page sets its own `<title>`, meta description, Open Graph tags, and 
 route's `head()`. Canonical URLs are per-route (the homepage sets its own in `index.tsx`) — the root
 route deliberately does not set one, or every page would canonicalize to the homepage.
 
+### Edge Caching of the Rendered HTML
+
+Every route is server-rendered on demand by a Netlify function. Netlify does not cache
+function responses unless the response asks to be cached, so for a long time it never
+did: responses came back `Cache-Control: no-cache` with
+`Cache-Status: "Netlify Durable"; fwd=bypass`, and every visitor and every crawler paid
+for a full render. `src/start.ts` opts in via a request middleware that adds cache
+headers to successful HTML responses. Nothing about what is rendered changes.
+
+Four things there are load-bearing:
+
+- **Two cache-control headers, deliberately different.** `Netlify-CDN-Cache-Control`
+  never reaches the browser, so it is aggressive (`s-maxage=86400`, `durable`). The
+  browser gets `Cache-Control: public, max-age=0, must-revalidate`, which is the same
+  always-revalidate behaviour it had before — it just revalidates against a warm edge
+  instead of a cold function. **Do not move the long TTL into `Cache-Control`**, or
+  visitors start holding stale pages in their own caches, which no deploy can clear.
+- **A long `s-maxage` is safe because deploys invalidate the cache automatically.**
+  24 hours does not mean "stale for a day", it means "cached until the next deploy".
+- **`/insights` gets a much shorter TTL** (`s-maxage=300`) because its articles come
+  from the external Soro feed at request time and can change without a deploy. The
+  generous `stale-while-revalidate` on it is also a reliability feature: if Soro is
+  slow or down, the last good render keeps serving instead of an empty archive.
+- **`Netlify-Vary: query=_cachebust`** exists because Netlify puts the whole query
+  string in the cache key for function responses by default, which made every
+  `?utm_source=…`/`?fbclid=…` variant its own cache entry — i.e. paid and social
+  traffic missed the cache by construction. No route reads a search parameter, so
+  naming one parameter nothing uses collapses every real URL onto one entry.
+  **If a route ever starts reading a query parameter, add it to that list in the same
+  commit**, or the first value cached for a URL gets served to everyone.
+
+Server function calls, non-GET requests (the form POSTs), and any non-200 response are
+all passed through uncached on purpose.
+
+### Source Image Compression
+
+Photographs in `public/` are consumed exclusively through the Netlify Image CDN, which
+must fetch and decode the full original before it can resize it — so the size of the
+source file is a latency cost on every cold transform, not just a repo-weight issue.
+The originals are kept at their native 1536x1024 (a service detail hero requests
+`w=1400`, and `ogImage()` crops 1200x630, so downscaling the sources would start
+degrading real output) and compressed in place at mozjpeg quality 80, progressive,
+4:2:0. That puts every photo in the 130–240 KB range.
+
+Fifteen of them had been shipped straight from the generator at 620–870 KB while their
+already-optimized siblings sat at ~170 KB, so this is the existing convention rather
+than a new one. **Keep new photography in that range** — a 900 KB source is not
+"fixed" by the Image CDN, it just makes the first request for each transform slow.
+
 ### SEO, Structured Data & the Entity Graph
 
 `src/utils/seo.ts` is the single source of truth for the canonical origin, the
@@ -74,6 +124,15 @@ Six routes import from it. **Do not retype the phone number or address in a rout
 local ranking depends on the NAP triple matching exactly across every page, the Google
 Business Profile, and the BBB listing, and a number that differs between two pages
 reads as two different businesses.
+
+`SITE` must stay equal to the site's **primary domain on Netlify**, which is the apex
+`https://stepitupstrategies.com`; `www` is only an alias and 301s to it. This was wrong
+for a while — `SITE` said `www`, so every canonical tag, `og:url`, schema `@id` and
+sitemap entry nominated a URL that immediately redirected elsewhere, meaning the URL
+Google fetched and the URL that page claimed as canonical never agreed, and every
+sitemap entry cost the crawler a wasted round trip. If `www` is ever promoted to
+primary in Netlify, change `SITE`, `public/sitemap.xml` and `public/robots.txt` in the
+same move. Which of the two is primary matters far less than the two agreeing.
 
 Alongside the NAP triple, three more values in that file exist so they cannot drift:
 `AREA_SERVED` (the one `areaServed` list every schema node uses — it had already

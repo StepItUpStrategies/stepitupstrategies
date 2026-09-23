@@ -8,7 +8,22 @@
  * So they live here once rather than being retyped per route.
  */
 
-export const SITE = 'https://www.stepitupstrategies.com'
+/**
+ * The canonical origin, and it must be the hostname Netlify actually serves.
+ *
+ * This site's primary domain on Netlify is the apex, and `www` is only an alias:
+ * every request to `https://www.stepitupstrategies.com/<path>` answers `301` to
+ * `https://stepitupstrategies.com/<path>`. While this constant said `www`, every
+ * canonical tag, `og:url`, schema.org `@id` and sitemap entry on the site pointed at
+ * a URL that immediately redirected somewhere else — so the page Google fetched and
+ * the URL that page nominated as canonical never matched, and every sitemap URL cost
+ * the crawler an extra round trip before it saw any HTML.
+ *
+ * If `www` is ever made the primary domain in Netlify instead, change it back here
+ * in the same move. The rule is that this string and Netlify's primary domain have
+ * to agree; which of the two it is matters much less than that they match.
+ */
+export const SITE = 'https://stepitupstrategies.com'
 
 export const BRAND = 'Step It Up Strategies'
 
